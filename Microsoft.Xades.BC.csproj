@@ -1,13 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>8.0.30128</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{EE1DC57A-344A-4B0A-82CE-5FD328C14894}</ProjectGuid>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ApplicationIcon />
     <AssemblyKeyContainerName />
     <AssemblyName>Microsoft.Xades</AssemblyName>
     <AssemblyOriginatorKeyFile>Microsoft.Xades.snk</AssemblyOriginatorKeyFile>
@@ -19,12 +13,6 @@
     <RootNamespace>Microsoft.Xades</RootNamespace>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <StartupObject />
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>0.0</OldToolsVersion>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -40,438 +28,43 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AssemblyTitle>XAdES Library</AssemblyTitle>
+    <Description>XAdES Library</Description>
+    <Company>Microsoft France</Company>
+    <Product>XAdES Starter Kit</Product>
+    <Copyright>2010</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>bin\Debug\</OutputPath>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
-    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile />
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <DocumentationFile>doc\XAdES.xml</DocumentationFile>
-    <DebugSymbols>true</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <NoStdLib>false</NoStdLib>
     <NoWarn />
-    <Optimize>false</Optimize>
     <RegisterForComInterop>false</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningLevel>4</WarningLevel>
-    <DebugType>full</DebugType>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>bin\Release\</OutputPath>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
-    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile />
-    <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile />
-    <DebugSymbols>false</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <NoStdLib>false</NoStdLib>
     <NoWarn />
-    <Optimize>true</Optimize>
     <RegisterForComInterop>false</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningLevel>4</WarningLevel>
     <DebugType>none</DebugType>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
-      <HintPath>packages\BouncyCastle.Cryptography.2.4.0\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Security">
-      <Name>System.Security</Name>
-    </Reference>
-    <Reference Include="System.Xml">
-      <Name>System.XML</Name>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AllDataObjectsTimeStampCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="bc-xml-security-master\src\AncestralNamespaceContextManager.cs" />
-    <Compile Include="bc-xml-security-master\src\AttributeSortOrder.cs" />
-    <Compile Include="bc-xml-security-master\src\C14NAncestralNamespaceContextManager.cs" />
-    <Compile Include="bc-xml-security-master\src\CanonicalizationDispatcher.cs" />
-    <Compile Include="bc-xml-security-master\src\CanonicalXml.cs" />
-    <Compile Include="bc-xml-security-master\src\CanonicalXmlAttribute.cs" />
-    <Compile Include="bc-xml-security-master\src\CanonicalXmlCDataSection.cs" />
-    <Compile Include="bc-xml-security-master\src\CanonicalXmlComment.cs" />
-    <Compile Include="bc-xml-security-master\src\CanonicalXmlDocument.cs" />
-    <Compile Include="bc-xml-security-master\src\CanonicalXmlElement.cs" />
-    <Compile Include="bc-xml-security-master\src\CanonicalXmlEntityReference.cs" />
-    <Compile Include="bc-xml-security-master\src\CanonicalXmlNodeList.cs" />
-    <Compile Include="bc-xml-security-master\src\CanonicalXmlProcessingInstruction.cs" />
-    <Compile Include="bc-xml-security-master\src\CanonicalXmlSignificantWhitespace.cs" />
-    <Compile Include="bc-xml-security-master\src\CanonicalXmlText.cs" />
-    <Compile Include="bc-xml-security-master\src\CanonicalXmlWhitespace.cs" />
-    <Compile Include="bc-xml-security-master\src\CertUsageType.cs" />
-    <Compile Include="bc-xml-security-master\src\CipherData.cs" />
-    <Compile Include="bc-xml-security-master\src\CipherReference.cs" />
-    <Compile Include="bc-xml-security-master\src\CryptoHelpers.cs" />
-    <Compile Include="bc-xml-security-master\src\CryptoSignedXmlRecursionException.cs" />
-    <Compile Include="bc-xml-security-master\src\DataObject.cs" />
-    <Compile Include="bc-xml-security-master\src\DataReference.cs" />
-    <Compile Include="bc-xml-security-master\src\DocPosition.cs" />
-    <Compile Include="bc-xml-security-master\src\DSAKeyValue.cs" />
-    <Compile Include="bc-xml-security-master\src\EncryptedData.cs" />
-    <Compile Include="bc-xml-security-master\src\EncryptedKey.cs" />
-    <Compile Include="bc-xml-security-master\src\EncryptedReference.cs" />
-    <Compile Include="bc-xml-security-master\src\EncryptedType.cs" />
-    <Compile Include="bc-xml-security-master\src\EncryptedXml.cs" />
-    <Compile Include="bc-xml-security-master\src\EncryptionMethod.cs" />
-    <Compile Include="bc-xml-security-master\src\EncryptionProperty.cs" />
-    <Compile Include="bc-xml-security-master\src\EncryptionPropertyCollection.cs" />
-    <Compile Include="bc-xml-security-master\src\ExcAncestralNamespaceContextManager.cs" />
-    <Compile Include="bc-xml-security-master\src\ExcCanonicalXml.cs" />
-    <Compile Include="bc-xml-security-master\src\HashWrappers.cs" />
-    <Compile Include="bc-xml-security-master\src\ICanonicalizableNode.cs" />
-    <Compile Include="bc-xml-security-master\src\IRelDecryptor.cs" />
-    <Compile Include="bc-xml-security-master\src\KeyInfo.cs" />
-    <Compile Include="bc-xml-security-master\src\KeyInfoClause.cs" />
-    <Compile Include="bc-xml-security-master\src\KeyInfoEncryptedKey.cs" />
-    <Compile Include="bc-xml-security-master\src\KeyInfoName.cs" />
-    <Compile Include="bc-xml-security-master\src\KeyInfoNode.cs" />
-    <Compile Include="bc-xml-security-master\src\KeyInfoRetrievalMethod.cs" />
-    <Compile Include="bc-xml-security-master\src\KeyInfoX509Data.cs" />
-    <Compile Include="bc-xml-security-master\src\KeyReference.cs" />
-    <Compile Include="bc-xml-security-master\src\MyXmlDocument.cs" />
-    <Compile Include="bc-xml-security-master\src\NamespaceFrame.cs" />
-    <Compile Include="bc-xml-security-master\src\NamespaceSortOrder.cs" />
-    <Compile Include="bc-xml-security-master\src\Reference.cs" />
-    <Compile Include="bc-xml-security-master\src\ReferenceList.cs" />
-    <Compile Include="bc-xml-security-master\src\ReferenceTargetType.cs" />
-    <Compile Include="bc-xml-security-master\src\RSAKeyValue.cs" />
-    <Compile Include="bc-xml-security-master\src\RSAOAEPKeyExchangeDeformatter.cs" />
-    <Compile Include="bc-xml-security-master\src\RSAOAEPKeyExchangeFormatter.cs" />
-    <Compile Include="bc-xml-security-master\src\RSAPKCS1KeyExchangeDeformatter.cs" />
-    <Compile Include="bc-xml-security-master\src\RSAPKCS1KeyExchangeFormatter.cs" />
-    <Compile Include="bc-xml-security-master\src\Signature.cs" />
-    <Compile Include="bc-xml-security-master\src\SignedInfo.cs" />
-    <Compile Include="bc-xml-security-master\src\SignedXml.cs" />
-    <Compile Include="bc-xml-security-master\src\SignedXmlDebugLog.cs" />
-    <Compile Include="bc-xml-security-master\src\SR.Designer.cs" />
-    <Compile Include="bc-xml-security-master\src\SymmetricKeyWrap.cs" />
-    <Compile Include="bc-xml-security-master\src\Transform.cs" />
-    <Compile Include="bc-xml-security-master\src\TransformChain.cs" />
-    <Compile Include="bc-xml-security-master\src\TransformInputType.cs" />
-    <Compile Include="bc-xml-security-master\src\Utils.cs" />
-    <Compile Include="bc-xml-security-master\src\X509IncludeOption.cs" />
-    <Compile Include="bc-xml-security-master\src\X509IssuerSerial.cs" />
-    <Compile Include="bc-xml-security-master\src\XmlDecryptionTransform.cs" />
-    <Compile Include="bc-xml-security-master\src\XmlDsigBase64Transform.cs" />
-    <Compile Include="bc-xml-security-master\src\XmlDsigC14NTransform.cs" />
-    <Compile Include="bc-xml-security-master\src\XmlDsigC14NWithCommentsTransform.cs" />
-    <Compile Include="bc-xml-security-master\src\XmlDsigEnvelopedSignatureTransform.cs" />
-    <Compile Include="bc-xml-security-master\src\XmlDsigExcC14NTransform.cs" />
-    <Compile Include="bc-xml-security-master\src\XmlDsigExcC14NWithCommentsTransform.cs" />
-    <Compile Include="bc-xml-security-master\src\XmlDsigXPathTransform.cs" />
-    <Compile Include="bc-xml-security-master\src\XmlDsigXsltTransform.cs" />
-    <Compile Include="bc-xml-security-master\src\XmlLicenseTransform.cs" />
-    <Compile Include="Cert.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CertCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CertCollectionV2.cs" />
-    <Compile Include="CertificateValues.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CertifiedRole.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CertifiedRoleCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CertifiedRoles.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CertRefs.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CertV2.cs" />
-    <Compile Include="ClaimedRole.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ClaimedRoleCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ClaimedRoles.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommitmentTypeIndication.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommitmentTypeIndicationCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommitmentTypeQualifier.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommitmentTypeQualifierCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommitmentTypeQualifiers.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CompleteCertificateRefs.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CompleteRevocationRefs.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CanonicalizationMethod.cs" />
-    <Compile Include="CounterSignatureCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CRLIdentifier.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CRLRef.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CRLRefCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CRLRefs.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CRLValue.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CRLValueCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CRLValues.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CryptoExtensions.cs" />
-    <Compile Include="DataObjectFormat.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DataObjectFormatCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DigestAlgAndValueType.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DigestMethod.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DocumentationReference.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DocumentationReferenceCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DocumentationReferences.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="EncapsulatedPKIData.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="EncapsulatedX509Certificate.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="EncapsulatedX509CertificateCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="HashDataInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="HashDataInfoCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Identifier.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="IndividualDataObjectsTimeStampCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="IssuerSerial.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="IssuerSerialV2.cs" />
-    <Compile Include="KnownSignatureStandard.cs" />
-    <Compile Include="NoticeNumberCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="NoticeNumbers.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="NoticeRef.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ObjectIdentifier.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ObjectReference.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ObjectReferenceCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="OCSPIdentifier.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="OCSPRef.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="OCSPRefCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="OCSPRefs.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="OCSPValue.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="OCSPValueCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="OCSPValues.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="OtherCertificate.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="OtherCertificateCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="OtherRef.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="OtherRefCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="OtherRefs.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="OtherValue.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="OtherValueCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="OtherValues.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="QualifyingProperties.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="RevocationValues.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SignaturePolicyId.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SignaturePolicyIdentifier.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SignatureProductionPlace.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SignatureTimeStampCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SignedDataObjectProperties.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SignedProperties.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SignedSignatureProperties.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SignerRole.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SigningCertificate.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SigningCertificateV2.cs" />
-    <Compile Include="SigPolicyQualifier.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SigPolicyQualifierCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SigPolicyQualifiers.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SPUri.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SPUserNotice.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TimeStamp.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Transform.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TransformCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Transforms.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="UnsignedDataObjectProperties.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="UnsignedDataObjectProperty.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="UnsignedDataObjectPropertyCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="UnsignedProperties.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="UnsignedSignatureProperties.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="XadesCheckSignatureMasks.cs" />
-    <Compile Include="XadesCryptographicException.cs" />
-    <Compile Include="XadesObject.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="XadesSignedXml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="XMLTimeStamp.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <EmbeddedResource Include="bc-xml-security-master\src\SR.resx" />
     <EmbeddedResource Include="XAdES.xsd" />
     <EmbeddedResource Include="xmldsig-core-schema.xsd" />
-    <None Include=".editorconfig" />
-    <None Include="bc-xml-security-master\README.md" />
-    <None Include="Microsoft.Xades.snk" />
-    <None Include="packages.config" />
     <None Include="XAdES.xsx">
       <DependentUpon>XAdES.xsd</DependentUpon>
     </None>
@@ -499,9 +92,79 @@
   <ItemGroup>
     <Content Include="bc-xml-security-master\LICENSE.TXT" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent />
-    <PostBuildEvent />
-  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.4.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="bc-xml-security-master\samples\EncryptingDecryptingAsymmetric.cs" />
+    <Compile Remove="bc-xml-security-master\samples\EncryptingDecryptingSymmetric.cs" />
+    <Compile Remove="bc-xml-security-master\samples\EncryptingDecryptingSymmetricKeyWrap.cs" />
+    <Compile Remove="bc-xml-security-master\samples\GostUtilities.cs" />
+    <Compile Remove="bc-xml-security-master\samples\obj\Debug\net6.0\.NETCoreApp,Version=v6.0.AssemblyAttributes.cs" />
+    <Compile Remove="bc-xml-security-master\samples\obj\Debug\net6.0\XmlSecurity.Samples.AssemblyInfo.cs" />
+    <Compile Remove="bc-xml-security-master\samples\Program.cs" />
+    <Compile Remove="bc-xml-security-master\samples\SigningVerifying.cs" />
+    <Compile Remove="bc-xml-security-master\samples\SigningVerifyingGost.cs" />
+    <Compile Remove="bc-xml-security-master\samples\SigningVerifyingWithCustomSignatureMethod.cs" />
+    <Compile Remove="bc-xml-security-master\samples\SigningVerifyingX509Cert.cs" />
+    <Compile Remove="bc-xml-security-master\src\ECKeyValue.cs" />
+    <Compile Remove="bc-xml-security-master\src\obj\Debug\net461\.NETFramework,Version=v4.6.1.AssemblyAttributes.cs" />
+    <Compile Remove="bc-xml-security-master\src\obj\Debug\net461\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Remove="bc-xml-security-master\src\obj\Debug\net461\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Remove="bc-xml-security-master\src\obj\Debug\net461\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Remove="bc-xml-security-master\src\obj\Debug\net461\XmlSecurity.AssemblyInfo.cs" />
+    <Compile Remove="bc-xml-security-master\src\obj\Debug\netstandard2.0\.NETStandard,Version=v2.0.AssemblyAttributes.cs" />
+    <Compile Remove="bc-xml-security-master\src\obj\Debug\netstandard2.0\XmlSecurity.AssemblyInfo.cs" />
+    <Compile Remove="bc-xml-security-master\tests\AssertCrypto.cs" />
+    <Compile Remove="bc-xml-security-master\tests\AssertExtensions.cs" />
+    <Compile Remove="bc-xml-security-master\tests\CipherDataTests.cs" />
+    <Compile Remove="bc-xml-security-master\tests\CryptoHelpersTests.cs" />
+    <Compile Remove="bc-xml-security-master\tests\DataObjectTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\DataObjectTests.cs" />
+    <Compile Remove="bc-xml-security-master\tests\DataReferenceTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\DSAKeyValueTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\EncryptedXmlEqualityComparer.cs" />
+    <Compile Remove="bc-xml-security-master\tests\EncryptedXmlTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\EncryptedXmlTests.cs" />
+    <Compile Remove="bc-xml-security-master\tests\EncryptionMethodTests.cs" />
+    <Compile Remove="bc-xml-security-master\tests\EncryptionPropertyCollectionTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\EncryptionPropertyTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\KeyInfoNameTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\KeyInfoNodeTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\KeyInfoRetrievalMethodTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\KeyInfoTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\KeyInfoTests.cs" />
+    <Compile Remove="bc-xml-security-master\tests\KeyInfoX509DataTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\KeyInfo_ArbitraryElements.cs" />
+    <Compile Remove="bc-xml-security-master\tests\obj\Debug\net6.0\.NETCoreApp,Version=v6.0.AssemblyAttributes.cs" />
+    <Compile Remove="bc-xml-security-master\tests\obj\Debug\net6.0\XmlSecurity.Tests.AssemblyInfo.cs" />
+    <Compile Remove="bc-xml-security-master\tests\ReferenceTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\Reference_ArbitraryElements.cs" />
+    <Compile Remove="bc-xml-security-master\tests\RSAKeyValueTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\SignatureTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\Signature_ArbitraryElements.cs" />
+    <Compile Remove="bc-xml-security-master\tests\SignedInfoTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\SignedInfo_ArbitraryElements.cs" />
+    <Compile Remove="bc-xml-security-master\tests\SignedXmlTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\SignedXmlTests.cs" />
+    <Compile Remove="bc-xml-security-master\tests\SignedXml_Helpers.cs" />
+    <Compile Remove="bc-xml-security-master\tests\SignedXml_Limits.cs" />
+    <Compile Remove="bc-xml-security-master\tests\SignedXml_SignatureMethodAlgorithm.cs" />
+    <Compile Remove="bc-xml-security-master\tests\SymmetricAlgorithmFactory.cs" />
+    <Compile Remove="bc-xml-security-master\tests\TestHelpers.cs" />
+    <Compile Remove="bc-xml-security-master\tests\TransformChainTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\TransformTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\XmlDecryptionTransformTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\XmlDsigBase64TransformTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\XmlDsigC14NTransformTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\XmlDsigC14NWithCommentsTransformTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\XmlDsigEnvelopedSignatureTransformTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\XmlDsigExcC14NTransformTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\XmlDsigExcC14NWithCommentsTransformTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\XmlDsigXPathTransformTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\XmlDsigXsltTransformTest.cs" />
+    <Compile Remove="bc-xml-security-master\tests\XmlLicenseEncryptedRef.cs" />
+    <Compile Remove="bc-xml-security-master\tests\XmlLicenseTransformTest.cs" />
+  </ItemGroup>
+  <PropertyGroup />
 </Project>
