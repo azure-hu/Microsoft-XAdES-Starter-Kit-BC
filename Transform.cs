@@ -12,149 +12,148 @@
 // AND INFORMATION REMAINS WITH THE USER. 
 //
 
+using Org.BouncyCastle.Crypto.Xml;
 using System;
 using System.Xml;
-using System.Security.Cryptography;
-using System.Security.Cryptography.Xml;
 
-namespace Microsoft.Xades
+namespace Microsoft.Xades.BC
 {
-	/// <summary>
-	/// The Transform element contains a single transformation
-	/// </summary>
-	public class Transform
-	{
-		#region Private variables
-		private string algorithm;
-		private string xpath;
-		#endregion
+    /// <summary>
+    /// The Transform element contains a single transformation
+    /// </summary>
+    public class Transform
+    {
+        #region Private variables
+        private String algorithm;
+        private String xpath;
+        #endregion
 
-		#region Public properties
-		/// <summary>
-		/// Algorithm of the transformation
-		/// </summary>
-		public string Algorithm
-		{
-			get
-			{
-				return this.algorithm;
-			}
-			set
-			{
-				this.algorithm = value;
-			}
-		}
+        #region Public properties
+        /// <summary>
+        /// Algorithm of the transformation
+        /// </summary>
+        public String Algorithm
+        {
+            get
+            {
+                return this.algorithm;
+            }
+            set
+            {
+                this.algorithm = value;
+            }
+        }
 
-		/// <summary>
-		/// XPath of the transformation
-		/// </summary>
-		public string XPath
-		{
-			get
-			{
-				return this.xpath;
-			}
-			set
-			{
-				this.xpath = value;
-			}
-		}
-		#endregion
+        /// <summary>
+        /// XPath of the transformation
+        /// </summary>
+        public String XPath
+        {
+            get
+            {
+                return this.xpath;
+            }
+            set
+            {
+                this.xpath = value;
+            }
+        }
+        #endregion
 
-		#region Constructors
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public Transform()
-		{
-		}
-		#endregion
+        #region Constructors
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public Transform()
+        {
+        }
+        #endregion
 
-		#region Public methods
-		/// <summary>
-		/// Check to see if something has changed in this instance and needs to be serialized
-		/// </summary>
-		/// <returns>Flag indicating if a member needs serialization</returns>
-		public bool HasChanged()
-		{
-			bool retVal = false;
+        #region Public methods
+        /// <summary>
+        /// Check to see if something has changed in this instance and needs to be serialized
+        /// </summary>
+        /// <returns>Flag indicating if a member needs serialization</returns>
+        public Boolean HasChanged()
+        {
+            Boolean retVal = false;
 
             if (!String.IsNullOrEmpty(this.algorithm))
-			{
-				retVal = true;
-			}
+            {
+                retVal = true;
+            }
 
-			if (!String.IsNullOrEmpty(this.xpath))
-			{
-				retVal = true;
-			}
+            if (!String.IsNullOrEmpty(this.xpath))
+            {
+                retVal = true;
+            }
 
-			return retVal;
-		}
+            return retVal;
+        }
 
-		/// <summary>
-		/// Load state from an XML element
-		/// </summary>
-		/// <param name="xmlElement">XML element containing new state</param>
-		public void LoadXml(System.Xml.XmlElement xmlElement)
-		{
-			XmlNodeList xmlNodeList;
-			
-			if (xmlElement == null)
-			{
-				throw new ArgumentNullException("xmlElement");
-			}
-			if (xmlElement.HasAttribute("Algorithm"))
-			{
-				this.algorithm = xmlElement.GetAttribute("Algorithm");
-			}
-			else
-			{
-				this.algorithm = "";
-			}
+        /// <summary>
+        /// Load state from an XML element
+        /// </summary>
+        /// <param name="xmlElement">XML element containing new state</param>
+        public void LoadXml(System.Xml.XmlElement xmlElement)
+        {
+            XmlNodeList xmlNodeList;
 
-			xmlNodeList = xmlElement.SelectNodes("XPath");
-			if (xmlNodeList.Count != 0)
-			{
-				this.xpath = xmlNodeList.Item(0).InnerText;
-			}
-			else
-			{
-				this.xpath = "";
-			}
-		}
+            if (xmlElement == null)
+            {
+                throw new ArgumentNullException("xmlElement");
+            }
+            if (xmlElement.HasAttribute("Algorithm"))
+            {
+                this.algorithm = xmlElement.GetAttribute("Algorithm");
+            }
+            else
+            {
+                this.algorithm = "";
+            }
 
-		/// <summary>
-		/// Returns the XML representation of the this object
-		/// </summary>
-		/// <returns>XML element containing the state of this object</returns>
-		public XmlElement GetXml()
-		{
-			XmlDocument creationXmlDocument;
-			XmlElement retVal;
-			XmlElement bufferXmlElement;
+            xmlNodeList = xmlElement.SelectNodes("XPath");
+            if (xmlNodeList.Count != 0)
+            {
+                this.xpath = xmlNodeList.Item(0).InnerText;
+            }
+            else
+            {
+                this.xpath = "";
+            }
+        }
 
-			creationXmlDocument = new XmlDocument();
-			retVal = creationXmlDocument.CreateElement("ds", "Transform", SignedXml.XmlDsigNamespaceUrl);
+        /// <summary>
+        /// Returns the XML representation of the this object
+        /// </summary>
+        /// <returns>XML element containing the state of this object</returns>
+        public XmlElement GetXml()
+        {
+            XmlDocument creationXmlDocument;
+            XmlElement retVal;
+            XmlElement bufferXmlElement;
 
-			if (this.algorithm != null)
-			{
-				retVal.SetAttribute("Algorithm", this.algorithm);
-			}
-			else
-			{
-				retVal.SetAttribute("Algorithm", "");
-			}
+            creationXmlDocument = new XmlDocument();
+            retVal = creationXmlDocument.CreateElement("ds", "Transform", SignedXml.XmlDsigNamespaceUrl);
 
-			if (this.xpath != null && this.xpath != "")
-			{
-				bufferXmlElement = creationXmlDocument.CreateElement("ds", "XPath", SignedXml.XmlDsigNamespaceUrl);
-				bufferXmlElement.InnerText = this.xpath;
-				retVal.AppendChild(bufferXmlElement);
-			}
+            if (this.algorithm != null)
+            {
+                retVal.SetAttribute("Algorithm", this.algorithm);
+            }
+            else
+            {
+                retVal.SetAttribute("Algorithm", "");
+            }
 
-			return retVal;
-		}
-		#endregion
-	}
+            if (this.xpath != null && this.xpath != "")
+            {
+                bufferXmlElement = creationXmlDocument.CreateElement("ds", "XPath", SignedXml.XmlDsigNamespaceUrl);
+                bufferXmlElement.InnerText = this.xpath;
+                retVal.AppendChild(bufferXmlElement);
+            }
+
+            return retVal;
+        }
+        #endregion
+    }
 }

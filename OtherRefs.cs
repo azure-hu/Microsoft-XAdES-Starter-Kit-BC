@@ -13,135 +13,135 @@
 //
 
 using System;
-using System.Xml;
 using System.Collections;
+using System.Xml;
 
-namespace Microsoft.Xades
+namespace Microsoft.Xades.BC
 {
-	/// <summary>
-	/// This class contains a collection of OtherRefs
-	/// </summary>
-	public class OtherRefs
-	{
-		#region Private variables
-		private OtherRefCollection otherRefCollection;
-		#endregion
+    /// <summary>
+    /// This class contains a collection of OtherRefs
+    /// </summary>
+    public class OtherRefs
+    {
+        #region Private variables
+        private OtherRefCollection otherRefCollection;
+        #endregion
 
-		#region Public properties
-		/// <summary>
-		/// Collection of other refs
-		/// </summary>
-		public OtherRefCollection OtherRefCollection
-		{
-			get
-			{
-				return this.otherRefCollection;
-			}
-			set
-			{
-				this.otherRefCollection = value;
-			}
-		}
-		#endregion
+        #region Public properties
+        /// <summary>
+        /// Collection of other refs
+        /// </summary>
+        public OtherRefCollection OtherRefCollection
+        {
+            get
+            {
+                return this.otherRefCollection;
+            }
+            set
+            {
+                this.otherRefCollection = value;
+            }
+        }
+        #endregion
 
-		#region Constructors
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public OtherRefs()
-		{
-			this.otherRefCollection = new OtherRefCollection();
-		}
-		#endregion
+        #region Constructors
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public OtherRefs()
+        {
+            this.otherRefCollection = new OtherRefCollection();
+        }
+        #endregion
 
-		#region Public methods
-		/// <summary>
-		/// Check to see if something has changed in this instance and needs to be serialized
-		/// </summary>
-		/// <returns>Flag indicating if a member needs serialization</returns>
-		public bool HasChanged()
-		{
-			bool retVal = false;
+        #region Public methods
+        /// <summary>
+        /// Check to see if something has changed in this instance and needs to be serialized
+        /// </summary>
+        /// <returns>Flag indicating if a member needs serialization</returns>
+        public Boolean HasChanged()
+        {
+            Boolean retVal = false;
 
-			if (this.otherRefCollection.Count > 0)
-			{
-				retVal = true;
-			}
+            if (this.otherRefCollection.Count > 0)
+            {
+                retVal = true;
+            }
 
-			return retVal;
-		}
+            return retVal;
+        }
 
-		/// <summary>
-		/// Load state from an XML element
-		/// </summary>
-		/// <param name="xmlElement">XML element containing new state</param>
-		public void LoadXml(System.Xml.XmlElement xmlElement)
-		{
-			XmlNamespaceManager xmlNamespaceManager;
-			XmlNodeList xmlNodeList;
-			OtherRef newOtherRef;
-			IEnumerator enumerator;
-			XmlElement iterationXmlElement;
-			
-			if (xmlElement == null)
-			{
-				throw new ArgumentNullException("xmlElement");
-			}
+        /// <summary>
+        /// Load state from an XML element
+        /// </summary>
+        /// <param name="xmlElement">XML element containing new state</param>
+        public void LoadXml(System.Xml.XmlElement xmlElement)
+        {
+            XmlNamespaceManager xmlNamespaceManager;
+            XmlNodeList xmlNodeList;
+            OtherRef newOtherRef;
+            IEnumerator enumerator;
+            XmlElement iterationXmlElement;
 
-			xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-			xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            if (xmlElement == null)
+            {
+                throw new ArgumentNullException("xmlElement");
+            }
 
-			this.otherRefCollection.Clear();
-			xmlNodeList = xmlElement.SelectNodes("xsd:OtherRef", xmlNamespaceManager);
-			enumerator = xmlNodeList.GetEnumerator();
-			try 
-			{
-				while (enumerator.MoveNext()) 
-				{
-					iterationXmlElement = enumerator.Current as XmlElement;
-					if (iterationXmlElement != null)
-					{
-						newOtherRef = new OtherRef();
-						newOtherRef.LoadXml(iterationXmlElement);
-						this.otherRefCollection.Add(newOtherRef);
-					}
-				}
-			}
-			finally 
-			{
-				IDisposable disposable = enumerator as IDisposable;
-				if (disposable != null)
-				{
-					disposable.Dispose();
-				}
-			}
-		}
+            xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
+            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
 
-		/// <summary>
-		/// Returns the XML representation of the this object
-		/// </summary>
-		/// <returns>XML element containing the state of this object</returns>
-		public XmlElement GetXml()
-		{
-			XmlDocument creationXmlDocument;
-			XmlElement retVal;
+            this.otherRefCollection.Clear();
+            xmlNodeList = xmlElement.SelectNodes("xsd:OtherRef", xmlNamespaceManager);
+            enumerator = xmlNodeList.GetEnumerator();
+            try
+            {
+                while (enumerator.MoveNext())
+                {
+                    iterationXmlElement = enumerator.Current as XmlElement;
+                    if (iterationXmlElement != null)
+                    {
+                        newOtherRef = new OtherRef();
+                        newOtherRef.LoadXml(iterationXmlElement);
+                        this.otherRefCollection.Add(newOtherRef);
+                    }
+                }
+            }
+            finally
+            {
+                IDisposable disposable = enumerator as IDisposable;
+                if (disposable != null)
+                {
+                    disposable.Dispose();
+                }
+            }
+        }
 
-			creationXmlDocument = new XmlDocument();
-			retVal = creationXmlDocument.CreateElement("OtherRefs", XadesSignedXml.XadesNamespaceUri);
+        /// <summary>
+        /// Returns the XML representation of the this object
+        /// </summary>
+        /// <returns>XML element containing the state of this object</returns>
+        public XmlElement GetXml()
+        {
+            XmlDocument creationXmlDocument;
+            XmlElement retVal;
 
-			if (this.otherRefCollection.Count > 0)
-			{
-				foreach (OtherRef otherRef in this.otherRefCollection)
-				{
-					if (otherRef.HasChanged())
-					{
-						retVal.AppendChild(creationXmlDocument.ImportNode(otherRef.GetXml(), true));
-					}
-				}
-			}
+            creationXmlDocument = new XmlDocument();
+            retVal = creationXmlDocument.CreateElement("OtherRefs", XadesSignedXml.XadesNamespaceUri);
 
-			return retVal;
-		}
-		#endregion
-	}
+            if (this.otherRefCollection.Count > 0)
+            {
+                foreach (OtherRef otherRef in this.otherRefCollection)
+                {
+                    if (otherRef.HasChanged())
+                    {
+                        retVal.AppendChild(creationXmlDocument.ImportNode(otherRef.GetXml(), true));
+                    }
+                }
+            }
+
+            return retVal;
+        }
+        #endregion
+    }
 }

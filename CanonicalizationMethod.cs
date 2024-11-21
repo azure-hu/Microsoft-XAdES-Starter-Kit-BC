@@ -12,96 +12,95 @@
 // AND INFORMATION REMAINS WITH THE USER. 
 //
 
+using Org.BouncyCastle.Crypto.Xml;
 using System;
 using System.Xml;
-using System.Security.Cryptography;
-using System.Security.Cryptography.Xml;
 
 //jbonilla
-namespace Microsoft.Xades
+namespace Microsoft.Xades.BC
 {
-	/// <summary>
-	/// DigestMethod indicates the digest algorithm
-	/// </summary>
-	public class CanonicalizationMethod
-	{
-		#region Private variables
-		private string algorithm;
-		#endregion
+    /// <summary>
+    /// DigestMethod indicates the digest algorithm
+    /// </summary>
+    public class CanonicalizationMethod
+    {
+        #region Private variables
+        private String algorithm;
+        #endregion
 
-		#region Public properties
-		/// <summary>
-		/// Contains the digest algorithm
-		/// </summary>
-		public string Algorithm
-		{
-			get
-			{
-				return this.algorithm;
-			}
-			set
-			{
-				this.algorithm = value;
-			}
-		}
-		#endregion
+        #region Public properties
+        /// <summary>
+        /// Contains the digest algorithm
+        /// </summary>
+        public String Algorithm
+        {
+            get
+            {
+                return this.algorithm;
+            }
+            set
+            {
+                this.algorithm = value;
+            }
+        }
+        #endregion
 
-		#region Constructors
-		/// <summary>
-		/// Default constructor
-		/// </summary>
+        #region Constructors
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public CanonicalizationMethod()
-		{
-		}
-		#endregion
+        {
+        }
+        #endregion
 
-		#region Public methods
-		/// <summary>
-		/// Check to see if something has changed in this instance and needs to be serialized
-		/// </summary>
-		/// <returns>Flag indicating if a member needs serialization</returns>
-		public bool HasChanged()
-		{
-			bool retVal = false;
+        #region Public methods
+        /// <summary>
+        /// Check to see if something has changed in this instance and needs to be serialized
+        /// </summary>
+        /// <returns>Flag indicating if a member needs serialization</returns>
+        public Boolean HasChanged()
+        {
+            Boolean retVal = false;
 
-			if (!String.IsNullOrEmpty(this.algorithm))
-			{
-				retVal = true;
-			}
+            if (!String.IsNullOrEmpty(this.algorithm))
+            {
+                retVal = true;
+            }
 
-			return retVal;
-		}
+            return retVal;
+        }
 
-		/// <summary>
-		/// Load state from an XML element
-		/// </summary>
-		/// <param name="xmlElement">XML element containing new state</param>
-		public void LoadXml(System.Xml.XmlElement xmlElement)
-		{
-			if (xmlElement == null)
-			{
-				throw new ArgumentNullException("xmlElement");
-			}
+        /// <summary>
+        /// Load state from an XML element
+        /// </summary>
+        /// <param name="xmlElement">XML element containing new state</param>
+        public void LoadXml(System.Xml.XmlElement xmlElement)
+        {
+            if (xmlElement == null)
+            {
+                throw new ArgumentNullException("xmlElement");
+            }
 
-			this.algorithm = xmlElement.GetAttribute("Algorithm");
-		}
+            this.algorithm = xmlElement.GetAttribute("Algorithm");
+        }
 
-		/// <summary>
-		/// Returns the XML representation of the this object
-		/// </summary>
-		/// <returns>XML element containing the state of this object</returns>
-		public XmlElement GetXml()
-		{
-			XmlDocument creationXmlDocument;
-			XmlElement retVal;
+        /// <summary>
+        /// Returns the XML representation of the this object
+        /// </summary>
+        /// <returns>XML element containing the state of this object</returns>
+        public XmlElement GetXml()
+        {
+            XmlDocument creationXmlDocument;
+            XmlElement retVal;
 
-			creationXmlDocument = new XmlDocument();
+            creationXmlDocument = new XmlDocument();
             retVal = creationXmlDocument.CreateElement("ds:CanonicalizationMethod", SignedXml.XmlDsigNamespaceUrl);
 
-			retVal.SetAttribute("Algorithm", this.algorithm);
+            retVal.SetAttribute("Algorithm", this.algorithm);
 
-			return retVal;
-		}
-		#endregion
-	}
+            return retVal;
+        }
+        #endregion
+    }
 }

@@ -14,92 +14,91 @@
 
 using System;
 using System.Xml;
-using System.Security.Cryptography;
 
-namespace Microsoft.Xades
+namespace Microsoft.Xades.BC
 {
-	/// <summary>
-	/// DocumentationReference points to further explanatory documentation
-	/// of the object identifier
-	/// </summary>
-	public class DocumentationReference
-	{
-		#region Private variables
-		private string documentationReferenceUri;
-		#endregion
+    /// <summary>
+    /// DocumentationReference points to further explanatory documentation
+    /// of the object identifier
+    /// </summary>
+    public class DocumentationReference
+    {
+        #region Private variables
+        private String documentationReferenceUri;
+        #endregion
 
-		#region Public properties
-		/// <summary>
-		/// Pointer to further explanatory documentation of the object identifier
-		/// </summary>
-		public string DocumentationReferenceUri
-		{
-			get
-			{
-				return this.documentationReferenceUri;
-			}
-			set
-			{
-				this.documentationReferenceUri = value;
-			}
-		}
-		#endregion
+        #region Public properties
+        /// <summary>
+        /// Pointer to further explanatory documentation of the object identifier
+        /// </summary>
+        public String DocumentationReferenceUri
+        {
+            get
+            {
+                return this.documentationReferenceUri;
+            }
+            set
+            {
+                this.documentationReferenceUri = value;
+            }
+        }
+        #endregion
 
-		#region Constructors
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public DocumentationReference()
-		{
-		}
-		#endregion
+        #region Constructors
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public DocumentationReference()
+        {
+        }
+        #endregion
 
-		#region Public methods
-		/// <summary>
-		/// Check to see if something has changed in this instance and needs to be serialized
-		/// </summary>
-		/// <returns>Flag indicating if a member needs serialization</returns>
-		public bool HasChanged()
-		{
-			bool retVal = false;
+        #region Public methods
+        /// <summary>
+        /// Check to see if something has changed in this instance and needs to be serialized
+        /// </summary>
+        /// <returns>Flag indicating if a member needs serialization</returns>
+        public Boolean HasChanged()
+        {
+            Boolean retVal = false;
 
-			if (!String.IsNullOrEmpty(this.documentationReferenceUri))
-			{
-				retVal = true;
-			}
+            if (!String.IsNullOrEmpty(this.documentationReferenceUri))
+            {
+                retVal = true;
+            }
 
-			return retVal;
-		}
+            return retVal;
+        }
 
-		/// <summary>
-		/// Load state from an XML element
-		/// </summary>
-		/// <param name="xmlElement">XML element containing new state</param>
-		public void LoadXml(System.Xml.XmlElement xmlElement)
-		{
-			if (xmlElement == null)
-			{
-				throw new ArgumentNullException("xmlElement");
-			}
+        /// <summary>
+        /// Load state from an XML element
+        /// </summary>
+        /// <param name="xmlElement">XML element containing new state</param>
+        public void LoadXml(System.Xml.XmlElement xmlElement)
+        {
+            if (xmlElement == null)
+            {
+                throw new ArgumentNullException("xmlElement");
+            }
 
-			this.documentationReferenceUri = xmlElement.InnerText;
-		}
+            this.documentationReferenceUri = xmlElement.InnerText;
+        }
 
-		/// <summary>
-		/// Returns the XML representation of the this object
-		/// </summary>
-		/// <returns>XML element containing the state of this object</returns>
-		public XmlElement GetXml()
-		{
-			XmlDocument creationXmlDocument;
-			XmlElement retVal;
+        /// <summary>
+        /// Returns the XML representation of the this object
+        /// </summary>
+        /// <returns>XML element containing the state of this object</returns>
+        public XmlElement GetXml()
+        {
+            XmlDocument creationXmlDocument;
+            XmlElement retVal;
 
-			creationXmlDocument = new XmlDocument();
-			retVal = creationXmlDocument.CreateElement("DocumentationReference", XadesSignedXml.XadesNamespaceUri);
-			retVal.InnerText = this.documentationReferenceUri;
+            creationXmlDocument = new XmlDocument();
+            retVal = creationXmlDocument.CreateElement("DocumentationReference", XadesSignedXml.XadesNamespaceUri);
+            retVal.InnerText = this.documentationReferenceUri;
 
-			return retVal;
-		}
-		#endregion
-	}
+            return retVal;
+        }
+        #endregion
+    }
 }

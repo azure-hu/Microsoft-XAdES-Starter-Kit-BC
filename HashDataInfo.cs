@@ -14,145 +14,143 @@
 
 using System;
 using System.Xml;
-using System.Security.Cryptography;
-using System.Security.Cryptography.Xml;
 
-namespace Microsoft.Xades
+namespace Microsoft.Xades.BC
 {
-	/// <summary>
-	/// The HashDataInfo class contains a uri attribute referencing a data object
-	/// and a ds:Transforms element indicating the transformations to make to this
-	/// data object.
-	/// The sequence of HashDataInfo elements will be used to produce the input of
-	/// the hash computation process whose result will be included in the
-	/// timestamp request to be sent to the TSA.
-	/// </summary>
-	public class HashDataInfo
-	{
-		#region Private variables
-		private string uriAttribute;
-		private Transforms transforms;
-		#endregion
+    /// <summary>
+    /// The HashDataInfo class contains a uri attribute referencing a data object
+    /// and a ds:Transforms element indicating the transformations to make to this
+    /// data object.
+    /// The sequence of HashDataInfo elements will be used to produce the input of
+    /// the hash computation process whose result will be included in the
+    /// timestamp request to be sent to the TSA.
+    /// </summary>
+    public class HashDataInfo
+    {
+        #region Private variables
+        private String uriAttribute;
+        private Transforms transforms;
+        #endregion
 
-		#region Public properties
-		/// <summary>
-		/// Uri referencing a data object
-		/// </summary>
-		public string UriAttribute
-		{
-			get
-			{
-				return this.uriAttribute;
-			}
-			set
-			{
-				this.uriAttribute = value;
-			}
-		}
+        #region Public properties
+        /// <summary>
+        /// Uri referencing a data object
+        /// </summary>
+        public String UriAttribute
+        {
+            get
+            {
+                return this.uriAttribute;
+            }
+            set
+            {
+                this.uriAttribute = value;
+            }
+        }
 
-		/// <summary>
-		/// Transformations to make to this data object
-		/// </summary>
-		public Transforms Transforms
-		{
-			get
-			{
-				return this.transforms;
-			}
-			set
-			{
-				this.transforms = value;
-			}
-		}
-		#endregion
+        /// <summary>
+        /// Transformations to make to this data object
+        /// </summary>
+        public Transforms Transforms
+        {
+            get
+            {
+                return this.transforms;
+            }
+            set
+            {
+                this.transforms = value;
+            }
+        }
+        #endregion
 
-		#region Constructors
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public HashDataInfo()
-		{
-			this.transforms = new Transforms();
-		}
-		#endregion
+        #region Constructors
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public HashDataInfo()
+        {
+            this.transforms = new Transforms();
+        }
+        #endregion
 
-		#region Public methods
-		/// <summary>
-		/// Check to see if something has changed in this instance and needs to be serialized
-		/// </summary>
-		/// <returns>Flag indicating if a member needs serialization</returns>
-		public bool HasChanged()
-		{
-			bool retVal = false;
+        #region Public methods
+        /// <summary>
+        /// Check to see if something has changed in this instance and needs to be serialized
+        /// </summary>
+        /// <returns>Flag indicating if a member needs serialization</returns>
+        public Boolean HasChanged()
+        {
+            Boolean retVal = false;
 
-			if (!String.IsNullOrEmpty(this.uriAttribute))
-			{
-				retVal = true;
-			}
+            if (!String.IsNullOrEmpty(this.uriAttribute))
+            {
+                retVal = true;
+            }
 
-			if (this.transforms != null && this.transforms.HasChanged())
-			{
-				retVal = true;
-			}
+            if (this.transforms != null && this.transforms.HasChanged())
+            {
+                retVal = true;
+            }
 
-			return retVal;
-		}
+            return retVal;
+        }
 
-		/// <summary>
-		/// Load state from an XML element
-		/// </summary>
-		/// <param name="xmlElement">XML element containing new state</param>
-		public void LoadXml(System.Xml.XmlElement xmlElement)
-		{
-			XmlNamespaceManager xmlNamespaceManager;
-			XmlNodeList xmlNodeList;
-			
-			if (xmlElement == null)
-			{
-				throw new ArgumentNullException("xmlElement");
-			}
-			if (xmlElement.HasAttribute("uri"))
-			{
-				this.uriAttribute = xmlElement.GetAttribute("uri");
-			}
-			else
-			{
-				this.uriAttribute = "";
-				throw new CryptographicException("uri attribute missing");
-			}
+        /// <summary>
+        /// Load state from an XML element
+        /// </summary>
+        /// <param name="xmlElement">XML element containing new state</param>
+        public void LoadXml(System.Xml.XmlElement xmlElement)
+        {
+            XmlNamespaceManager xmlNamespaceManager;
+            XmlNodeList xmlNodeList;
 
-			xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-			xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            if (xmlElement == null)
+            {
+                throw new ArgumentNullException("xmlElement");
+            }
+            if (xmlElement.HasAttribute("uri"))
+            {
+                this.uriAttribute = xmlElement.GetAttribute("uri");
+            }
+            else
+            {
+                this.uriAttribute = "";
+                throw new XadesCryptographicException("uri attribute missing");
+            }
 
-			xmlNodeList = xmlElement.SelectNodes("xsd:Transforms", xmlNamespaceManager);
-			if (xmlNodeList.Count != 0)
-			{
-				this.transforms = new Transforms();
-				this.transforms.LoadXml((XmlElement)xmlNodeList.Item(0));
-			}
-		}
+            xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
+            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
 
-		/// <summary>
-		/// Returns the XML representation of the this object
-		/// </summary>
-		/// <returns>XML element containing the state of this object</returns>
-		public XmlElement GetXml()
-		{
-			XmlDocument creationXmlDocument;
-			XmlElement retVal;
+            xmlNodeList = xmlElement.SelectNodes("xsd:Transforms", xmlNamespaceManager);
+            if (xmlNodeList.Count != 0)
+            {
+                this.transforms = new Transforms();
+                this.transforms.LoadXml((XmlElement)xmlNodeList.Item(0));
+            }
+        }
 
-			creationXmlDocument = new XmlDocument();
-			retVal = creationXmlDocument.CreateElement("HashDataInfo", XadesSignedXml.XadesNamespaceUri);
+        /// <summary>
+        /// Returns the XML representation of the this object
+        /// </summary>
+        /// <returns>XML element containing the state of this object</returns>
+        public XmlElement GetXml()
+        {
+            XmlDocument creationXmlDocument;
+            XmlElement retVal;
 
-			retVal.SetAttribute("uri", this.uriAttribute);
+            creationXmlDocument = new XmlDocument();
+            retVal = creationXmlDocument.CreateElement("HashDataInfo", XadesSignedXml.XadesNamespaceUri);
 
-			if (this.transforms != null && this.transforms.HasChanged())
-			{
-				retVal.AppendChild(creationXmlDocument.ImportNode(this.transforms.GetXml(), true));
-			}
+            retVal.SetAttribute("uri", this.uriAttribute);
 
-			return retVal;
-		}
-		#endregion
-	}
+            if (this.transforms != null && this.transforms.HasChanged())
+            {
+                retVal.AppendChild(creationXmlDocument.ImportNode(this.transforms.GetXml(), true));
+            }
+
+            return retVal;
+        }
+        #endregion
+    }
 }

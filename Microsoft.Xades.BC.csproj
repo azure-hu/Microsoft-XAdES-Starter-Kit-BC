@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.30128</ProductVersion>
@@ -21,7 +21,7 @@
     <StartupObject />
     <FileUpgradeFlags>
     </FileUpgradeFlags>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>0.0</OldToolsVersion>
@@ -63,6 +63,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>false</RunCodeAnalysis>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -84,11 +85,16 @@
     <DebugType>none</DebugType>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>packages\BouncyCastle.Cryptography.2.4.0\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Security">
       <Name>System.Security</Name>
@@ -104,6 +110,85 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="bc-xml-security-master\src\AncestralNamespaceContextManager.cs" />
+    <Compile Include="bc-xml-security-master\src\AttributeSortOrder.cs" />
+    <Compile Include="bc-xml-security-master\src\C14NAncestralNamespaceContextManager.cs" />
+    <Compile Include="bc-xml-security-master\src\CanonicalizationDispatcher.cs" />
+    <Compile Include="bc-xml-security-master\src\CanonicalXml.cs" />
+    <Compile Include="bc-xml-security-master\src\CanonicalXmlAttribute.cs" />
+    <Compile Include="bc-xml-security-master\src\CanonicalXmlCDataSection.cs" />
+    <Compile Include="bc-xml-security-master\src\CanonicalXmlComment.cs" />
+    <Compile Include="bc-xml-security-master\src\CanonicalXmlDocument.cs" />
+    <Compile Include="bc-xml-security-master\src\CanonicalXmlElement.cs" />
+    <Compile Include="bc-xml-security-master\src\CanonicalXmlEntityReference.cs" />
+    <Compile Include="bc-xml-security-master\src\CanonicalXmlNodeList.cs" />
+    <Compile Include="bc-xml-security-master\src\CanonicalXmlProcessingInstruction.cs" />
+    <Compile Include="bc-xml-security-master\src\CanonicalXmlSignificantWhitespace.cs" />
+    <Compile Include="bc-xml-security-master\src\CanonicalXmlText.cs" />
+    <Compile Include="bc-xml-security-master\src\CanonicalXmlWhitespace.cs" />
+    <Compile Include="bc-xml-security-master\src\CertUsageType.cs" />
+    <Compile Include="bc-xml-security-master\src\CipherData.cs" />
+    <Compile Include="bc-xml-security-master\src\CipherReference.cs" />
+    <Compile Include="bc-xml-security-master\src\CryptoHelpers.cs" />
+    <Compile Include="bc-xml-security-master\src\CryptoSignedXmlRecursionException.cs" />
+    <Compile Include="bc-xml-security-master\src\DataObject.cs" />
+    <Compile Include="bc-xml-security-master\src\DataReference.cs" />
+    <Compile Include="bc-xml-security-master\src\DocPosition.cs" />
+    <Compile Include="bc-xml-security-master\src\DSAKeyValue.cs" />
+    <Compile Include="bc-xml-security-master\src\EncryptedData.cs" />
+    <Compile Include="bc-xml-security-master\src\EncryptedKey.cs" />
+    <Compile Include="bc-xml-security-master\src\EncryptedReference.cs" />
+    <Compile Include="bc-xml-security-master\src\EncryptedType.cs" />
+    <Compile Include="bc-xml-security-master\src\EncryptedXml.cs" />
+    <Compile Include="bc-xml-security-master\src\EncryptionMethod.cs" />
+    <Compile Include="bc-xml-security-master\src\EncryptionProperty.cs" />
+    <Compile Include="bc-xml-security-master\src\EncryptionPropertyCollection.cs" />
+    <Compile Include="bc-xml-security-master\src\ExcAncestralNamespaceContextManager.cs" />
+    <Compile Include="bc-xml-security-master\src\ExcCanonicalXml.cs" />
+    <Compile Include="bc-xml-security-master\src\HashWrappers.cs" />
+    <Compile Include="bc-xml-security-master\src\ICanonicalizableNode.cs" />
+    <Compile Include="bc-xml-security-master\src\IRelDecryptor.cs" />
+    <Compile Include="bc-xml-security-master\src\KeyInfo.cs" />
+    <Compile Include="bc-xml-security-master\src\KeyInfoClause.cs" />
+    <Compile Include="bc-xml-security-master\src\KeyInfoEncryptedKey.cs" />
+    <Compile Include="bc-xml-security-master\src\KeyInfoName.cs" />
+    <Compile Include="bc-xml-security-master\src\KeyInfoNode.cs" />
+    <Compile Include="bc-xml-security-master\src\KeyInfoRetrievalMethod.cs" />
+    <Compile Include="bc-xml-security-master\src\KeyInfoX509Data.cs" />
+    <Compile Include="bc-xml-security-master\src\KeyReference.cs" />
+    <Compile Include="bc-xml-security-master\src\MyXmlDocument.cs" />
+    <Compile Include="bc-xml-security-master\src\NamespaceFrame.cs" />
+    <Compile Include="bc-xml-security-master\src\NamespaceSortOrder.cs" />
+    <Compile Include="bc-xml-security-master\src\Reference.cs" />
+    <Compile Include="bc-xml-security-master\src\ReferenceList.cs" />
+    <Compile Include="bc-xml-security-master\src\ReferenceTargetType.cs" />
+    <Compile Include="bc-xml-security-master\src\RSAKeyValue.cs" />
+    <Compile Include="bc-xml-security-master\src\RSAOAEPKeyExchangeDeformatter.cs" />
+    <Compile Include="bc-xml-security-master\src\RSAOAEPKeyExchangeFormatter.cs" />
+    <Compile Include="bc-xml-security-master\src\RSAPKCS1KeyExchangeDeformatter.cs" />
+    <Compile Include="bc-xml-security-master\src\RSAPKCS1KeyExchangeFormatter.cs" />
+    <Compile Include="bc-xml-security-master\src\Signature.cs" />
+    <Compile Include="bc-xml-security-master\src\SignedInfo.cs" />
+    <Compile Include="bc-xml-security-master\src\SignedXml.cs" />
+    <Compile Include="bc-xml-security-master\src\SignedXmlDebugLog.cs" />
+    <Compile Include="bc-xml-security-master\src\SR.Designer.cs" />
+    <Compile Include="bc-xml-security-master\src\SymmetricKeyWrap.cs" />
+    <Compile Include="bc-xml-security-master\src\Transform.cs" />
+    <Compile Include="bc-xml-security-master\src\TransformChain.cs" />
+    <Compile Include="bc-xml-security-master\src\TransformInputType.cs" />
+    <Compile Include="bc-xml-security-master\src\Utils.cs" />
+    <Compile Include="bc-xml-security-master\src\X509IncludeOption.cs" />
+    <Compile Include="bc-xml-security-master\src\X509IssuerSerial.cs" />
+    <Compile Include="bc-xml-security-master\src\XmlDecryptionTransform.cs" />
+    <Compile Include="bc-xml-security-master\src\XmlDsigBase64Transform.cs" />
+    <Compile Include="bc-xml-security-master\src\XmlDsigC14NTransform.cs" />
+    <Compile Include="bc-xml-security-master\src\XmlDsigC14NWithCommentsTransform.cs" />
+    <Compile Include="bc-xml-security-master\src\XmlDsigEnvelopedSignatureTransform.cs" />
+    <Compile Include="bc-xml-security-master\src\XmlDsigExcC14NTransform.cs" />
+    <Compile Include="bc-xml-security-master\src\XmlDsigExcC14NWithCommentsTransform.cs" />
+    <Compile Include="bc-xml-security-master\src\XmlDsigXPathTransform.cs" />
+    <Compile Include="bc-xml-security-master\src\XmlDsigXsltTransform.cs" />
+    <Compile Include="bc-xml-security-master\src\XmlLicenseTransform.cs" />
     <Compile Include="Cert.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -180,6 +265,7 @@
     <Compile Include="CRLValues.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CryptoExtensions.cs" />
     <Compile Include="DataObjectFormat.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -363,6 +449,7 @@
     <Compile Include="UnsignedSignatureProperties.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="XadesCryptographicException.cs" />
     <Compile Include="XadesObject.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -372,9 +459,13 @@
     <Compile Include="XMLTimeStamp.cs">
       <SubType>Code</SubType>
     </Compile>
+    <EmbeddedResource Include="bc-xml-security-master\src\SR.resx" />
     <EmbeddedResource Include="XAdES.xsd" />
     <EmbeddedResource Include="xmldsig-core-schema.xsd" />
+    <None Include=".editorconfig" />
+    <None Include="bc-xml-security-master\README.md" />
     <None Include="Microsoft.Xades.snk" />
+    <None Include="packages.config" />
     <None Include="XAdES.xsx">
       <DependentUpon>XAdES.xsd</DependentUpon>
     </None>
@@ -398,6 +489,9 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bc-xml-security-master\LICENSE.TXT" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -13,137 +13,136 @@
 //
 
 using System;
-using System.Xml;
-using System.Security.Cryptography;
 using System.Collections;
+using System.Xml;
 
-namespace Microsoft.Xades
+namespace Microsoft.Xades.BC
 {
-	/// <summary>
-	/// The UnsignedDataObjectProperties element may contain properties that
-	/// qualify some of the signed data objects.
-	/// </summary>
-	public class UnsignedDataObjectProperties
-	{
-		#region Private variables
-		private UnsignedDataObjectPropertyCollection unsignedDataObjectPropertyCollection;
-		#endregion
+    /// <summary>
+    /// The UnsignedDataObjectProperties element may contain properties that
+    /// qualify some of the signed data objects.
+    /// </summary>
+    public class UnsignedDataObjectProperties
+    {
+        #region Private variables
+        private UnsignedDataObjectPropertyCollection unsignedDataObjectPropertyCollection;
+        #endregion
 
-		#region Public properties
-		/// <summary>
-		/// A collection of unsigned data object properties
-		/// </summary>
-		public UnsignedDataObjectPropertyCollection UnsignedDataObjectPropertyCollection
-		{
-			get
-			{
-				return this.unsignedDataObjectPropertyCollection;
-			}
-			set
-			{
-				this.unsignedDataObjectPropertyCollection = value;
-			}
-		}
-		#endregion
+        #region Public properties
+        /// <summary>
+        /// A collection of unsigned data object properties
+        /// </summary>
+        public UnsignedDataObjectPropertyCollection UnsignedDataObjectPropertyCollection
+        {
+            get
+            {
+                return this.unsignedDataObjectPropertyCollection;
+            }
+            set
+            {
+                this.unsignedDataObjectPropertyCollection = value;
+            }
+        }
+        #endregion
 
-		#region Constructors
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public UnsignedDataObjectProperties()
-		{
-			this.unsignedDataObjectPropertyCollection = new UnsignedDataObjectPropertyCollection();
-		}
-		#endregion
+        #region Constructors
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public UnsignedDataObjectProperties()
+        {
+            this.unsignedDataObjectPropertyCollection = new UnsignedDataObjectPropertyCollection();
+        }
+        #endregion
 
-		#region Public methods
-		/// <summary>
-		/// Check to see if something has changed in this instance and needs to be serialized
-		/// </summary>
-		/// <returns>Flag indicating if a member needs serialization</returns>
-		public bool HasChanged()
-		{
-			bool retVal = false;
+        #region Public methods
+        /// <summary>
+        /// Check to see if something has changed in this instance and needs to be serialized
+        /// </summary>
+        /// <returns>Flag indicating if a member needs serialization</returns>
+        public Boolean HasChanged()
+        {
+            Boolean retVal = false;
 
-			if (this.unsignedDataObjectPropertyCollection.Count > 0)
-			{
-				retVal = true;
-			}
+            if (this.unsignedDataObjectPropertyCollection.Count > 0)
+            {
+                retVal = true;
+            }
 
-			return retVal;
-		}
+            return retVal;
+        }
 
-		/// <summary>
-		/// Load state from an XML element
-		/// </summary>
-		/// <param name="xmlElement">XML element containing new state</param>
-		public void LoadXml(System.Xml.XmlElement xmlElement)
-		{
-			XmlNamespaceManager xmlNamespaceManager;
-			XmlNodeList xmlNodeList;
-			UnsignedDataObjectProperty newUnsignedDataObjectProperty;
-			IEnumerator enumerator;
-			XmlElement iterationXmlElement;
-			
-			if (xmlElement == null)
-			{
-				throw new ArgumentNullException("xmlElement");
-			}
+        /// <summary>
+        /// Load state from an XML element
+        /// </summary>
+        /// <param name="xmlElement">XML element containing new state</param>
+        public void LoadXml(System.Xml.XmlElement xmlElement)
+        {
+            XmlNamespaceManager xmlNamespaceManager;
+            XmlNodeList xmlNodeList;
+            UnsignedDataObjectProperty newUnsignedDataObjectProperty;
+            IEnumerator enumerator;
+            XmlElement iterationXmlElement;
 
-			xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-			xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            if (xmlElement == null)
+            {
+                throw new ArgumentNullException("xmlElement");
+            }
 
-			this.unsignedDataObjectPropertyCollection.Clear();
-			xmlNodeList = xmlElement.SelectNodes("xsd:UnsignedDataObjectProperty", xmlNamespaceManager);
-			enumerator = xmlNodeList.GetEnumerator();
-			try 
-			{
-				while (enumerator.MoveNext()) 
-				{
-					iterationXmlElement = enumerator.Current as XmlElement;
-					if (iterationXmlElement != null)
-					{
-						newUnsignedDataObjectProperty = new UnsignedDataObjectProperty();
-						newUnsignedDataObjectProperty.LoadXml(iterationXmlElement);
-						this.unsignedDataObjectPropertyCollection.Add(newUnsignedDataObjectProperty);
-					}
-				}
-			}
-			finally 
-			{
-				IDisposable disposable = enumerator as IDisposable;
-				if (disposable != null)
-				{
-					disposable.Dispose();
-				}
-			}
-		}
+            xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
+            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
 
-		/// <summary>
-		/// Returns the XML representation of the this object
-		/// </summary>
-		/// <returns>XML element containing the state of this object</returns>
-		public XmlElement GetXml()
-		{
-			XmlDocument creationXmlDocument;
-			XmlElement retVal;
+            this.unsignedDataObjectPropertyCollection.Clear();
+            xmlNodeList = xmlElement.SelectNodes("xsd:UnsignedDataObjectProperty", xmlNamespaceManager);
+            enumerator = xmlNodeList.GetEnumerator();
+            try
+            {
+                while (enumerator.MoveNext())
+                {
+                    iterationXmlElement = enumerator.Current as XmlElement;
+                    if (iterationXmlElement != null)
+                    {
+                        newUnsignedDataObjectProperty = new UnsignedDataObjectProperty();
+                        newUnsignedDataObjectProperty.LoadXml(iterationXmlElement);
+                        this.unsignedDataObjectPropertyCollection.Add(newUnsignedDataObjectProperty);
+                    }
+                }
+            }
+            finally
+            {
+                IDisposable disposable = enumerator as IDisposable;
+                if (disposable != null)
+                {
+                    disposable.Dispose();
+                }
+            }
+        }
 
-			creationXmlDocument = new XmlDocument();
-			retVal = creationXmlDocument.CreateElement("UnsignedDataObjectProperties", XadesSignedXml.XadesNamespaceUri);
+        /// <summary>
+        /// Returns the XML representation of the this object
+        /// </summary>
+        /// <returns>XML element containing the state of this object</returns>
+        public XmlElement GetXml()
+        {
+            XmlDocument creationXmlDocument;
+            XmlElement retVal;
 
-			if (this.unsignedDataObjectPropertyCollection.Count > 0)
-			{
-				foreach (UnsignedDataObjectProperty unsignedDataObjectProperty in this.unsignedDataObjectPropertyCollection)
-				{
-					if (unsignedDataObjectProperty.HasChanged())
-					{
-						retVal.AppendChild(creationXmlDocument.ImportNode(unsignedDataObjectProperty.GetXml(), true));
-					}
-				}
-			}
+            creationXmlDocument = new XmlDocument();
+            retVal = creationXmlDocument.CreateElement("UnsignedDataObjectProperties", XadesSignedXml.XadesNamespaceUri);
 
-			return retVal;
-		}
-		#endregion
-	}
+            if (this.unsignedDataObjectPropertyCollection.Count > 0)
+            {
+                foreach (UnsignedDataObjectProperty unsignedDataObjectProperty in this.unsignedDataObjectPropertyCollection)
+                {
+                    if (unsignedDataObjectProperty.HasChanged())
+                    {
+                        retVal.AppendChild(creationXmlDocument.ImportNode(unsignedDataObjectProperty.GetXml(), true));
+                    }
+                }
+            }
+
+            return retVal;
+        }
+        #endregion
+    }
 }

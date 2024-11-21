@@ -12,25 +12,22 @@
 // AND INFORMATION REMAINS WITH THE USER. 
 //
 
-using System;
-using System.Xml;
-
-namespace Microsoft.Xades
+namespace Microsoft.Xades.BC
 {
-	/// <summary>
-	/// The CertifiedRoles element contains one or more wrapped attribute
-	/// certificates for the signer
-	/// </summary>
-	public class CertifiedRole : EncapsulatedPKIData
-	{
-		#region Constructors
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public CertifiedRole()
-		{
-			this.TagName = "CertifiedRole";
-		}
-		#endregion
-	}
+    /// <summary>
+    /// The CertifiedRoles element contains one or more wrapped attribute
+    /// certificates for the signer
+    /// </summary>
+    public class CertifiedRole : EncapsulatedPKIData
+    {
+        #region Constructors
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public CertifiedRole()
+        {
+            this.TagName = "CertifiedRole";
+        }
+        #endregion
+    }
 }

@@ -14,154 +14,152 @@
 
 using System;
 using System.Xml;
-using System.Security.Cryptography;
-using System.Security.Cryptography.Xml;
 
-namespace Microsoft.Xades
+namespace Microsoft.Xades.BC
 {
-	/// <summary>
-	/// This class contains information about a Certificate Revocation List (CRL)
-	/// </summary>
-	public class CRLRef
-	{
-		#region Private variables
-		private DigestAlgAndValueType digestAlgAndValue;
-		private CRLIdentifier crlIdentifier;
-		#endregion
+    /// <summary>
+    /// This class contains information about a Certificate Revocation List (CRL)
+    /// </summary>
+    public class CRLRef
+    {
+        #region Private variables
+        private DigestAlgAndValueType digestAlgAndValue;
+        private CRLIdentifier crlIdentifier;
+        #endregion
 
-		#region Public properties
-		/// <summary>
-		/// The digest of the entire DER encoded
-		/// </summary>
-		public DigestAlgAndValueType CertDigest
-		{
-			get
-			{
-				return this.digestAlgAndValue;
-			}
-			set
-			{
-				this.digestAlgAndValue = value;
-			}
-		}
+        #region Public properties
+        /// <summary>
+        /// The digest of the entire DER encoded
+        /// </summary>
+        public DigestAlgAndValueType CertDigest
+        {
+            get
+            {
+                return this.digestAlgAndValue;
+            }
+            set
+            {
+                this.digestAlgAndValue = value;
+            }
+        }
 
-		/// <summary>
-		/// CRLIdentifier is a set of data including the issuer, the time when
-		/// the CRL was issued and optionally the number of the CRL.
-		/// The Identifier element can be dropped if the CRL could be inferred
-		/// from other information.
-		/// </summary>
-		public CRLIdentifier CRLIdentifier
-		{
-			get
-			{
-				return this.crlIdentifier;
-			}
-			set
-			{
-				this.crlIdentifier = value;
-			}
-		}
-		#endregion
+        /// <summary>
+        /// CRLIdentifier is a set of data including the issuer, the time when
+        /// the CRL was issued and optionally the number of the CRL.
+        /// The Identifier element can be dropped if the CRL could be inferred
+        /// from other information.
+        /// </summary>
+        public CRLIdentifier CRLIdentifier
+        {
+            get
+            {
+                return this.crlIdentifier;
+            }
+            set
+            {
+                this.crlIdentifier = value;
+            }
+        }
+        #endregion
 
-		#region Constructors
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public CRLRef()
-		{
-			this.digestAlgAndValue = new DigestAlgAndValueType("DigestAlgAndValue");
-			this.crlIdentifier = new CRLIdentifier();
-		}
-		#endregion
+        #region Constructors
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public CRLRef()
+        {
+            this.digestAlgAndValue = new DigestAlgAndValueType("DigestAlgAndValue");
+            this.crlIdentifier = new CRLIdentifier();
+        }
+        #endregion
 
-		#region Public methods
-		/// <summary>
-		/// Check to see if something has changed in this instance and needs to be serialized
-		/// </summary>
-		/// <returns>Flag indicating if a member needs serialization</returns>
-		public bool HasChanged()
-		{
-			bool retVal = false;
+        #region Public methods
+        /// <summary>
+        /// Check to see if something has changed in this instance and needs to be serialized
+        /// </summary>
+        /// <returns>Flag indicating if a member needs serialization</returns>
+        public Boolean HasChanged()
+        {
+            Boolean retVal = false;
 
-			if (this.digestAlgAndValue != null && this.digestAlgAndValue.HasChanged())
-			{
-				retVal = true;
-			}
+            if (this.digestAlgAndValue != null && this.digestAlgAndValue.HasChanged())
+            {
+                retVal = true;
+            }
 
-			if (this.crlIdentifier != null && this.crlIdentifier.HasChanged())
-			{
-				retVal = true;
-			}
+            if (this.crlIdentifier != null && this.crlIdentifier.HasChanged())
+            {
+                retVal = true;
+            }
 
-			return retVal;
-		}
+            return retVal;
+        }
 
-		/// <summary>
-		/// Load state from an XML element
-		/// </summary>
-		/// <param name="xmlElement">XML element containing new state</param>
-		public void LoadXml(System.Xml.XmlElement xmlElement)
-		{
-			XmlNamespaceManager xmlNamespaceManager;
-			XmlNodeList xmlNodeList;
-			
-			if (xmlElement == null)
-			{
-				throw new ArgumentNullException("xmlElement");
-			}
+        /// <summary>
+        /// Load state from an XML element
+        /// </summary>
+        /// <param name="xmlElement">XML element containing new state</param>
+        public void LoadXml(System.Xml.XmlElement xmlElement)
+        {
+            XmlNamespaceManager xmlNamespaceManager;
+            XmlNodeList xmlNodeList;
 
-			xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-			xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            if (xmlElement == null)
+            {
+                throw new ArgumentNullException("xmlElement");
+            }
 
-			xmlNodeList = xmlElement.SelectNodes("xsd:DigestAlgAndValue", xmlNamespaceManager);
-			if (xmlNodeList.Count == 0)
-			{
-				throw new CryptographicException("DigestAlgAndValue missing");
-			}
-			this.digestAlgAndValue = new DigestAlgAndValueType("DigestAlgAndValue");
-			this.digestAlgAndValue.LoadXml((XmlElement)xmlNodeList.Item(0));
+            xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
+            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
 
-			xmlNodeList = xmlElement.SelectNodes("xsd:CRLIdentifier", xmlNamespaceManager);
-			if (xmlNodeList.Count == 0)
-			{
-				this.crlIdentifier = null;
-			}
-			else
-			{
-				this.crlIdentifier = new CRLIdentifier();
-				this.crlIdentifier.LoadXml((XmlElement)xmlNodeList.Item(0));
-			}
-		}
+            xmlNodeList = xmlElement.SelectNodes("xsd:DigestAlgAndValue", xmlNamespaceManager);
+            if (xmlNodeList.Count == 0)
+            {
+                throw new XadesCryptographicException("DigestAlgAndValue missing");
+            }
+            this.digestAlgAndValue = new DigestAlgAndValueType("DigestAlgAndValue");
+            this.digestAlgAndValue.LoadXml((XmlElement)xmlNodeList.Item(0));
 
-		/// <summary>
-		/// Returns the XML representation of the this object
-		/// </summary>
-		/// <returns>XML element containing the state of this object</returns>
-		public XmlElement GetXml()
-		{
-			XmlDocument creationXmlDocument;
-			XmlElement retVal;
+            xmlNodeList = xmlElement.SelectNodes("xsd:CRLIdentifier", xmlNamespaceManager);
+            if (xmlNodeList.Count == 0)
+            {
+                this.crlIdentifier = null;
+            }
+            else
+            {
+                this.crlIdentifier = new CRLIdentifier();
+                this.crlIdentifier.LoadXml((XmlElement)xmlNodeList.Item(0));
+            }
+        }
 
-			creationXmlDocument = new XmlDocument();
-			retVal = creationXmlDocument.CreateElement("CRLRef", XadesSignedXml.XadesNamespaceUri);
+        /// <summary>
+        /// Returns the XML representation of the this object
+        /// </summary>
+        /// <returns>XML element containing the state of this object</returns>
+        public XmlElement GetXml()
+        {
+            XmlDocument creationXmlDocument;
+            XmlElement retVal;
 
-			if (this.digestAlgAndValue != null && this.digestAlgAndValue.HasChanged())
-			{
-				retVal.AppendChild(creationXmlDocument.ImportNode(this.digestAlgAndValue.GetXml(), true));
-			}
-			else
-			{
-				throw new CryptographicException("DigestAlgAndValue element missing in CRLRef");
-			}
+            creationXmlDocument = new XmlDocument();
+            retVal = creationXmlDocument.CreateElement("CRLRef", XadesSignedXml.XadesNamespaceUri);
 
-			if (this.crlIdentifier != null && this.crlIdentifier.HasChanged())
-			{
-				retVal.AppendChild(creationXmlDocument.ImportNode(this.crlIdentifier.GetXml(), true));
-			}
+            if (this.digestAlgAndValue != null && this.digestAlgAndValue.HasChanged())
+            {
+                retVal.AppendChild(creationXmlDocument.ImportNode(this.digestAlgAndValue.GetXml(), true));
+            }
+            else
+            {
+                throw new XadesCryptographicException("DigestAlgAndValue element missing in CRLRef");
+            }
 
-			return retVal;
-		}
-		#endregion
-	}
+            if (this.crlIdentifier != null && this.crlIdentifier.HasChanged())
+            {
+                retVal.AppendChild(creationXmlDocument.ImportNode(this.crlIdentifier.GetXml(), true));
+            }
+
+            return retVal;
+        }
+        #endregion
+    }
 }

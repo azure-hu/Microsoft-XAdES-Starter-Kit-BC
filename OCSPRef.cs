@@ -14,152 +14,151 @@
 
 using System;
 using System.Xml;
-using System.Security.Cryptography;
 
-namespace Microsoft.Xades
+namespace Microsoft.Xades.BC
 {
-	/// <summary>
-	/// This class identifies one OCSP response
-	/// </summary>
-	public class OCSPRef
-	{
-		#region Private variables
-		private OCSPIdentifier ocspIdentifier;
-		private DigestAlgAndValueType digestAlgAndValue;
-		#endregion
+    /// <summary>
+    /// This class identifies one OCSP response
+    /// </summary>
+    public class OCSPRef
+    {
+        #region Private variables
+        private OCSPIdentifier ocspIdentifier;
+        private DigestAlgAndValueType digestAlgAndValue;
+        #endregion
 
-		#region Public properties
-		/// <summary>
-		/// Identification of one OCSP response
-		/// </summary>
-		public OCSPIdentifier OCSPIdentifier
-		{
-			get
-			{
-				return this.ocspIdentifier;
-			}
-			set
-			{
-				this.ocspIdentifier = value;
-			}
-		}
+        #region Public properties
+        /// <summary>
+        /// Identification of one OCSP response
+        /// </summary>
+        public OCSPIdentifier OCSPIdentifier
+        {
+            get
+            {
+                return this.ocspIdentifier;
+            }
+            set
+            {
+                this.ocspIdentifier = value;
+            }
+        }
 
-		/// <summary>
-		/// The digest computed on the DER encoded OCSP response, since it may be
-		/// needed to differentiate between two OCSP responses by the same server
-		/// with their "ProducedAt" fields within the same second.
-		/// </summary>
-		public DigestAlgAndValueType CertDigest
-		{
-			get
-			{
-				return this.digestAlgAndValue;
-			}
-			set
-			{
-				this.digestAlgAndValue = value;
-			}
-		}
-		#endregion
+        /// <summary>
+        /// The digest computed on the DER encoded OCSP response, since it may be
+        /// needed to differentiate between two OCSP responses by the same server
+        /// with their "ProducedAt" fields within the same second.
+        /// </summary>
+        public DigestAlgAndValueType CertDigest
+        {
+            get
+            {
+                return this.digestAlgAndValue;
+            }
+            set
+            {
+                this.digestAlgAndValue = value;
+            }
+        }
+        #endregion
 
-		#region Constructors
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public OCSPRef()
-		{
-			this.ocspIdentifier = new OCSPIdentifier();
-			this.digestAlgAndValue = new DigestAlgAndValueType("DigestAlgAndValue");
-		}
-		#endregion
+        #region Constructors
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public OCSPRef()
+        {
+            this.ocspIdentifier = new OCSPIdentifier();
+            this.digestAlgAndValue = new DigestAlgAndValueType("DigestAlgAndValue");
+        }
+        #endregion
 
-		#region Public methods
-		/// <summary>
-		/// Check to see if something has changed in this instance and needs to be serialized
-		/// </summary>
-		/// <returns>Flag indicating if a member needs serialization</returns>
-		public bool HasChanged()
-		{
-			bool retVal = false;
+        #region Public methods
+        /// <summary>
+        /// Check to see if something has changed in this instance and needs to be serialized
+        /// </summary>
+        /// <returns>Flag indicating if a member needs serialization</returns>
+        public Boolean HasChanged()
+        {
+            Boolean retVal = false;
 
-			if (this.ocspIdentifier != null && this.ocspIdentifier.HasChanged())
-			{
-				retVal = true;
-			}
+            if (this.ocspIdentifier != null && this.ocspIdentifier.HasChanged())
+            {
+                retVal = true;
+            }
 
-			if (this.digestAlgAndValue != null && this.digestAlgAndValue.HasChanged())
-			{
-				retVal = true;
-			}
+            if (this.digestAlgAndValue != null && this.digestAlgAndValue.HasChanged())
+            {
+                retVal = true;
+            }
 
-			return retVal;
-		}
+            return retVal;
+        }
 
-		/// <summary>
-		/// Load state from an XML element
-		/// </summary>
-		/// <param name="xmlElement">XML element containing new state</param>
-		public void LoadXml(System.Xml.XmlElement xmlElement)
-		{
-			XmlNamespaceManager xmlNamespaceManager;
-			XmlNodeList xmlNodeList;
-			
-			if (xmlElement == null)
-			{
-				throw new ArgumentNullException("xmlElement");
-			}
+        /// <summary>
+        /// Load state from an XML element
+        /// </summary>
+        /// <param name="xmlElement">XML element containing new state</param>
+        public void LoadXml(System.Xml.XmlElement xmlElement)
+        {
+            XmlNamespaceManager xmlNamespaceManager;
+            XmlNodeList xmlNodeList;
 
-			xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-			xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            if (xmlElement == null)
+            {
+                throw new ArgumentNullException("xmlElement");
+            }
 
-			xmlNodeList = xmlElement.SelectNodes("xsd:OCSPIdentifier", xmlNamespaceManager);
-			if (xmlNodeList.Count == 0)
-			{
-				throw new CryptographicException("OCSPIdentifier missing");
-			}
-			this.ocspIdentifier = new OCSPIdentifier();
-			this.ocspIdentifier.LoadXml((XmlElement)xmlNodeList.Item(0));
+            xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
+            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
 
-			xmlNodeList = xmlElement.SelectNodes("xsd:DigestAlgAndValue", xmlNamespaceManager);
-			if (xmlNodeList.Count == 0)
-			{
-				this.digestAlgAndValue = null;
-			}
-			else
-			{
-				this.digestAlgAndValue = new DigestAlgAndValueType("DigestAlgAndValue");
-				this.digestAlgAndValue.LoadXml((XmlElement)xmlNodeList.Item(0));
-			}
-		}
+            xmlNodeList = xmlElement.SelectNodes("xsd:OCSPIdentifier", xmlNamespaceManager);
+            if (xmlNodeList.Count == 0)
+            {
+                throw new XadesCryptographicException("OCSPIdentifier missing");
+            }
+            this.ocspIdentifier = new OCSPIdentifier();
+            this.ocspIdentifier.LoadXml((XmlElement)xmlNodeList.Item(0));
 
-		/// <summary>
-		/// Returns the XML representation of the this object
-		/// </summary>
-		/// <returns>XML element containing the state of this object</returns>
-		public XmlElement GetXml()
-		{
-			XmlDocument creationXmlDocument;
-			XmlElement retVal;
+            xmlNodeList = xmlElement.SelectNodes("xsd:DigestAlgAndValue", xmlNamespaceManager);
+            if (xmlNodeList.Count == 0)
+            {
+                this.digestAlgAndValue = null;
+            }
+            else
+            {
+                this.digestAlgAndValue = new DigestAlgAndValueType("DigestAlgAndValue");
+                this.digestAlgAndValue.LoadXml((XmlElement)xmlNodeList.Item(0));
+            }
+        }
 
-			creationXmlDocument = new XmlDocument();
-			retVal = creationXmlDocument.CreateElement("OCSPRef", XadesSignedXml.XadesNamespaceUri);
+        /// <summary>
+        /// Returns the XML representation of the this object
+        /// </summary>
+        /// <returns>XML element containing the state of this object</returns>
+        public XmlElement GetXml()
+        {
+            XmlDocument creationXmlDocument;
+            XmlElement retVal;
 
-			if (this.ocspIdentifier != null && this.ocspIdentifier.HasChanged())
-			{
-				retVal.AppendChild(creationXmlDocument.ImportNode(this.ocspIdentifier.GetXml(), true));
-			}
-			else
-			{
-				throw new CryptographicException("OCSPIdentifier element missing in OCSPRef");
-			}
+            creationXmlDocument = new XmlDocument();
+            retVal = creationXmlDocument.CreateElement("OCSPRef", XadesSignedXml.XadesNamespaceUri);
 
-			if (this.digestAlgAndValue != null && this.digestAlgAndValue.HasChanged())
-			{
-				retVal.AppendChild(creationXmlDocument.ImportNode(this.digestAlgAndValue.GetXml(), true));
-			}
+            if (this.ocspIdentifier != null && this.ocspIdentifier.HasChanged())
+            {
+                retVal.AppendChild(creationXmlDocument.ImportNode(this.ocspIdentifier.GetXml(), true));
+            }
+            else
+            {
+                throw new XadesCryptographicException("OCSPIdentifier element missing in OCSPRef");
+            }
 
-			return retVal;
-		}
-		#endregion
-	}
+            if (this.digestAlgAndValue != null && this.digestAlgAndValue.HasChanged())
+            {
+                retVal.AppendChild(creationXmlDocument.ImportNode(this.digestAlgAndValue.GetXml(), true));
+            }
+
+            return retVal;
+        }
+        #endregion
+    }
 }

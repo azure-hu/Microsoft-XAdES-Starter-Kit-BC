@@ -13,272 +13,271 @@
 //
 
 using System;
-using System.Xml;
-using System.Security.Cryptography;
 using System.Collections;
+using System.Xml;
 
-namespace Microsoft.Xades
+namespace Microsoft.Xades.BC
 {
-	/// <summary>
-	/// The commitment type can be indicated in the electronic signature
-	/// by either explicitly using a commitment type indication in the
-	/// electronic signature or implicitly or explicitly from the semantics
-	/// of the signed data object.
-	/// If the indicated commitment type is explicit by means of a commitment
-	/// type indication in the electronic signature, acceptance of a verified
-	/// signature implies acceptance of the semantics of that commitment type.
-	/// The semantics of explicit commitment types indications shall be
-	/// specified either as part of the signature policy or may be registered
-	/// for	generic use across multiple policies.
-	/// </summary>
-	public class CommitmentTypeIndication
-	{
-		#region Private variables
-		private ObjectIdentifier commitmentTypeId;
-		private ObjectReferenceCollection objectReferenceCollection;
-		private bool allSignedDataObjects;
-		private CommitmentTypeQualifiers commitmentTypeQualifiers;
-		#endregion
+    /// <summary>
+    /// The commitment type can be indicated in the electronic signature
+    /// by either explicitly using a commitment type indication in the
+    /// electronic signature or implicitly or explicitly from the semantics
+    /// of the signed data object.
+    /// If the indicated commitment type is explicit by means of a commitment
+    /// type indication in the electronic signature, acceptance of a verified
+    /// signature implies acceptance of the semantics of that commitment type.
+    /// The semantics of explicit commitment types indications shall be
+    /// specified either as part of the signature policy or may be registered
+    /// for	generic use across multiple policies.
+    /// </summary>
+    public class CommitmentTypeIndication
+    {
+        #region Private variables
+        private ObjectIdentifier commitmentTypeId;
+        private ObjectReferenceCollection objectReferenceCollection;
+        private Boolean allSignedDataObjects;
+        private CommitmentTypeQualifiers commitmentTypeQualifiers;
+        #endregion
 
-		#region Public properties
-		/// <summary>
-		/// The CommitmentTypeId element univocally identifies the type of commitment made by the signer.
-		/// A number of commitments have been already identified and assigned corresponding OIDs.
-		/// </summary>
-		public ObjectIdentifier CommitmentTypeId
-		{
-			get
-			{
-				return this.commitmentTypeId;
-			}
-			set
-			{
-				this.commitmentTypeId = value;
-			}
-		}
+        #region Public properties
+        /// <summary>
+        /// The CommitmentTypeId element univocally identifies the type of commitment made by the signer.
+        /// A number of commitments have been already identified and assigned corresponding OIDs.
+        /// </summary>
+        public ObjectIdentifier CommitmentTypeId
+        {
+            get
+            {
+                return this.commitmentTypeId;
+            }
+            set
+            {
+                this.commitmentTypeId = value;
+            }
+        }
 
-		/// <summary>
-		/// Collection of object references
-		/// </summary>
-		public ObjectReferenceCollection ObjectReferenceCollection
-		{
-			get
-			{
-				return this.objectReferenceCollection;
-			}
-			set
-			{
-				this.objectReferenceCollection = value;
-				if (this.objectReferenceCollection != null)
-				{
-					if (this.objectReferenceCollection.Count > 0)
-					{
-						this.allSignedDataObjects = false;
-					}
-				}
-			}
-		}
+        /// <summary>
+        /// Collection of object references
+        /// </summary>
+        public ObjectReferenceCollection ObjectReferenceCollection
+        {
+            get
+            {
+                return this.objectReferenceCollection;
+            }
+            set
+            {
+                this.objectReferenceCollection = value;
+                if (this.objectReferenceCollection != null)
+                {
+                    if (this.objectReferenceCollection.Count > 0)
+                    {
+                        this.allSignedDataObjects = false;
+                    }
+                }
+            }
+        }
 
-		/// <summary>
-		/// If all the signed data objects share the same commitment, the
-		/// AllSignedDataObjects empty element MUST be present.
-		/// </summary>
-		public bool AllSignedDataObjects
-		{
-			get
-			{
-				return this.allSignedDataObjects;
-			}
-			set
-			{
-				this.allSignedDataObjects = value;
-				if (this.allSignedDataObjects)
-				{
-					this.objectReferenceCollection.Clear();
-				}
-			}
-		}
+        /// <summary>
+        /// If all the signed data objects share the same commitment, the
+        /// AllSignedDataObjects empty element MUST be present.
+        /// </summary>
+        public Boolean AllSignedDataObjects
+        {
+            get
+            {
+                return this.allSignedDataObjects;
+            }
+            set
+            {
+                this.allSignedDataObjects = value;
+                if (this.allSignedDataObjects)
+                {
+                    this.objectReferenceCollection.Clear();
+                }
+            }
+        }
 
-		/// <summary>
-		/// The CommitmentTypeQualifiers element provides means to include additional
-		/// qualifying information on the commitment made by the signer.
-		/// </summary>
-		public CommitmentTypeQualifiers CommitmentTypeQualifiers
-		{
-			get
-			{
-				return this.commitmentTypeQualifiers;
-			}
-			set
-			{
-				this.commitmentTypeQualifiers = value;
-			}
-		}
-		#endregion
+        /// <summary>
+        /// The CommitmentTypeQualifiers element provides means to include additional
+        /// qualifying information on the commitment made by the signer.
+        /// </summary>
+        public CommitmentTypeQualifiers CommitmentTypeQualifiers
+        {
+            get
+            {
+                return this.commitmentTypeQualifiers;
+            }
+            set
+            {
+                this.commitmentTypeQualifiers = value;
+            }
+        }
+        #endregion
 
-		#region Constructors
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public CommitmentTypeIndication()
-		{
-			this.commitmentTypeId = new ObjectIdentifier("CommitmentTypeId");
-			this.objectReferenceCollection = new ObjectReferenceCollection();
-			this.allSignedDataObjects = true;
-			this.commitmentTypeQualifiers = new CommitmentTypeQualifiers();
-		}
-		#endregion
+        #region Constructors
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public CommitmentTypeIndication()
+        {
+            this.commitmentTypeId = new ObjectIdentifier("CommitmentTypeId");
+            this.objectReferenceCollection = new ObjectReferenceCollection();
+            this.allSignedDataObjects = true;
+            this.commitmentTypeQualifiers = new CommitmentTypeQualifiers();
+        }
+        #endregion
 
-		#region Public methods
-		/// <summary>
-		/// Check to see if something has changed in this instance and needs to be serialized
-		/// </summary>
-		/// <returns>Flag indicating if a member needs serialization</returns>
-		public bool HasChanged()
-		{
-			bool retVal = false;
+        #region Public methods
+        /// <summary>
+        /// Check to see if something has changed in this instance and needs to be serialized
+        /// </summary>
+        /// <returns>Flag indicating if a member needs serialization</returns>
+        public Boolean HasChanged()
+        {
+            Boolean retVal = false;
 
-			if (this.commitmentTypeId != null && this.commitmentTypeId.HasChanged())
-			{
-				retVal = true;
-			}
+            if (this.commitmentTypeId != null && this.commitmentTypeId.HasChanged())
+            {
+                retVal = true;
+            }
 
-			if (this.objectReferenceCollection.Count > 0)
-			{
-				retVal = true;
-			}
+            if (this.objectReferenceCollection.Count > 0)
+            {
+                retVal = true;
+            }
 
-			if (this.commitmentTypeQualifiers != null && this.commitmentTypeQualifiers.HasChanged())
-			{
-				retVal = true;
-			}
+            if (this.commitmentTypeQualifiers != null && this.commitmentTypeQualifiers.HasChanged())
+            {
+                retVal = true;
+            }
 
-			return retVal;
-		}
+            return retVal;
+        }
 
-		/// <summary>
-		/// Load state from an XML element
-		/// </summary>
-		/// <param name="xmlElement">XML element containing new state</param>
-		public void LoadXml(System.Xml.XmlElement xmlElement)
-		{
-			XmlNamespaceManager xmlNamespaceManager;
-			XmlNodeList xmlNodeList;
-			IEnumerator enumerator;
-			XmlElement iterationXmlElement;
-			ObjectReference newObjectReference;
-			
-			if (xmlElement == null)
-			{
-				throw new ArgumentNullException("xmlElement");
-			}
+        /// <summary>
+        /// Load state from an XML element
+        /// </summary>
+        /// <param name="xmlElement">XML element containing new state</param>
+        public void LoadXml(System.Xml.XmlElement xmlElement)
+        {
+            XmlNamespaceManager xmlNamespaceManager;
+            XmlNodeList xmlNodeList;
+            IEnumerator enumerator;
+            XmlElement iterationXmlElement;
+            ObjectReference newObjectReference;
 
-			xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-			xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            if (xmlElement == null)
+            {
+                throw new ArgumentNullException("xmlElement");
+            }
 
-			xmlNodeList = xmlElement.SelectNodes("xsd:CommitmentTypeId", xmlNamespaceManager);
-			if (xmlNodeList.Count == 0)
-			{
-				this.commitmentTypeId = null;
-				throw new CryptographicException("CommitmentTypeId missing");
-			}
-			else
-			{
-				this.commitmentTypeId = new ObjectIdentifier("CommitmentTypeId");
-				this.commitmentTypeId.LoadXml((XmlElement)xmlNodeList.Item(0));
-			}
+            xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
+            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
 
-			xmlNodeList = xmlElement.SelectNodes("xsd:ObjectReference", xmlNamespaceManager);
-			if (xmlNodeList.Count != 0)
-			{
-				this.objectReferenceCollection.Clear();
-				this.allSignedDataObjects = false;
-				enumerator = xmlNodeList.GetEnumerator();
-				try 
-				{
-					while (enumerator.MoveNext()) 
-					{
-						iterationXmlElement = enumerator.Current as XmlElement;
-						if (iterationXmlElement != null)
-						{
-							newObjectReference = new ObjectReference();
-							newObjectReference.LoadXml(iterationXmlElement);
-							this.objectReferenceCollection.Add(newObjectReference);
-						}
-					}
-				}
-				finally 
-				{
-					IDisposable disposable = enumerator as IDisposable;
-					if (disposable != null)
-					{
-						disposable.Dispose();
-					}
-				}
+            xmlNodeList = xmlElement.SelectNodes("xsd:CommitmentTypeId", xmlNamespaceManager);
+            if (xmlNodeList.Count == 0)
+            {
+                this.commitmentTypeId = null;
+                throw new XadesCryptographicException("CommitmentTypeId missing");
+            }
+            else
+            {
+                this.commitmentTypeId = new ObjectIdentifier("CommitmentTypeId");
+                this.commitmentTypeId.LoadXml((XmlElement)xmlNodeList.Item(0));
+            }
 
-			}
-			else
-			{
-				this.objectReferenceCollection.Clear();
-				this.allSignedDataObjects = true;
-			}
+            xmlNodeList = xmlElement.SelectNodes("xsd:ObjectReference", xmlNamespaceManager);
+            if (xmlNodeList.Count != 0)
+            {
+                this.objectReferenceCollection.Clear();
+                this.allSignedDataObjects = false;
+                enumerator = xmlNodeList.GetEnumerator();
+                try
+                {
+                    while (enumerator.MoveNext())
+                    {
+                        iterationXmlElement = enumerator.Current as XmlElement;
+                        if (iterationXmlElement != null)
+                        {
+                            newObjectReference = new ObjectReference();
+                            newObjectReference.LoadXml(iterationXmlElement);
+                            this.objectReferenceCollection.Add(newObjectReference);
+                        }
+                    }
+                }
+                finally
+                {
+                    IDisposable disposable = enumerator as IDisposable;
+                    if (disposable != null)
+                    {
+                        disposable.Dispose();
+                    }
+                }
 
-			xmlNodeList = xmlElement.SelectNodes("xsd:CommitmentTypeQualifiers", xmlNamespaceManager);
-			if (xmlNodeList.Count != 0)
-			{
-				this.commitmentTypeQualifiers = new CommitmentTypeQualifiers();
-				this.commitmentTypeQualifiers.LoadXml((XmlElement)xmlNodeList.Item(0));
-			}
-		}
+            }
+            else
+            {
+                this.objectReferenceCollection.Clear();
+                this.allSignedDataObjects = true;
+            }
 
-		/// <summary>
-		/// Returns the XML representation of the this object
-		/// </summary>
-		/// <returns>XML element containing the state of this object</returns>
-		public XmlElement GetXml()
-		{
-			XmlDocument creationXmlDocument;
-			XmlElement retVal;
-			XmlElement bufferXmlElement;
+            xmlNodeList = xmlElement.SelectNodes("xsd:CommitmentTypeQualifiers", xmlNamespaceManager);
+            if (xmlNodeList.Count != 0)
+            {
+                this.commitmentTypeQualifiers = new CommitmentTypeQualifiers();
+                this.commitmentTypeQualifiers.LoadXml((XmlElement)xmlNodeList.Item(0));
+            }
+        }
 
-			creationXmlDocument = new XmlDocument();
-			retVal = creationXmlDocument.CreateElement("CommitmentTypeIndication", XadesSignedXml.XadesNamespaceUri);
+        /// <summary>
+        /// Returns the XML representation of the this object
+        /// </summary>
+        /// <returns>XML element containing the state of this object</returns>
+        public XmlElement GetXml()
+        {
+            XmlDocument creationXmlDocument;
+            XmlElement retVal;
+            XmlElement bufferXmlElement;
 
-			if (this.commitmentTypeId != null && this.commitmentTypeId.HasChanged())
-			{
-				retVal.AppendChild(creationXmlDocument.ImportNode(this.commitmentTypeId.GetXml(), true));
-			}
-			else
-			{
-				throw new CryptographicException("CommitmentTypeId element missing");
-			}
+            creationXmlDocument = new XmlDocument();
+            retVal = creationXmlDocument.CreateElement("CommitmentTypeIndication", XadesSignedXml.XadesNamespaceUri);
 
-			if (this.allSignedDataObjects)
-			{ //Add emty element as required
-				bufferXmlElement = creationXmlDocument.CreateElement("AllSignedDataObjects", XadesSignedXml.XadesNamespaceUri);
-				retVal.AppendChild(bufferXmlElement);
-			}
-			else
-			{
-				if (this.objectReferenceCollection.Count > 0)
-				{
-					foreach (ObjectReference objectReference in this.objectReferenceCollection)
-					{
-						if (objectReference.HasChanged())
-						{
-							retVal.AppendChild(creationXmlDocument.ImportNode(objectReference.GetXml(), true));
-						}
-					}
-				}
-			}
+            if (this.commitmentTypeId != null && this.commitmentTypeId.HasChanged())
+            {
+                retVal.AppendChild(creationXmlDocument.ImportNode(this.commitmentTypeId.GetXml(), true));
+            }
+            else
+            {
+                throw new XadesCryptographicException("CommitmentTypeId element missing");
+            }
 
-			if (this.commitmentTypeQualifiers != null && this.commitmentTypeQualifiers.HasChanged())
-			{
-				retVal.AppendChild(creationXmlDocument.ImportNode(this.commitmentTypeQualifiers.GetXml(), true));
-			}
+            if (this.allSignedDataObjects)
+            { //Add emty element as required
+                bufferXmlElement = creationXmlDocument.CreateElement("AllSignedDataObjects", XadesSignedXml.XadesNamespaceUri);
+                retVal.AppendChild(bufferXmlElement);
+            }
+            else
+            {
+                if (this.objectReferenceCollection.Count > 0)
+                {
+                    foreach (ObjectReference objectReference in this.objectReferenceCollection)
+                    {
+                        if (objectReference.HasChanged())
+                        {
+                            retVal.AppendChild(creationXmlDocument.ImportNode(objectReference.GetXml(), true));
+                        }
+                    }
+                }
+            }
 
-			return retVal;
-		}
-		#endregion
-	}
+            if (this.commitmentTypeQualifiers != null && this.commitmentTypeQualifiers.HasChanged())
+            {
+                retVal.AppendChild(creationXmlDocument.ImportNode(this.commitmentTypeQualifiers.GetXml(), true));
+            }
+
+            return retVal;
+        }
+        #endregion
+    }
 }

@@ -14,91 +14,90 @@
 
 using System;
 using System.Xml;
-using System.Security.Cryptography;
 
-namespace Microsoft.Xades
+namespace Microsoft.Xades.BC
 {
-	/// <summary>
-	/// This class contains a roles claimed by the signer but not it is not a
-	/// certified role
-	/// </summary>
-	public class ClaimedRole
-	{
-		#region Private variables
-		private XmlElement anyXmlElement;
-		#endregion
+    /// <summary>
+    /// This class contains a roles claimed by the signer but not it is not a
+    /// certified role
+    /// </summary>
+    public class ClaimedRole
+    {
+        #region Private variables
+        private XmlElement anyXmlElement;
+        #endregion
 
-		#region Public properties
-		/// <summary>
-		/// The generic XML element that represents a claimed role
-		/// </summary>
-		public XmlElement AnyXmlElement
-		{
-			get
-			{
-				return this.anyXmlElement;
-			}
-			set
-			{
-				this.anyXmlElement = value;
-			}
-		}
-		#endregion
+        #region Public properties
+        /// <summary>
+        /// The generic XML element that represents a claimed role
+        /// </summary>
+        public XmlElement AnyXmlElement
+        {
+            get
+            {
+                return this.anyXmlElement;
+            }
+            set
+            {
+                this.anyXmlElement = value;
+            }
+        }
+        #endregion
 
-		#region Constructors
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public ClaimedRole()
-		{
-		}
-		#endregion
+        #region Constructors
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public ClaimedRole()
+        {
+        }
+        #endregion
 
-		#region Public methods
-		/// <summary>
-		/// Check to see if something has changed in this instance and needs to be serialized
-		/// </summary>
-		/// <returns>Flag indicating if a member needs serialization</returns>
-		public bool HasChanged()
-		{
-			bool retVal = false;
+        #region Public methods
+        /// <summary>
+        /// Check to see if something has changed in this instance and needs to be serialized
+        /// </summary>
+        /// <returns>Flag indicating if a member needs serialization</returns>
+        public Boolean HasChanged()
+        {
+            Boolean retVal = false;
 
-			if (this.anyXmlElement != null)
-			{
-				retVal = true;
-			}
+            if (this.anyXmlElement != null)
+            {
+                retVal = true;
+            }
 
-			return retVal;
-		}
+            return retVal;
+        }
 
-		/// <summary>
-		/// Load state from an XML element
-		/// </summary>
-		/// <param name="xmlElement">XML element containing new state</param>
-		public void LoadXml(System.Xml.XmlElement xmlElement)
-		{
-			this.anyXmlElement = xmlElement;
-		}
+        /// <summary>
+        /// Load state from an XML element
+        /// </summary>
+        /// <param name="xmlElement">XML element containing new state</param>
+        public void LoadXml(System.Xml.XmlElement xmlElement)
+        {
+            this.anyXmlElement = xmlElement;
+        }
 
-		/// <summary>
-		/// Returns the XML representation of the this object
-		/// </summary>
-		/// <returns>XML element containing the state of this object</returns>
-		public XmlElement GetXml()
-		{
-			XmlDocument creationXmlDocument;
-			XmlElement retVal;
+        /// <summary>
+        /// Returns the XML representation of the this object
+        /// </summary>
+        /// <returns>XML element containing the state of this object</returns>
+        public XmlElement GetXml()
+        {
+            XmlDocument creationXmlDocument;
+            XmlElement retVal;
 
-			creationXmlDocument = new XmlDocument();
-			retVal = creationXmlDocument.CreateElement("ClaimedRole", XadesSignedXml.XadesNamespaceUri);
+            creationXmlDocument = new XmlDocument();
+            retVal = creationXmlDocument.CreateElement("ClaimedRole", XadesSignedXml.XadesNamespaceUri);
 
-			if (this.anyXmlElement != null)
-			{
-				retVal.AppendChild(creationXmlDocument.ImportNode(this.anyXmlElement, true));
-			}
+            if (this.anyXmlElement != null)
+            {
+                retVal.AppendChild(creationXmlDocument.ImportNode(this.anyXmlElement, true));
+            }
 
-			return retVal;
-		}
-		#endregion
-	}
+            return retVal;
+        }
+        #endregion
+    }
 }
