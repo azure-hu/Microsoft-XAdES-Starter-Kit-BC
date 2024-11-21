@@ -5,7 +5,6 @@
 using System;
 using System.IO;
 using System.Xml;
-using XmlSec;
 
 namespace Org.BouncyCastle.Crypto.Xml
 {
