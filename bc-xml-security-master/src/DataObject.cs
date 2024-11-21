@@ -13,6 +13,7 @@ namespace Org.BouncyCastle.Crypto.Xml
         private string _mimeType;
         private string _encoding;
         private CanonicalXmlNodeList _elData;
+        private String _innerText;
         private XmlElement _cachedXml;
 
         //
@@ -81,11 +82,27 @@ namespace Org.BouncyCastle.Crypto.Xml
                     throw new ArgumentNullException(nameof(value));
 
                 // Reset the node list
+                _innerText = null;
                 _elData = new CanonicalXmlNodeList();
                 foreach (XmlNode node in value)
                 {
                     _elData.Add(node);
                 }
+                _cachedXml = null;
+            }
+        }
+
+        public String InnerText
+        {
+            get { return _innerText; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+
+                // Reset the node list
+                _elData = null;
+                _innerText = value;
                 _cachedXml = null;
             }
         }
@@ -122,12 +139,16 @@ namespace Org.BouncyCastle.Crypto.Xml
             if (!string.IsNullOrEmpty(_encoding))
                 objectElement.SetAttribute("Encoding", _encoding);
 
-            if (_elData != null)
+            if (_elData != null && _elData.Count > 0)
             {
                 foreach (XmlNode node in _elData)
                 {
                     objectElement.AppendChild(document.ImportNode(node, true));
                 }
+            }
+            else if (!String.IsNullOrEmpty(_innerText))
+            {
+                objectElement.InnerText = _innerText;
             }
 
             return objectElement;

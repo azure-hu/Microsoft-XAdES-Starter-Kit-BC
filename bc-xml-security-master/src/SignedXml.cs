@@ -68,10 +68,6 @@ namespace Org.BouncyCastle.Crypto.Xml
         public const String XmlDsigCanonicalizationWithCommentsUrl = XmlDsigC14NWithCommentsTransformUrl;
 
         public const String XmlDsigSHA1Url       = "http://www.w3.org/2000/09/xmldsig#sha1";
-        public const String XmlDsigSHA256Url     = EncryptedXml.XmlEncSHA256Url;
-        public const String XmlDsigSHA384Url     = SignedXml.XmlDsigMoreSHA384Url;
-        public const String XmlDsigSHA512Url     = EncryptedXml.XmlEncSHA512Url;
-
         public const String XmlDsigMoreSHA224Url = "http://www.w3.org/2001/04/xmldsig-more#sha224";
         public const String XmlDsigMoreSHA384Url = "http://www.w3.org/2001/04/xmldsig-more#sha384";
 
@@ -770,7 +766,6 @@ namespace Org.BouncyCastle.Crypto.Xml
         //
 
         protected Boolean _bCacheValid = false;
-
         //private byte[] _digestedSignedInfo = null;
 
         private static Boolean DefaultSignatureFormatValidator(SignedXml signedXml)
