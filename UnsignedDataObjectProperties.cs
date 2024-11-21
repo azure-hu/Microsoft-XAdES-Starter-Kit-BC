@@ -90,10 +90,10 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
 
             this.unsignedDataObjectPropertyCollection.Clear();
-            xmlNodeList = xmlElement.SelectNodes("xsd:UnsignedDataObjectProperty", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":UnsignedDataObjectProperty", xmlNamespaceManager);
             enumerator = xmlNodeList.GetEnumerator();
             try
             {

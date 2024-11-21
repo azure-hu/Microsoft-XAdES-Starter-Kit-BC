@@ -12,6 +12,7 @@
 // AND INFORMATION REMAINS WITH THE USER. 
 //
 
+using Org.BouncyCastle.Crypto.Xml;
 using System;
 using System.Collections;
 using System.Xml;
@@ -192,12 +193,12 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
-            xmlNamespaceManager.AddNamespace("ds", Org.BouncyCastle.Crypto.Xml.SignedXml.XmlDsigNamespaceUrl);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(SignedXml.XmlDsigNamespacePrefix, Org.BouncyCastle.Crypto.Xml.SignedXml.XmlDsigNamespaceUrl);
 
             //jbonilla
             this.CanonicalizationMethod = new CanonicalizationMethod();
-            xmlNodeList = xmlElement.SelectNodes("ds:CanonicalizationMethod", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(SignedXml.XmlDsigNamespacePrefix + ":CanonicalizationMethod", xmlNamespaceManager);
             if (xmlNodeList.Count > 0)
             {
                 this.CanonicalizationMethod.LoadXml((XmlElement)xmlNodeList.Item(0));
@@ -208,7 +209,7 @@ namespace Microsoft.Xades.BC
             }
 
             this.hashDataInfoCollection.Clear();
-            xmlNodeList = xmlElement.SelectNodes("xsd:HashDataInfo", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":HashDataInfo", xmlNamespaceManager);
             enumerator = xmlNodeList.GetEnumerator();
             try
             {
@@ -232,7 +233,7 @@ namespace Microsoft.Xades.BC
                 }
             }
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:EncapsulatedTimeStamp", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":EncapsulatedTimeStamp", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.encapsulatedTimeStamp = new EncapsulatedPKIData("EncapsulatedTimeStamp");
@@ -241,7 +242,7 @@ namespace Microsoft.Xades.BC
             }
             else
             {
-                xmlNodeList = xmlElement.SelectNodes("xsd:XMLTimeStamp", xmlNamespaceManager);
+                xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":XMLTimeStamp", xmlNamespaceManager);
                 if (xmlNodeList.Count != 0)
                 {
                     this.xmlTimeStamp = new XMLTimeStamp();

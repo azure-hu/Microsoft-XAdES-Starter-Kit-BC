@@ -89,10 +89,10 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
 
             this.ocspValueCollection.Clear();
-            xmlNodeList = xmlElement.SelectNodes("xsd:OCSPValue", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":OCSPValue", xmlNamespaceManager);
             enumerator = xmlNodeList.GetEnumerator();
             try
             {

@@ -122,16 +122,16 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:ClaimedRoles", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":ClaimedRoles", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.claimedRoles = new ClaimedRoles();
                 this.claimedRoles.LoadXml((XmlElement)xmlNodeList.Item(0));
             }
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:CertifiedRoles", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":CertifiedRoles", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.certifiedRoles = new CertifiedRoles();

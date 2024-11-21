@@ -110,9 +110,9 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:DigestAlgAndValue", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":DigestAlgAndValue", xmlNamespaceManager);
             if (xmlNodeList.Count == 0)
             {
                 throw new XadesCryptographicException("DigestAlgAndValue missing");
@@ -120,7 +120,7 @@ namespace Microsoft.Xades.BC
             this.digestAlgAndValue = new DigestAlgAndValueType("DigestAlgAndValue");
             this.digestAlgAndValue.LoadXml((XmlElement)xmlNodeList.Item(0));
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:CRLIdentifier", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":CRLIdentifier", xmlNamespaceManager);
             if (xmlNodeList.Count == 0)
             {
                 this.crlIdentifier = null;

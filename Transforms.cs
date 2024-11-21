@@ -90,10 +90,10 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("ds", SignedXml.XmlDsigNamespaceUrl);
+            xmlNamespaceManager.AddNamespace(SignedXml.XmlDsigNamespacePrefix, SignedXml.XmlDsigNamespaceUrl);
 
             this.transformCollection.Clear();
-            xmlNodeList = xmlElement.SelectNodes("ds:Transform", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(SignedXml.XmlDsigNamespacePrefix + ":Transform", xmlNamespaceManager);
             enumerator = xmlNodeList.GetEnumerator();
             try
             {

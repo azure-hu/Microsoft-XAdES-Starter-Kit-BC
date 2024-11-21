@@ -107,16 +107,16 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("ds", SignedXml.XmlDsigNamespaceUrl);
+            xmlNamespaceManager.AddNamespace(SignedXml.XmlDsigNamespacePrefix, SignedXml.XmlDsigNamespaceUrl);
 
-            xmlNodeList = xmlElement.SelectNodes("ds:X509IssuerName", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(SignedXml.XmlDsigNamespacePrefix + ":X509IssuerName", xmlNamespaceManager);
             if (xmlNodeList.Count == 0)
             {
                 throw new XadesCryptographicException("X509IssuerName missing");
             }
             this.x509IssuerName = xmlNodeList.Item(0).InnerText;
 
-            xmlNodeList = xmlElement.SelectNodes("ds:X509SerialNumber", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(SignedXml.XmlDsigNamespacePrefix + ":X509SerialNumber", xmlNamespaceManager);
             if (xmlNodeList.Count == 0)
             {
                 throw new XadesCryptographicException("X509SerialNumber missing");

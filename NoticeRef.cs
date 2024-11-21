@@ -109,16 +109,16 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:Organization", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":Organization", xmlNamespaceManager);
             if (xmlNodeList.Count == 0)
             {
                 throw new XadesCryptographicException("Organization missing");
             }
             this.organization = xmlNodeList.Item(0).InnerText;
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:NoticeNumbers", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":NoticeNumbers", xmlNamespaceManager);
             if (xmlNodeList.Count == 0)
             {
                 throw new XadesCryptographicException("NoticeNumbers missing");

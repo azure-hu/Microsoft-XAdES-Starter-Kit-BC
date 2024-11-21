@@ -161,21 +161,21 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:CRLValues", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":CRLValues", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.crlValues = new CRLValues();
                 this.crlValues.LoadXml((XmlElement)xmlNodeList.Item(0));
             }
-            xmlNodeList = xmlElement.SelectNodes("xsd:OCSPValues", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":OCSPValues", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.ocspValues = new OCSPValues();
                 this.ocspValues.LoadXml((XmlElement)xmlNodeList.Item(0));
             }
-            xmlNodeList = xmlElement.SelectNodes("xsd:OtherValues", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":OtherValues", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.otherValues = new OtherValues();

@@ -123,7 +123,7 @@ namespace Microsoft.Xades.BC
         /// Load state from an XML element
         /// </summary>
         /// <param name="xmlElement">XML element containing new state</param>
-        public void LoadXml(System.Xml.XmlElement xmlElement)
+        public void LoadXml(XmlElement xmlElement)
         {
             XmlNamespaceManager xmlNamespaceManager;
             XmlNodeList xmlNodeList;
@@ -134,9 +134,9 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("ds", SignedXml.XmlDsigNamespaceUrl);
+            xmlNamespaceManager.AddNamespace(SignedXml.XmlDsigNamespacePrefix, SignedXml.XmlDsigNamespaceUrl);
 
-            xmlNodeList = xmlElement.SelectNodes("ds:DigestMethod", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(SignedXml.XmlDsigNamespacePrefix + ":DigestMethod", xmlNamespaceManager);
             if (xmlNodeList.Count == 0)
             {
                 throw new XadesCryptographicException("DigestMethod missing");
@@ -144,7 +144,7 @@ namespace Microsoft.Xades.BC
             this.digestMethod = new DigestMethod();
             this.digestMethod.LoadXml((XmlElement)xmlNodeList.Item(0));
 
-            xmlNodeList = xmlElement.SelectNodes("ds:DigestValue", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(SignedXml.XmlDsigNamespacePrefix + ":DigestValue", xmlNamespaceManager);
             if (xmlNodeList.Count == 0)
             {
                 throw new XadesCryptographicException("DigestValue missing");
@@ -176,7 +176,7 @@ namespace Microsoft.Xades.BC
 
             if (this.digestValue != null && this.digestValue.Length > 0)
             {
-                bufferXmlElement = creationXmlDocument.CreateElement("ds:DigestValue", SignedXml.XmlDsigNamespaceUrl);
+                bufferXmlElement = creationXmlDocument.CreateElement(SignedXml.XmlDsigNamespacePrefix + ":DigestValue", SignedXml.XmlDsigNamespaceUrl);
                 bufferXmlElement.InnerText = Convert.ToBase64String(this.digestValue);
                 retVal.AppendChild(bufferXmlElement);
             }

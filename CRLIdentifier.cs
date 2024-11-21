@@ -159,21 +159,21 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:Issuer", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":Issuer", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.issuer = xmlNodeList.Item(0).InnerText;
             }
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:IssueTime", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":IssueTime", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.issueTime = XmlConvert.ToDateTime(xmlNodeList.Item(0).InnerText, XmlDateTimeSerializationMode.Local);
             }
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:Number", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":Number", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.number = Int64.Parse(xmlNodeList.Item(0).InnerText);

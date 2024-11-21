@@ -195,6 +195,7 @@
     <Compile Include="CertCollection.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CertCollectionV2.cs" />
     <Compile Include="CertificateValues.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -210,6 +211,7 @@
     <Compile Include="CertRefs.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CertV2.cs" />
     <Compile Include="ClaimedRole.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -311,6 +313,8 @@
     <Compile Include="IssuerSerial.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="IssuerSerialV2.cs" />
+    <Compile Include="KnownSignatureStandard.cs" />
     <Compile Include="NoticeNumberCollection.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -407,6 +411,7 @@
     <Compile Include="SigningCertificate.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SigningCertificateV2.cs" />
     <Compile Include="SigPolicyQualifier.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -449,6 +454,7 @@
     <Compile Include="UnsignedSignatureProperties.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="XadesCheckSignatureMasks.cs" />
     <Compile Include="XadesCryptographicException.cs" />
     <Compile Include="XadesObject.cs">
       <SubType>Code</SubType>

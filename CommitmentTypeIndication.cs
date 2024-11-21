@@ -173,9 +173,9 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:CommitmentTypeId", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":CommitmentTypeId", xmlNamespaceManager);
             if (xmlNodeList.Count == 0)
             {
                 this.commitmentTypeId = null;
@@ -187,7 +187,7 @@ namespace Microsoft.Xades.BC
                 this.commitmentTypeId.LoadXml((XmlElement)xmlNodeList.Item(0));
             }
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:ObjectReference", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":ObjectReference", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.objectReferenceCollection.Clear();
@@ -222,7 +222,7 @@ namespace Microsoft.Xades.BC
                 this.allSignedDataObjects = true;
             }
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:CommitmentTypeQualifiers", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":CommitmentTypeQualifiers", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.commitmentTypeQualifiers = new CommitmentTypeQualifiers();

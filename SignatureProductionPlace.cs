@@ -154,27 +154,27 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:City", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":City", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.city = xmlNodeList.Item(0).InnerText;
             }
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:PostalCode", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":PostalCode", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.postalCode = xmlNodeList.Item(0).InnerText;
             }
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:StateOrProvince", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":StateOrProvince", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.stateOrProvince = xmlNodeList.Item(0).InnerText;
             }
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:CountryName", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":CountryName", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.countryName = xmlNodeList.Item(0).InnerText;

@@ -149,12 +149,12 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
 
             this.encapsulatedX509CertificateCollection.Clear();
             this.otherCertificateCollection.Clear();
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:EncapsulatedX509Certificate", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":EncapsulatedX509Certificate", xmlNamespaceManager);
             enumerator = xmlNodeList.GetEnumerator();
             try
             {
@@ -178,7 +178,7 @@ namespace Microsoft.Xades.BC
                 }
             }
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:OtherCertificate", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":OtherCertificate", xmlNamespaceManager);
             enumerator = xmlNodeList.GetEnumerator();
             try
             {

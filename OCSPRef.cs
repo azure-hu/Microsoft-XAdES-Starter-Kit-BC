@@ -109,9 +109,9 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:OCSPIdentifier", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":OCSPIdentifier", xmlNamespaceManager);
             if (xmlNodeList.Count == 0)
             {
                 throw new XadesCryptographicException("OCSPIdentifier missing");
@@ -119,7 +119,7 @@ namespace Microsoft.Xades.BC
             this.ocspIdentifier = new OCSPIdentifier();
             this.ocspIdentifier.LoadXml((XmlElement)xmlNodeList.Item(0));
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:DigestAlgAndValue", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":DigestAlgAndValue", xmlNamespaceManager);
             if (xmlNodeList.Count == 0)
             {
                 this.digestAlgAndValue = null;

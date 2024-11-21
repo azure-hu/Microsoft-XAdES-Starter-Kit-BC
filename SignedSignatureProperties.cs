@@ -26,6 +26,7 @@ namespace Microsoft.Xades.BC
         #region Private variables
         private DateTime signingTime;
         private SigningCertificate signingCertificate;
+        private SigningCertificateV2 signingCertificateV2;
         private SignaturePolicyIdentifier signaturePolicyIdentifier;
         private SignatureProductionPlace signatureProductionPlace;
         private SignerRole signerRole;
@@ -70,6 +71,29 @@ namespace Microsoft.Xades.BC
             set
             {
                 this.signingCertificate = value;
+            }
+        }
+
+        /// <summary>
+        /// The SigningCertificateV2 property is designed to prevent the simple
+        /// substitution of the certificate. This property contains references
+        /// to certificates and digest values computed on them. The certificate
+        /// used to verify the signature shall be identified in the sequence;
+        /// the signature policy may mandate other certificates be present,
+        /// that may include all the certificates up to the point of trust.
+        /// This is a signed property that qualifies the signature. An XML
+        /// electronic signature aligned with the present document MUST contain
+        /// exactly one SigningCertificateV2.
+        /// </summary>
+		public SigningCertificateV2 SigningCertificateV2
+        {
+            get
+            {
+                return this.signingCertificateV2;
+            }
+            set
+            {
+                this.signingCertificateV2 = value;
             }
         }
 
@@ -150,6 +174,7 @@ namespace Microsoft.Xades.BC
         {
             this.signingTime = DateTime.MinValue;
             this.signingCertificate = new SigningCertificate();
+            this.SigningCertificateV2 = new SigningCertificateV2();
             this.signaturePolicyIdentifier = new SignaturePolicyIdentifier();
             this.signatureProductionPlace = new SignatureProductionPlace();
             this.signerRole = new SignerRole();
@@ -162,11 +187,9 @@ namespace Microsoft.Xades.BC
         /// </summary>
         /// <returns>Flag indicating if a member needs serialization</returns>
         public Boolean HasChanged()
-        { //Should always be serialized
-            Boolean retVal = false;
-
-            retVal = true;
-
+        {
+            //Should always be serialized
+            Boolean retVal = true;
             return retVal;
         }
 
@@ -174,62 +197,73 @@ namespace Microsoft.Xades.BC
         /// Load state from an XML element
         /// </summary>
         /// <param name="xmlElement">XML element containing new state</param>
-        public void LoadXml(System.Xml.XmlElement xmlElement)
+        public void LoadXml(XmlElement xmlElement)
         {
             XmlNamespaceManager xmlNamespaceManager;
             XmlNodeList xmlNodeList;
 
             if (xmlElement == null)
             {
-                throw new ArgumentNullException("xmlElement");
+                throw new ArgumentNullException(nameof(xmlElement));
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:SigningTime", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":SigningTime", xmlNamespaceManager);
             if (xmlNodeList.Count == 0)
             {
                 throw new XadesCryptographicException("SigningTime missing");
             }
-            this.signingTime = XmlConvert.ToDateTime(xmlNodeList.Item(0).InnerText, XmlDateTimeSerializationMode.Local);
+            this.SigningTime = XmlConvert.ToDateTime(xmlNodeList.Item(0).InnerText, XmlDateTimeSerializationMode.Local);
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:SigningCertificate", xmlNamespaceManager);
+            /*
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":SigningCertificate", xmlNamespaceManager);
             if (xmlNodeList.Count == 0)
             {
                 throw new XadesCryptographicException("SigningCertificate missing");
             }
-            this.signingCertificate = new SigningCertificate();
-            this.signingCertificate.LoadXml((XmlElement)xmlNodeList.Item(0));
+            */
+            xmlNodeList = FindSigningCertificate(xmlElement, xmlNamespaceManager, out Boolean newVersion);
+            if (newVersion)
+            {
+                this.SigningCertificateV2 = new SigningCertificateV2();
+                this.SigningCertificateV2.LoadXml((XmlElement)xmlNodeList.Item(0));
+            }
+            else
+            {
+                this.SigningCertificate = new SigningCertificate();
+                this.SigningCertificate.LoadXml((XmlElement)xmlNodeList.Item(0));
+            }
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:SignaturePolicyIdentifier", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":SignaturePolicyIdentifier", xmlNamespaceManager);
             if (xmlNodeList.Count == 0)
             {
                 throw new XadesCryptographicException("SignaturePolicyIdentifier missing");
             }
-            this.signaturePolicyIdentifier = new SignaturePolicyIdentifier();
-            this.signaturePolicyIdentifier.LoadXml((XmlElement)xmlNodeList.Item(0));
+            this.SignaturePolicyIdentifier = new SignaturePolicyIdentifier();
+            this.SignaturePolicyIdentifier.LoadXml((XmlElement)xmlNodeList.Item(0));
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:SignatureProductionPlace", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":SignatureProductionPlace", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
-                this.signatureProductionPlace = new SignatureProductionPlace();
-                this.signatureProductionPlace.LoadXml((XmlElement)xmlNodeList.Item(0));
+                this.SignatureProductionPlace = new SignatureProductionPlace();
+                this.SignatureProductionPlace.LoadXml((XmlElement)xmlNodeList.Item(0));
             }
             else
             {
-                this.signatureProductionPlace = null;
+                this.SignatureProductionPlace = null;
             }
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:SignerRole", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":SignerRole", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
-                this.signerRole = new SignerRole();
-                this.signerRole.LoadXml((XmlElement)xmlNodeList.Item(0));
+                this.SignerRole = new SignerRole();
+                this.SignerRole.LoadXml((XmlElement)xmlNodeList.Item(0));
             }
             else
             {
-                this.signerRole = null;
+                this.SignerRole = null;
             }
         }
 
@@ -244,46 +278,70 @@ namespace Microsoft.Xades.BC
             XmlElement bufferXmlElement;
 
             creationXmlDocument = new XmlDocument();
-            retVal = creationXmlDocument.CreateElement("SignedSignatureProperties", XadesSignedXml.XadesNamespaceUri);
+            retVal = creationXmlDocument.CreateElement(XadesSignedXml.XadesNamespacePrefix, "SignedSignatureProperties", XadesSignedXml.XadesNamespaceUri);
 
-            if (this.signingTime == DateTime.MinValue)
-            { //SigningTime should be available
-                this.signingTime = DateTime.Now;
+            if (this.SigningTime == DateTime.MinValue)
+            { 
+            	//SigningTime should be available
+                this.SigningTime = DateTime.Now;
             }
-            bufferXmlElement = creationXmlDocument.CreateElement("SigningTime", XadesSignedXml.XadesNamespaceUri);
-            bufferXmlElement.InnerText = Convert.ToString(this.signingTime.ToString("s")); //ISO 8601 format as required in http://www.w3.org/TR/xmlschema-2/#dateTime 
+            bufferXmlElement = creationXmlDocument.CreateElement(XadesSignedXml.XadesNamespacePrefix, "SigningTime", XadesSignedXml.XadesNamespaceUri);
+            bufferXmlElement.InnerText = Convert.ToString(this.SigningTime.ToString("s")); //ISO 8601 format as required in http://www.w3.org/TR/xmlschema-2/#dateTime
             retVal.AppendChild(bufferXmlElement);
 
-            if (this.signingCertificate != null && this.signingCertificate.HasChanged())
+            if (this.SigningCertificate != null && this.SigningCertificate.CertCollection.Count > 0 && this.SigningCertificate.HasChanged())
             {
-                retVal.AppendChild(creationXmlDocument.ImportNode(this.signingCertificate.GetXml(), true));
+                retVal.AppendChild(creationXmlDocument.ImportNode(this.SigningCertificate.GetXml(), true));
+            }
+            else if (this.SigningCertificateV2 != null && this.SigningCertificateV2.CertCollection.Count > 0 && this.SigningCertificateV2.HasChanged())
+            {
+                retVal.AppendChild(creationXmlDocument.ImportNode(this.SigningCertificateV2.GetXml(), true));
             }
             else
             {
                 throw new XadesCryptographicException("SigningCertificate element missing in SignedSignatureProperties");
             }
 
-            if (this.signaturePolicyIdentifier != null && this.signaturePolicyIdentifier.HasChanged())
+            if (this.SignaturePolicyIdentifier != null && this.SignaturePolicyIdentifier.HasChanged())
             {
-                retVal.AppendChild(creationXmlDocument.ImportNode(this.signaturePolicyIdentifier.GetXml(), true));
+                retVal.AppendChild(creationXmlDocument.ImportNode(this.SignaturePolicyIdentifier.GetXml(), true));
             }
             else
             {
                 throw new XadesCryptographicException("SignaturePolicyIdentifier element missing in SignedSignatureProperties");
             }
 
-            if (this.signatureProductionPlace != null && this.signatureProductionPlace.HasChanged())
+            if (this.SignatureProductionPlace != null && this.SignatureProductionPlace.HasChanged())
             {
-                retVal.AppendChild(creationXmlDocument.ImportNode(this.signatureProductionPlace.GetXml(), true));
+                retVal.AppendChild(creationXmlDocument.ImportNode(this.SignatureProductionPlace.GetXml(), true));
             }
 
-            if (this.signerRole != null && this.signerRole.HasChanged())
+            if (this.SignerRole != null && this.SignerRole.HasChanged())
             {
-                retVal.AppendChild(creationXmlDocument.ImportNode(this.signerRole.GetXml(), true));
+                retVal.AppendChild(creationXmlDocument.ImportNode(this.SignerRole.GetXml(), true));
             }
 
             return retVal;
         }
         #endregion
+
+        private static XmlNodeList FindSigningCertificate(XmlElement xmlElement, XmlNamespaceManager xmlNamespaceManager, out bool newVersion)
+        {
+            XmlNodeList xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":SigningCertificate", xmlNamespaceManager);
+            if (xmlNodeList != null && xmlNodeList.Count > 0)
+            {
+                newVersion = false;
+                return xmlNodeList;
+            }
+
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":SigningCertificateV2", xmlNamespaceManager);
+            if (xmlNodeList != null && xmlNodeList.Count > 0)
+            {
+                newVersion = true;
+                return xmlNodeList;
+            }
+
+            throw new XadesCryptographicException("SigningCertificate or SigningCertificateV2 missing");
+        }
     }
 }

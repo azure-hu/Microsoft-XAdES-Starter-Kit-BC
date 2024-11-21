@@ -156,9 +156,9 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:Identifier", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":Identifier", xmlNamespaceManager);
             if (xmlNodeList.Count == 0)
             {
                 throw new XadesCryptographicException("Identifier missing");
@@ -166,13 +166,13 @@ namespace Microsoft.Xades.BC
             this.identifier = new Identifier();
             this.identifier.LoadXml((XmlElement)xmlNodeList.Item(0));
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:Description", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":Description", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.description = xmlNodeList.Item(0).InnerText;
             }
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:DocumentationReferences", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":DocumentationReferences", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.documentationReferences = new DocumentationReferences();

@@ -1,0 +1,10 @@
+packages
+.vs
+bin
+obj
+/bc-xml-security-master/.gitignore
+/bc-xml-security-master/XmlSecurity.sln
+/bc-xml-security-master/.vs
+/bc-xml-security-master/samples
+/bc-xml-security-master/tests
+/bc-xml-security-master/.gitattributes

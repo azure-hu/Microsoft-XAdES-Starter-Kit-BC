@@ -158,10 +158,10 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
 
             this.dataObjectFormatCollection.Clear();
-            xmlNodeList = xmlElement.SelectNodes("xsd:DataObjectFormat", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":DataObjectFormat", xmlNamespaceManager);
             enumerator = xmlNodeList.GetEnumerator();
             try
             {
@@ -186,7 +186,8 @@ namespace Microsoft.Xades.BC
             }
 
             this.dataObjectFormatCollection.Clear();
-            xmlNodeList = xmlElement.SelectNodes("xsd:CommitmentTypeIndication", xmlNamespaceManager);
+
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":CommitmentTypeIndication", xmlNamespaceManager);
             enumerator = xmlNodeList.GetEnumerator();
             try
             {
@@ -211,7 +212,7 @@ namespace Microsoft.Xades.BC
             }
 
             this.dataObjectFormatCollection.Clear();
-            xmlNodeList = xmlElement.SelectNodes("xsd:AllDataObjectsTimeStamp", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":AllDataObjectsTimeStamp", xmlNamespaceManager);
             enumerator = xmlNodeList.GetEnumerator();
             try
             {
@@ -236,7 +237,7 @@ namespace Microsoft.Xades.BC
             }
 
             this.dataObjectFormatCollection.Clear();
-            xmlNodeList = xmlElement.SelectNodes("xsd:IndividualDataObjectsTimeStamp", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":IndividualDataObjectsTimeStamp", xmlNamespaceManager);
             enumerator = xmlNodeList.GetEnumerator();
             try
             {

@@ -119,9 +119,9 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:QualifyingProperties", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":QualifyingProperties", xmlNamespaceManager);
             if (xmlNodeList.Count == 0)
             {
                 throw new XadesCryptographicException("QualifyingProperties missing");
@@ -129,7 +129,7 @@ namespace Microsoft.Xades.BC
             this.qualifyingProperties = new QualifyingProperties();
             this.qualifyingProperties.LoadXml((XmlElement)xmlNodeList.Item(0), counterSignedXmlElement);
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:QualifyingPropertiesReference", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":QualifyingPropertiesReference", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 throw new XadesCryptographicException("Current implementation can't handle QualifyingPropertiesReference element");
@@ -146,7 +146,7 @@ namespace Microsoft.Xades.BC
             XmlElement retVal;
 
             creationXmlDocument = new XmlDocument();
-            retVal = creationXmlDocument.CreateElement("ds", "Object", SignedXml.XmlDsigNamespaceUrl);
+            retVal = creationXmlDocument.CreateElement(SignedXml.XmlDsigNamespacePrefix, "Object", SignedXml.XmlDsigNamespaceUrl);
             if (this.id != null && this.id != "")
             {
                 retVal.SetAttribute("Id", this.id);

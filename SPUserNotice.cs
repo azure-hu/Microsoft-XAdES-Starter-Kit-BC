@@ -124,16 +124,16 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:SPUserNotice/xsd:NoticeRef", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":SPUserNotice/" + XadesSignedXml.XadesNamespacePrefix + ":NoticeRef", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.noticeRef = new NoticeRef();
                 this.noticeRef.LoadXml((XmlElement)xmlNodeList.Item(0));
             }
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:SPUserNotice/xsd:ExplicitText", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":SPUserNotice/"+ XadesSignedXml.XadesNamespacePrefix + ":ExplicitText", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.explicitText = xmlNodeList.Item(0).InnerText;

@@ -136,15 +136,15 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:ResponderID", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":ResponderID", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.responderID = xmlNodeList.Item(0).InnerText;
             }
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:ProducedAt", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":ProducedAt", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.producedAt = XmlConvert.ToDateTime(xmlNodeList.Item(0).InnerText, XmlDateTimeSerializationMode.Local);

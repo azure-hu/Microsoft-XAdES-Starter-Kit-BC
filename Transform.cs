@@ -134,7 +134,7 @@ namespace Microsoft.Xades.BC
             XmlElement bufferXmlElement;
 
             creationXmlDocument = new XmlDocument();
-            retVal = creationXmlDocument.CreateElement("ds", "Transform", SignedXml.XmlDsigNamespaceUrl);
+            retVal = creationXmlDocument.CreateElement(SignedXml.XmlDsigNamespacePrefix, "Transform", SignedXml.XmlDsigNamespaceUrl);
 
             if (this.algorithm != null)
             {
@@ -147,7 +147,7 @@ namespace Microsoft.Xades.BC
 
             if (this.xpath != null && this.xpath != "")
             {
-                bufferXmlElement = creationXmlDocument.CreateElement("ds", "XPath", SignedXml.XmlDsigNamespaceUrl);
+                bufferXmlElement = creationXmlDocument.CreateElement(SignedXml.XmlDsigNamespacePrefix, "XPath", SignedXml.XmlDsigNamespaceUrl);
                 bufferXmlElement.InnerText = this.xpath;
                 retVal.AppendChild(bufferXmlElement);
             }

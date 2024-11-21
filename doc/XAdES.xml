@@ -99,6 +99,32 @@
             </summary>
             <returns>The newly created object that has been added to collection</returns>
         </member>
+        <member name="T:Microsoft.Xades.BC.CertCollectionV2">
+            <summary>
+            Collection class that derives from ArrayList.  It provides the minimally
+            required functionality to add instances of typed classes and obtain typed
+            elements through a custom indexer.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xades.BC.CertCollectionV2.Item(System.Int32)">
+            <summary>
+            New typed indexer for the collection
+            </summary>
+            <param name="index">Index of the object to retrieve from collection</param>
+        </member>
+        <member name="M:Microsoft.Xades.BC.CertCollectionV2.Add(Microsoft.Xades.BC.CertV2)">
+            <summary>
+            Add typed object to the collection
+            </summary>
+            <param name="objectToAdd">Typed object to be added to collection</param>
+            <returns>The object that has been added to collection</returns>
+        </member>
+        <member name="M:Microsoft.Xades.BC.CertCollectionV2.Add">
+            <summary>
+            Add new typed object to the collection
+            </summary>
+            <returns>The newly created object that has been added to collection</returns>
+        </member>
         <member name="T:Microsoft.Xades.BC.CertificateValues">
             <summary>
             The CertificateValues element contains the full set of certificates
@@ -250,6 +276,54 @@
             <param name="xmlElement">XML element containing new state</param>
         </member>
         <member name="M:Microsoft.Xades.BC.CertRefs.GetXml">
+            <summary>
+            Returns the XML representation of the this object
+            </summary>
+            <returns>XML element containing the state of this object</returns>
+        </member>
+        <member name="T:Microsoft.Xades.BC.CertV2">
+            <summary>
+            This class contains certificate identification information
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xades.BC.CertV2.CertDigest">
+            <summary>
+            The element CertDigest contains the digest of one of the
+            certificates referenced in the sequence
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xades.BC.CertV2.IssuerSerialV2">
+            <summary>
+            The element IssuerSerialV2 contains the identifier of one of the
+            certificates referenced in the sequence. Should the
+            X509IssuerSerial element appear in the signature to denote the same
+            certificate, its value MUST be consistent with the corresponding
+            IssuerSerialV2 element.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xades.BC.CertV2.URI">
+            <summary>
+            Element's URI
+            </summary>
+        </member>
+        <member name="M:Microsoft.Xades.BC.CertV2.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Microsoft.Xades.BC.CertV2.HasChanged">
+            <summary>
+            Check to see if something has changed in this instance and needs to be serialized
+            </summary>
+            <returns>Flag indicating if a member needs serialization</returns>
+        </member>
+        <member name="M:Microsoft.Xades.BC.CertV2.LoadXml(System.Xml.XmlElement)">
+            <summary>
+            Load state from an XML element
+            </summary>
+            <param name="xmlElement">XML element containing new state</param>
+        </member>
+        <member name="M:Microsoft.Xades.BC.CertV2.GetXml">
             <summary>
             Returns the XML representation of the this object
             </summary>
@@ -1465,6 +1539,50 @@
             </summary>
             <returns>XML element containing the state of this object</returns>
         </member>
+        <member name="T:Microsoft.Xades.BC.IssuerSerialV2">
+            <summary>
+            The element IssuerSerialV2 contains the identifier of one of the
+            certificates referenced in the sequence
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xades.BC.IssuerSerialV2.Bytes">
+            <summary>
+            Gets or sets the bytes.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Xades.BC.IssuerSerialV2.HasChanged">
+            <summary>
+            Check to see if something has changed in this instance and needs to be serialized
+            </summary>
+            <returns>Flag indicating if a member needs serialization</returns>
+        </member>
+        <member name="M:Microsoft.Xades.BC.IssuerSerialV2.LoadXml(System.Xml.XmlElement)">
+            <summary>
+            Load state from an XML element
+            </summary>
+            <param name="xmlElement">XML element containing new state</param>
+        </member>
+        <member name="M:Microsoft.Xades.BC.IssuerSerialV2.GetXml">
+            <summary>
+            Returns the XML representation of the this object
+            </summary>
+            <returns>XML element containing the state of this object</returns>
+        </member>
+        <member name="T:Microsoft.Xades.BC.KnownSignatureStandard">
+            <summary>
+            Types of signature standards that can be contained in XadesSignedXml class instance
+            </summary>
+        </member>
+        <member name="F:Microsoft.Xades.BC.KnownSignatureStandard.XmlDsig">
+            <summary>
+            XML Digital Signature (XMLDSIG)
+            </summary>
+        </member>
+        <member name="F:Microsoft.Xades.BC.KnownSignatureStandard.Xades">
+            <summary>
+            XML Advanced Electronic Signature (XAdES)
+            </summary>
+        </member>
         <member name="T:Microsoft.Xades.BC.NoticeNumberCollection">
             <summary>
             Collection class that derives from ArrayList.  It provides the minimally
@@ -2574,6 +2692,19 @@
             exactly one SigningCertificate.
             </summary>
         </member>
+        <member name="P:Microsoft.Xades.BC.SignedSignatureProperties.SigningCertificateV2">
+            <summary>
+            The SigningCertificateV2 property is designed to prevent the simple
+            substitution of the certificate. This property contains references
+            to certificates and digest values computed on them. The certificate
+            used to verify the signature shall be identified in the sequence;
+            the signature policy may mandate other certificates be present,
+            that may include all the certificates up to the point of trust.
+            This is a signed property that qualifies the signature. An XML
+            electronic signature aligned with the present document MUST contain
+            exactly one SigningCertificateV2.
+            </summary>
+        </member>
         <member name="P:Microsoft.Xades.BC.SignedSignatureProperties.SignaturePolicyIdentifier">
             <summary>
             The signature policy is a set of rules for the creation and
@@ -2718,6 +2849,41 @@
             <param name="xmlElement">XML element containing new state</param>
         </member>
         <member name="M:Microsoft.Xades.BC.SigningCertificate.GetXml">
+            <summary>
+            Returns the XML representation of the this object
+            </summary>
+            <returns>XML element containing the state of this object</returns>
+        </member>
+        <member name="T:Microsoft.Xades.BC.SigningCertificateV2">
+            <summary>
+            This class has as purpose to provide the simple substitution of the
+            certificate. It contains references to certificates and digest values
+            computed on them
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xades.BC.SigningCertificateV2.CertCollection">
+            <summary>
+            A collection of certs
+            </summary>
+        </member>
+        <member name="M:Microsoft.Xades.BC.SigningCertificateV2.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Microsoft.Xades.BC.SigningCertificateV2.HasChanged">
+            <summary>
+            Check to see if something has changed in this instance and needs to be serialized
+            </summary>
+            <returns>Flag indicating if a member needs serialization</returns>
+        </member>
+        <member name="M:Microsoft.Xades.BC.SigningCertificateV2.LoadXml(System.Xml.XmlElement)">
+            <summary>
+            Load state from an XML element
+            </summary>
+            <param name="xmlElement">XML element containing new state</param>
+        </member>
+        <member name="M:Microsoft.Xades.BC.SigningCertificateV2.GetXml">
             <summary>
             Returns the XML representation of the this object
             </summary>
@@ -3297,63 +3463,6 @@
             </summary>
             <returns>XML element containing the state of this object</returns>
         </member>
-        <member name="T:Microsoft.Xades.BC.XadesObject">
-            <summary>
-            This class represents the unique object of a XAdES signature that
-            contains all XAdES information
-            </summary>
-        </member>
-        <member name="P:Microsoft.Xades.BC.XadesObject.Id">
-            <summary>
-            Id attribute of the XAdES object
-            </summary>
-        </member>
-        <member name="P:Microsoft.Xades.BC.XadesObject.QualifyingProperties">
-            <summary>
-            The QualifyingProperties element acts as a container element for
-            all the qualifying information that should be added to an XML
-            signature.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Xades.BC.XadesObject.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:Microsoft.Xades.BC.XadesObject.HasChanged">
-            <summary>
-            Check to see if something has changed in this instance and needs to be serialized
-            </summary>
-            <returns>Flag indicating if a member needs serialization</returns>
-        </member>
-        <member name="M:Microsoft.Xades.BC.XadesObject.LoadXml(System.Xml.XmlElement,System.Xml.XmlElement)">
-            <summary>
-            Load state from an XML element
-            </summary>
-            <param name="xmlElement">XML element containing new state</param>
-            <param name="counterSignedXmlElement">Element containing parent signature (needed if there are counter signatures)</param>
-        </member>
-        <member name="M:Microsoft.Xades.BC.XadesObject.GetXml">
-            <summary>
-            Returns the XML representation of the this object
-            </summary>
-            <returns>XML element containing the state of this object</returns>
-        </member>
-        <member name="T:Microsoft.Xades.BC.KnownSignatureStandard">
-            <summary>
-            Types of signature standards that can be contained in XadesSignedXml class instance
-            </summary>
-        </member>
-        <member name="F:Microsoft.Xades.BC.KnownSignatureStandard.XmlDsig">
-            <summary>
-            XML Digital Signature (XMLDSIG)
-            </summary>
-        </member>
-        <member name="F:Microsoft.Xades.BC.KnownSignatureStandard.Xades">
-            <summary>
-            XML Advanced Electronic Signature (XAdES) 
-            </summary>
-        </member>
         <member name="T:Microsoft.Xades.BC.XadesCheckSignatureMasks">
             <summary>
             Bitmasks to indicate which checks need to be executed on the XAdES signature
@@ -3386,7 +3495,7 @@
         </member>
         <member name="F:Microsoft.Xades.BC.XadesCheckSignatureMasks.CheckCounterSignatures">
             <summary>
-            Perform XAdES checks on contained counter signatures 
+            Perform XAdES checks on contained counter signatures
             </summary>
         </member>
         <member name="F:Microsoft.Xades.BC.XadesCheckSignatureMasks.CheckCounterSignaturesReference">
@@ -3458,6 +3567,48 @@
             <summary>
             Do all known tests on XAdES signature
             </summary>
+        </member>
+        <member name="T:Microsoft.Xades.BC.XadesObject">
+            <summary>
+            This class represents the unique object of a XAdES signature that
+            contains all XAdES information
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xades.BC.XadesObject.Id">
+            <summary>
+            Id attribute of the XAdES object
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xades.BC.XadesObject.QualifyingProperties">
+            <summary>
+            The QualifyingProperties element acts as a container element for
+            all the qualifying information that should be added to an XML
+            signature.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Xades.BC.XadesObject.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Microsoft.Xades.BC.XadesObject.HasChanged">
+            <summary>
+            Check to see if something has changed in this instance and needs to be serialized
+            </summary>
+            <returns>Flag indicating if a member needs serialization</returns>
+        </member>
+        <member name="M:Microsoft.Xades.BC.XadesObject.LoadXml(System.Xml.XmlElement,System.Xml.XmlElement)">
+            <summary>
+            Load state from an XML element
+            </summary>
+            <param name="xmlElement">XML element containing new state</param>
+            <param name="counterSignedXmlElement">Element containing parent signature (needed if there are counter signatures)</param>
+        </member>
+        <member name="M:Microsoft.Xades.BC.XadesObject.GetXml">
+            <summary>
+            Returns the XML representation of the this object
+            </summary>
+            <returns>XML element containing the state of this object</returns>
         </member>
         <member name="T:Microsoft.Xades.BC.XadesSignedXml">
             <summary>
@@ -3693,7 +3844,7 @@
             </summary>
             <returns>If the function returns true the check was OK</returns>
         </member>
-        <member name="M:Microsoft.Xades.BC.XadesSignedXml.ComputeSignature(System.String)">
+        <member name="M:Microsoft.Xades.BC.XadesSignedXml.ComputeSignature">
             <summary>
             Copy of Org.BouncyCastle.Crypto.Xml.SignedXml.ComputeSignature() which will end up calling
             our own GetC14NDigest with a namespace prefix for all XmlDsig nodes
@@ -3718,11 +3869,6 @@
             </summary>
         </member>
         <member name="M:Microsoft.Xades.BC.XadesSignedXml.GetC14NDigest(Org.BouncyCastle.Crypto.Xml.IHash)">
-            <summary>
-            We won't call Org.BouncyCastle.Crypto.Xml.SignedXml.GetC14NDigest(), as we want to use our own.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Xades.BC.XadesSignedXml.GetC14NDigest(Org.BouncyCastle.Crypto.Xml.IHash,System.String)">
             <summary>
             Copy of Org.BouncyCastle.Crypto.Xml.SignedXml.GetC14NDigest() which will add a
             namespace prefix to all XmlDsig nodes

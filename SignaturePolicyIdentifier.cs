@@ -120,9 +120,9 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:SignaturePolicyId", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":SignaturePolicyId", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.signaturePolicyId = new SignaturePolicyId();
@@ -131,7 +131,7 @@ namespace Microsoft.Xades.BC
             }
             else
             {
-                xmlNodeList = xmlElement.SelectNodes("xsd:SignaturePolicyImplied", xmlNamespaceManager);
+                xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":SignaturePolicyImplied", xmlNamespaceManager);
                 if (xmlNodeList.Count != 0)
                 {
                     this.signaturePolicyImplied = true;

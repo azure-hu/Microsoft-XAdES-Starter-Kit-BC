@@ -174,9 +174,9 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:SignedProperties", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":SignedProperties", xmlNamespaceManager);
             if (xmlNodeList.Count == 0)
             {
                 throw new XadesCryptographicException("SignedProperties missing");
@@ -184,7 +184,7 @@ namespace Microsoft.Xades.BC
             this.signedProperties = new SignedProperties();
             this.signedProperties.LoadXml((XmlElement)xmlNodeList.Item(0));
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:UnsignedProperties", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":UnsignedProperties", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.unsignedProperties = new UnsignedProperties();
@@ -202,7 +202,7 @@ namespace Microsoft.Xades.BC
             XmlElement retVal;
 
             creationXmlDocument = new XmlDocument();
-            retVal = creationXmlDocument.CreateElement("xsd", "QualifyingProperties", XadesSignedXml.XadesNamespaceUri);
+            retVal = creationXmlDocument.CreateElement(XadesSignedXml.XadesNamespacePrefix, "QualifyingProperties", XadesSignedXml.XadesNamespaceUri);
             if (!String.IsNullOrEmpty(this.id))
             {
                 retVal.SetAttribute("Id", this.id);
@@ -226,8 +226,12 @@ namespace Microsoft.Xades.BC
                 retVal.AppendChild(creationXmlDocument.ImportNode(this.unsignedProperties.GetXml(), true));
             }
 
+            this.SetPrefix(XadesSignedXml.XadesNamespacePrefix, retVal);
             return retVal;
         }
+
+
+        #region Fix to add a namespace prefix for all Xades nodes
 
         private void SetPrefix(String prefix, XmlNode node)
         {
@@ -244,5 +248,9 @@ namespace Microsoft.Xades.BC
             return;
         }
         #endregion
+
+        #endregion
+
+
     }
 }

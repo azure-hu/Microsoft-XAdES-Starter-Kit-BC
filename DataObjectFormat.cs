@@ -187,28 +187,28 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:Description", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":Description", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.description = xmlNodeList.Item(0).InnerText;
             }
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:ObjectIdentifier", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":ObjectIdentifier", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.objectIdentifier = new ObjectIdentifier("ObjectIdentifier");
                 this.objectIdentifier.LoadXml((XmlElement)xmlNodeList.Item(0));
             }
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:MimeType", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":MimeType", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.mimeType = xmlNodeList.Item(0).InnerText;
             }
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:Encoding", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":Encoding", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.encoding = xmlNodeList.Item(0).InnerText;

@@ -299,10 +299,10 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
 
             this.counterSignatureCollection.Clear();
-            xmlNodeList = xmlElement.SelectNodes("xsd:CounterSignature", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":CounterSignature", xmlNamespaceManager);
             enumerator = xmlNodeList.GetEnumerator();
             try
             {
@@ -350,7 +350,7 @@ namespace Microsoft.Xades.BC
             }
 
             this.signatureTimeStampCollection.Clear();
-            xmlNodeList = xmlElement.SelectNodes("xsd:SignatureTimeStamp", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":SignatureTimeStamp", xmlNamespaceManager);
             enumerator = xmlNodeList.GetEnumerator();
             try
             {
@@ -374,7 +374,7 @@ namespace Microsoft.Xades.BC
                 }
             }
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:CompleteCertificateRefs", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":CompleteCertificateRefs", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.completeCertificateRefs = new CompleteCertificateRefs();
@@ -385,7 +385,7 @@ namespace Microsoft.Xades.BC
                 this.completeCertificateRefs = null;
             }
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:CompleteRevocationRefs", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":CompleteRevocationRefs", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.CompleteRevocationRefs = new CompleteRevocationRefs();
@@ -399,7 +399,7 @@ namespace Microsoft.Xades.BC
             this.sigAndRefsTimeStampCollection.Clear();
             this.refsOnlyTimeStampCollection.Clear();
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:SigAndRefsTimeStamp", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":SigAndRefsTimeStamp", xmlNamespaceManager);
             if (xmlNodeList.Count > 0)
             {
                 this.refsOnlyTimeStampFlag = false;
@@ -428,7 +428,7 @@ namespace Microsoft.Xades.BC
             }
             else
             {
-                xmlNodeList = xmlElement.SelectNodes("xsd:RefsOnlyTimeStamp", xmlNamespaceManager);
+                xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":RefsOnlyTimeStamp", xmlNamespaceManager);
                 if (xmlNodeList.Count > 0)
                 {
                     this.refsOnlyTimeStampFlag = true;
@@ -461,7 +461,7 @@ namespace Microsoft.Xades.BC
                 }
             }
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:CertificateValues", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":CertificateValues", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.certificateValues = new CertificateValues();
@@ -472,7 +472,7 @@ namespace Microsoft.Xades.BC
                 this.certificateValues = null;
             }
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:RevocationValues", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":RevocationValues", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.revocationValues = new RevocationValues();
@@ -484,7 +484,7 @@ namespace Microsoft.Xades.BC
             }
 
             this.archiveTimeStampCollection.Clear();
-            xmlNodeList = xmlElement.SelectNodes("xsd:ArchiveTimeStamp", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":ArchiveTimeStamp", xmlNamespaceManager);
             enumerator = xmlNodeList.GetEnumerator();
             try
             {

@@ -141,16 +141,16 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:UnsignedSignatureProperties", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":UnsignedSignatureProperties", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.unsignedSignatureProperties = new UnsignedSignatureProperties();
                 this.unsignedSignatureProperties.LoadXml((XmlElement)xmlNodeList.Item(0), counterSignedXmlElement);
             }
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:UnsignedDataObjectProperties", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":UnsignedDataObjectProperties", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.unsignedDataObjectProperties = new UnsignedDataObjectProperties();

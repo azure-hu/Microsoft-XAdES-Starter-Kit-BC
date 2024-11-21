@@ -92,10 +92,10 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
 
             this.sigPolicyQualifierCollection.Clear();
-            xmlNodeList = xmlElement.SelectNodes("xsd:SigPolicyQualifier", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":SigPolicyQualifier", xmlNamespaceManager);
             enumerator = xmlNodeList.GetEnumerator();
             try
             {
@@ -104,7 +104,7 @@ namespace Microsoft.Xades.BC
                     iterationXmlElement = enumerator.Current as XmlElement;
                     if (iterationXmlElement != null)
                     {
-                        subElement = (XmlElement)iterationXmlElement.SelectSingleNode("xsd:SPURI", xmlNamespaceManager);
+                        subElement = (XmlElement)iterationXmlElement.SelectSingleNode(XadesSignedXml.XadesNamespacePrefix + ":SPURI", xmlNamespaceManager);
                         if (subElement != null)
                         {
                             newSPUri = new SPUri();
@@ -113,7 +113,7 @@ namespace Microsoft.Xades.BC
                         }
                         else
                         {
-                            subElement = (XmlElement)iterationXmlElement.SelectSingleNode("xsd:SPUserNotice", xmlNamespaceManager);
+                            subElement = (XmlElement)iterationXmlElement.SelectSingleNode(XadesSignedXml.XadesNamespacePrefix + ":SPUserNotice", xmlNamespaceManager);
                             if (subElement != null)
                             {
                                 newSPUserNotice = new SPUserNotice();

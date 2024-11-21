@@ -163,10 +163,10 @@ namespace Microsoft.Xades.BC
             }
 
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
-            xmlNamespaceManager.AddNamespace("ds", SignedXml.XmlDsigNamespaceUrl);
-            xmlNamespaceManager.AddNamespace("xsd", XadesSignedXml.XadesNamespaceUri);
+            xmlNamespaceManager.AddNamespace(SignedXml.XmlDsigNamespacePrefix, SignedXml.XmlDsigNamespaceUrl);
+            xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:SigPolicyId", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":SigPolicyId", xmlNamespaceManager);
             if (xmlNodeList.Count == 0)
             {
                 throw new XadesCryptographicException("SigPolicyId missing");
@@ -174,14 +174,14 @@ namespace Microsoft.Xades.BC
             this.sigPolicyId = new ObjectIdentifier("SigPolicyId");
             this.sigPolicyId.LoadXml((XmlElement)xmlNodeList.Item(0));
 
-            xmlNodeList = xmlElement.SelectNodes("ds:Transforms", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(SignedXml.XmlDsigNamespacePrefix + ":Transforms", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.transforms = new Transforms();
                 this.transforms.LoadXml((XmlElement)xmlNodeList.Item(0));
             }
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:SigPolicyHash", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":SigPolicyHash", xmlNamespaceManager);
             if (xmlNodeList.Count == 0)
             {
                 throw new XadesCryptographicException("SigPolicyHash missing");
@@ -189,7 +189,7 @@ namespace Microsoft.Xades.BC
             this.sigPolicyHash = new DigestAlgAndValueType("SigPolicyHash");
             this.sigPolicyHash.LoadXml((XmlElement)xmlNodeList.Item(0));
 
-            xmlNodeList = xmlElement.SelectNodes("xsd:SigPolicyQualifiers", xmlNamespaceManager);
+            xmlNodeList = xmlElement.SelectNodes(XadesSignedXml.XadesNamespacePrefix + ":SigPolicyQualifiers", xmlNamespaceManager);
             if (xmlNodeList.Count != 0)
             {
                 this.sigPolicyQualifiers = new SigPolicyQualifiers();
