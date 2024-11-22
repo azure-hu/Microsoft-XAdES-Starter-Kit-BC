@@ -16,12 +16,10 @@ using System;
 
 namespace Microsoft.Xades.BC
 {
-
-
     /// <summary>
     /// Bitmasks to indicate which checks need to be executed on the XAdES signature
     /// </summary>
-    [FlagsAttribute]
+    [Flags]
     public enum XadesCheckSignatureMasks : UInt64
     {
         /// <summary>

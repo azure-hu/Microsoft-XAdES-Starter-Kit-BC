@@ -3,14 +3,14 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <ProjectType>Local</ProjectType>
     <AssemblyKeyContainerName />
-    <AssemblyName>Microsoft.Xades</AssemblyName>
+    <AssemblyName>Microsoft.Xades.BC</AssemblyName>
     <AssemblyOriginatorKeyFile>Microsoft.Xades.snk</AssemblyOriginatorKeyFile>
     <DefaultClientScript>JScript</DefaultClientScript>
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
     <DelaySign>false</DelaySign>
     <OutputType>Library</OutputType>
-    <RootNamespace>Microsoft.Xades</RootNamespace>
+    <RootNamespace>Microsoft.Xades.BC</RootNamespace>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <StartupObject />
     <PublishUrl>publish\</PublishUrl>
@@ -63,14 +63,9 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="XAdES.xsd" />
     <EmbeddedResource Include="xmldsig-core-schema.xsd" />
-    <None Include="XAdES.xsx">
-      <DependentUpon>XAdES.xsd</DependentUpon>
-    </None>
-    <None Include="xmldsig-core-schema.xsx">
-      <DependentUpon>xmldsig-core-schema.xsd</DependentUpon>
-    </None>
+    <EmbeddedResource Include="xmldsig11-schema.xsd" />
+    <EmbeddedResource Include="XAdES01903v132-201601.xsd" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -107,7 +102,6 @@
     <Compile Remove="bc-xml-security-master\samples\SigningVerifyingGost.cs" />
     <Compile Remove="bc-xml-security-master\samples\SigningVerifyingWithCustomSignatureMethod.cs" />
     <Compile Remove="bc-xml-security-master\samples\SigningVerifyingX509Cert.cs" />
-    <Compile Remove="bc-xml-security-master\src\ECKeyValue.cs" />
     <Compile Remove="bc-xml-security-master\src\obj\Debug\net461\.NETFramework,Version=v4.6.1.AssemblyAttributes.cs" />
     <Compile Remove="bc-xml-security-master\src\obj\Debug\net461\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
     <Compile Remove="bc-xml-security-master\src\obj\Debug\net461\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
@@ -165,6 +159,14 @@
     <Compile Remove="bc-xml-security-master\tests\XmlDsigXsltTransformTest.cs" />
     <Compile Remove="bc-xml-security-master\tests\XmlLicenseEncryptedRef.cs" />
     <Compile Remove="bc-xml-security-master\tests\XmlLicenseTransformTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="XAdES.xsd.bkp" />
+    <None Remove="XAdES01903v132-201601.xsd" />
+    <None Remove="xmldsig11-schema.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="XAdES01903v132-201601.xsd" />
   </ItemGroup>
   <PropertyGroup />
 </Project>

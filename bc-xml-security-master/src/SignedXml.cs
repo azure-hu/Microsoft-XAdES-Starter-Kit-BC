@@ -96,6 +96,10 @@ namespace Org.BouncyCastle.Crypto.Xml
         public const String XmlDsigMoreECDSASHA256Url    = "http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha256";
         public const String XmlDsigMoreECDSASHA384Url    = "http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha384";
         public const String XmlDsigMoreECDSASHA512Url    = "http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha512";
+        public const String XmlDsigMoreECDSASHA3_224Url  = "http://www.w3.org/2021/04/xmldsig-more#ecdsa-sha3-224";
+        public const String XmlDsigMoreECDSASHA3_256Url  = "http://www.w3.org/2021/04/xmldsig-more#ecdsa-sha3-256";
+        public const String XmlDsigMoreECDSASHA3_384Url  = "http://www.w3.org/2021/04/xmldsig-more#ecdsa-sha3-384";
+        public const String XmlDsigMoreECDSASHA3_512Url  = "http://www.w3.org/2021/04/xmldsig-more#ecdsa-sha3-512";
         public const String XmlDsigMoreECDSARIPEMD160Url = "http://www.w3.org/2007/05/xmldsig-more#ecdsa-ripemd160";
 
         public const String XmlDsigC14NTransformUrl = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315";
@@ -451,72 +455,7 @@ namespace Org.BouncyCastle.Crypto.Xml
             // Check the signature algorithm associated with the key so that we can accordingly set the signature method
             if (this.SignedInfo.SignatureMethod == null)
             {
-                if (key is ECPrivateKeyParameters)
-                {
-                    switch (digestAlgorithmUrl)
-                    {
-                        case SignedXml.XmlDsigSHA1Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreECDSASHA1Url;
-                            break;
-                        case SignedXml.XmlDsigMoreSHA224Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreECDSASHA224Url;
-                            break;
-                        case EncryptedXml.XmlEncSHA256Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreECDSASHA256Url;
-                            break;
-                        case SignedXml.XmlDsigMoreSHA384Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreECDSASHA384Url;
-                            break;
-                        case EncryptedXml.XmlEncSHA512Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreECDSASHA512Url;
-                            break;
-                        default:
-                            throw new System.Security.Cryptography.CryptographicException($"Digest algorithm \"{digestAlgorithmUrl}\" for EC key not supported!");
-                    }
-                }
-                else if (key is RsaKeyParameters)
-                {
-
-                    switch (digestAlgorithmUrl)
-                    {
-                        case SignedXml.XmlDsigSHA1Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigRSASHA1Url;
-                            break;
-                        case SignedXml.XmlDsigMoreSHA224Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreRSASHA224Url;
-                            break;
-                        case EncryptedXml.XmlEncSHA256Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreRSASHA256Url;
-                            break;
-                        case SignedXml.XmlDsigMoreSHA384Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreRSASHA384Url;
-                            break;
-                        case EncryptedXml.XmlEncSHA512Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreRSASHA512Url;
-                            break;
-                        default:
-                            throw new System.Security.Cryptography.CryptographicException($"Digest algorithm \"{digestAlgorithmUrl}\" for RSA key not supported!");
-                    }
-                }
-                else if (key is DsaKeyParameters)
-                {
-
-                    switch (digestAlgorithmUrl)
-                    {
-                        case SignedXml.XmlDsigSHA1Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigDSAUrl;
-                            break;
-                        case EncryptedXml.XmlEncSHA256Url:
-                            this.SignedInfo.SignatureMethod = XmlDsig11DSASHA256Url;
-                            break;
-                        default:
-                            throw new System.Security.Cryptography.CryptographicException($"Digest algorithm \"{digestAlgorithmUrl}\" for DSA key not supported!");
-                    }
-                }
-                else
-                {
-                    throw new System.Security.Cryptography.CryptographicException(SR.Cryptography_Xml_CreatedKeyFailed);
-                }
+                this.SignedInfo.SignatureMethod = SignedXml.GetCorrespondingSignatureMethodUrl(this.SigningKey, digestAlgorithmUrl);
             }
 
             // See if there is a signature description class defined in the Config file
@@ -1325,6 +1264,98 @@ namespace Org.BouncyCastle.Crypto.Xml
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// <![CDATA[Returns a signature method url by signing private key algorithm and supplied digest algorithm url.
+        /// e.g.: signing key is EC private key, and digest algorithm is "http://www.w3.org/2007/05/xmldsig-more#sha3-256",
+        /// then the result is "http://www.w3.org/2021/04/xmldsig-more#ecdsa-sha3-256".]]>
+        /// </summary>
+        /// <param name="signingKey"></param>
+        /// <param name="digestAlgorithmUrl"></param>
+        /// <returns></returns>
+        public static string GetCorrespondingSignatureMethodUrl(AsymmetricKeyParameter signingKey, string digestAlgorithmUrl)
+        {
+            String signatureMethod = null;
+            if (signingKey is ECPrivateKeyParameters)
+            {
+                switch (digestAlgorithmUrl)
+                {
+                    case SignedXml.XmlDsigSHA1Url:
+                        signatureMethod = XmlDsigMoreECDSASHA1Url;
+                        break;
+                    case SignedXml.XmlDsigMoreSHA224Url:
+                        signatureMethod = XmlDsigMoreECDSASHA224Url;
+                        break;
+                    case EncryptedXml.XmlEncSHA256Url:
+                        signatureMethod = XmlDsigMoreECDSASHA256Url;
+                        break;
+                    case SignedXml.XmlDsigMoreSHA384Url:
+                        signatureMethod = XmlDsigMoreECDSASHA384Url;
+                        break;
+                    case EncryptedXml.XmlEncSHA512Url:
+                        signatureMethod = XmlDsigMoreECDSASHA512Url;
+                        break;
+                    case SignedXml.XmlDsigMoreSHA3_224Url:
+                        signatureMethod = XmlDsigMoreECDSASHA3_224Url;
+                        break;
+                    case SignedXml.XmlDsigMoreSHA3_256Url:
+                        signatureMethod = XmlDsigMoreECDSASHA3_256Url;
+                        break;
+                    case SignedXml.XmlDsigMoreSHA3_384Url:
+                        signatureMethod = XmlDsigMoreECDSASHA3_384Url;
+                        break;
+                    case SignedXml.XmlDsigMoreSHA3_512Url:
+                        signatureMethod = XmlDsigMoreECDSASHA3_512Url;
+                        break;
+                    default:
+                        throw new System.Security.Cryptography.CryptographicException($"Digest algorithm \"{digestAlgorithmUrl}\" for EC key not supported!");
+                }
+            }
+            else if (signingKey is RsaKeyParameters)
+            {
+
+                switch (digestAlgorithmUrl)
+                {
+                    case SignedXml.XmlDsigSHA1Url:
+                        signatureMethod = XmlDsigRSASHA1Url;
+                        break;
+                    case SignedXml.XmlDsigMoreSHA224Url:
+                        signatureMethod = XmlDsigMoreRSASHA224Url;
+                        break;
+                    case EncryptedXml.XmlEncSHA256Url:
+                        signatureMethod = XmlDsigMoreRSASHA256Url;
+                        break;
+                    case SignedXml.XmlDsigMoreSHA384Url:
+                        signatureMethod = XmlDsigMoreRSASHA384Url;
+                        break;
+                    case EncryptedXml.XmlEncSHA512Url:
+                        signatureMethod = XmlDsigMoreRSASHA512Url;
+                        break;
+                    default:
+                        throw new System.Security.Cryptography.CryptographicException($"Digest algorithm \"{digestAlgorithmUrl}\" for RSA key not supported!");
+                }
+            }
+            else if (signingKey is DsaKeyParameters)
+            {
+
+                switch (digestAlgorithmUrl)
+                {
+                    case SignedXml.XmlDsigSHA1Url:
+                        signatureMethod = XmlDsigDSAUrl;
+                        break;
+                    case EncryptedXml.XmlEncSHA256Url:
+                        signatureMethod = XmlDsig11DSASHA256Url;
+                        break;
+                    default:
+                        throw new System.Security.Cryptography.CryptographicException($"Digest algorithm \"{digestAlgorithmUrl}\" for DSA key not supported!");
+                }
+            }
+            else
+            {
+                throw new System.Security.Cryptography.CryptographicException(SR.Cryptography_Xml_CreatedKeyFailed);
+            }
+            return signatureMethod;
         }
     }
 }

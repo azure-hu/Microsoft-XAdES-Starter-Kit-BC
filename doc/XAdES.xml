@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Microsoft.Xades</name>
+        <name>Microsoft.Xades.BC</name>
     </assembly>
     <members>
         <member name="T:Microsoft.Xades.BC.AllDataObjectsTimeStampCollection">
@@ -3696,11 +3696,12 @@
             <param name="idValue">Value of the Id to look for</param>
             <returns>XmlElement with requested Id</returns>
         </member>
-        <member name="M:Microsoft.Xades.BC.XadesSignedXml.AddXadesObject(Microsoft.Xades.BC.XadesObject)">
+        <member name="M:Microsoft.Xades.BC.XadesSignedXml.AddXadesObject(Microsoft.Xades.BC.XadesObject,System.String)">
             <summary>
             Add a XAdES object to the signature
             </summary>
             <param name="xadesObject">XAdES object to add to signature</param>
+            <param name="digestMethodUrl">Custom digest method url. If null, reference default (SHA256) will be used.</param>
         </member>
         <member name="M:Microsoft.Xades.BC.XadesSignedXml.XadesCheckSignature(Microsoft.Xades.BC.XadesCheckSignatureMasks,System.String)">
             <summary>
@@ -3864,7 +3865,7 @@
         </member>
         <member name="M:Microsoft.Xades.BC.XadesSignedXml.BuildDigestedReferences">
             <summary>
-            Copy of Org.BouncyCastle.Crypto.Xml.SignedXml.BuildDigestedReferences() which will add a "ds" 
+            Copy of Org.BouncyCastle.Crypto.Xml.SignedXml.BuildDigestedReferences() which will add a "ds"
             namespace prefix to all XmlDsig nodes
             </summary>
         </member>
@@ -3943,6 +3944,34 @@
             The XML has the incorrect schema or the DSA parameters are invalid.
             </exception>
         </member>
+        <member name="M:Org.BouncyCastle.Crypto.Xml.ECKeyValue.GetXml">
+            <summary>
+            Create an XML representation.
+            </summary>
+            <remarks>
+            Based upon https://www.w3.org/TR/xmldsig-core/#sec-ECKeyValue
+            </remarks>
+            <returns>
+            An <see cref="T:System.Xml.XmlElement"/> containing the XML representation.
+            </returns>
+        </member>
+        <member name="M:Org.BouncyCastle.Crypto.Xml.ECKeyValue.LoadXml(System.Xml.XmlElement)">
+            <summary>
+            Deserialize from the XML representation.
+            </summary>
+            <remarks>
+            Based upon https://www.w3.org/TR/xmldsig-core/#sec-ECKeyValue
+            </remarks>
+            <param name="value">
+            An <see cref="T:System.Xml.XmlElement"/> containing the XML representation. This cannot be null.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="value"/> cannot be null.
+            </exception>
+            <exception cref="!:CryptographicException">
+            The XML has the incorrect schema or the EC parameters are invalid.
+            </exception>
+        </member>
         <member name="M:Org.BouncyCastle.Crypto.Xml.EncryptedXml.IsOverXmlDsigRecursionLimit">
             <summary>
             This method validates the _xmlDsigSearchDepthCounter counter
@@ -4006,6 +4035,16 @@
         </member>
         <member name="P:Org.BouncyCastle.Crypto.Xml.SignedXml.SigningKeyName">
             <internalonly/>
+        </member>
+        <member name="M:Org.BouncyCastle.Crypto.Xml.SignedXml.GetCorrespondingSignatureMethodUrl(Org.BouncyCastle.Crypto.AsymmetricKeyParameter,System.String)">
+            <summary>
+            <![CDATA[Returns a signature method url by signing private key algorithm and supplied digest algorithm url.
+            e.g.: signing key is EC private key, and digest algorithm is "http://www.w3.org/2007/05/xmldsig-more#sha3-256",
+            then the result is "http://www.w3.org/2021/04/xmldsig-more#ecdsa-sha3-256".]]>
+            </summary>
+            <param name="signingKey"></param>
+            <param name="digestAlgorithmUrl"></param>
+            <returns></returns>
         </member>
         <member name="T:Org.BouncyCastle.Crypto.Xml.SignedXmlDebugLog">
             <summary>

@@ -4,12 +4,12 @@
 // 2010 Microsoft France
 // Published under the CECILL-B Free Software license agreement.
 // (http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.txt)
-// 
-// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
-// WHETHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
-// WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE. 
-// THE ENTIRE RISK OF USE OR RESULTS IN CONNECTION WITH THE USE OF THIS CODE 
-// AND INFORMATION REMAINS WITH THE USER. 
+//
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,
+// WHETHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
+// WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+// THE ENTIRE RISK OF USE OR RESULTS IN CONNECTION WITH THE USE OF THIS CODE
+// AND INFORMATION REMAINS WITH THE USER.
 //
 
 using Org.BouncyCastle.Asn1;
@@ -351,7 +351,8 @@ namespace Microsoft.Xades.BC
         /// Add a XAdES object to the signature
         /// </summary>
         /// <param name="xadesObject">XAdES object to add to signature</param>
-        public void AddXadesObject(XadesObject xadesObject)
+        /// <param name="digestMethodUrl">Custom digest method url. If null, reference default (SHA256) will be used.</param>
+        public void AddXadesObject(XadesObject xadesObject, String digestMethodUrl = null)
         {
             Reference reference;
             DataObject dataObject;
@@ -369,6 +370,10 @@ namespace Microsoft.Xades.BC
                 reference.Uri = "#" + this.signedPropertiesIdBuffer;
                 reference.Type = SignedPropertiesType;
                 reference.AddTransform(new XmlDsigExcC14NTransform());
+                if (!String.IsNullOrWhiteSpace(digestMethodUrl))
+                {
+                    reference.DigestMethod = digestMethodUrl;
+                }
                 this.AddReference(reference); //Add the XAdES object reference
 
                 this.cachedXadesObjectDocument = new XmlDocument();
@@ -557,13 +562,14 @@ namespace Microsoft.Xades.BC
 
             try
             {
+                String[] names = assembly.GetManifestResourceNames();
                 schemaStream = assembly.GetManifestResourceStream("Microsoft.Xades.BC.xmldsig-core-schema.xsd");
                 xmlSchema = XmlSchema.Read(schemaStream, new ValidationEventHandler(this.SchemaValidationHandler));
                 schemaSet.Add(xmlSchema);
                 schemaStream.Close();
 
 
-                schemaStream = assembly.GetManifestResourceStream("Microsoft.Xades.BC.XAdES.xsd");
+                schemaStream = assembly.GetManifestResourceStream("Microsoft.Xades.BC.XAdES01903v132-201601.xsd");
                 xmlSchema = XmlSchema.Read(schemaStream, new ValidationEventHandler(this.SchemaValidationHandler));
                 schemaSet.Add(xmlSchema);
                 schemaStream.Close();
@@ -1204,12 +1210,12 @@ namespace Microsoft.Xades.BC
         /// Copy of Org.BouncyCastle.Crypto.Xml.SignedXml.ComputeSignature() which will end up calling
         /// our own GetC14NDigest with a namespace prefix for all XmlDsig nodes
         /// </summary>
-        
+
         public new void ComputeSignature()
         {
             this.ComputeSignature(SignedXml.XmlDsigSHA1Url);
         }
-        
+
         public new void ComputeSignature(String digestAlgorithmUrl)
         {
             this.BuildDigestedReferences();
@@ -1225,72 +1231,7 @@ namespace Microsoft.Xades.BC
             // Check the signature algorithm associated with the key so that we can accordingly set the signature method
             if (this.SignedInfo.SignatureMethod == null)
             {
-                if (signingKey is ECPrivateKeyParameters)
-                {
-                    switch (digestAlgorithmUrl)
-                    {
-                        case SignedXml.XmlDsigSHA1Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreECDSASHA1Url;
-                            break;
-                        case SignedXml.XmlDsigMoreSHA224Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreECDSASHA224Url;
-                            break;
-                        case EncryptedXml.XmlEncSHA256Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreECDSASHA256Url;
-                            break;
-                        case SignedXml.XmlDsigMoreSHA384Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreECDSASHA384Url;
-                            break;
-                        case EncryptedXml.XmlEncSHA512Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreECDSASHA512Url;
-                            break;
-                        default:
-                            throw new System.Security.Cryptography.CryptographicException($"Digest algorithm \"{digestAlgorithmUrl}\" for EC key not supported!");
-                    }
-                }
-                else if (signingKey is RsaKeyParameters)
-                {
-
-                    switch (digestAlgorithmUrl)
-                    {
-                        case SignedXml.XmlDsigSHA1Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigRSASHA1Url;
-                            break;
-                        case SignedXml.XmlDsigMoreSHA224Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreRSASHA224Url;
-                            break;
-                        case EncryptedXml.XmlEncSHA256Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreRSASHA256Url;
-                            break;
-                        case SignedXml.XmlDsigMoreSHA384Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreRSASHA384Url;
-                            break;
-                        case EncryptedXml.XmlEncSHA512Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreRSASHA512Url;
-                            break;
-                        default:
-                            throw new System.Security.Cryptography.CryptographicException($"Digest algorithm \"{digestAlgorithmUrl}\" for RSA key not supported!");
-                    }
-                }
-                else if (signingKey is DsaKeyParameters)
-                {
-
-                    switch (digestAlgorithmUrl)
-                    {
-                        case SignedXml.XmlDsigSHA1Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigDSAUrl;
-                            break;
-                        case EncryptedXml.XmlEncSHA256Url:
-                            this.SignedInfo.SignatureMethod = XmlDsig11DSASHA256Url;
-                            break;
-                        default:
-                            throw new System.Security.Cryptography.CryptographicException($"Digest algorithm \"{digestAlgorithmUrl}\" for DSA key not supported!");
-                    }
-                }
-                else
-                {
-                    throw new XadesCryptographicException("Cryptography_Xml_CreatedKeyFailed");
-                }
+                this.SignedInfo.SignatureMethod = SignedXml.GetCorrespondingSignatureMethodUrl(this.SigningKey, digestAlgorithmUrl);
             }
             // See if there is a signature description class defined in the Config file
             ISigner description = CryptoHelpers.CreateFromName<ISigner>(this.SignedInfo.SignatureMethod);
@@ -1299,7 +1240,7 @@ namespace Microsoft.Xades.BC
                 throw new XadesCryptographicException("Cryptography_Xml_SignatureDescriptionNotCreated");
             }
             // In BouncyCastle we don't need to initialize a HashAlgorithm, because ISigner contains one.
-            /*            
+            /*
             HashAlgorithm hash = description.CreateDigest();
             if (hash == null)
             {
@@ -1342,72 +1283,7 @@ namespace Microsoft.Xades.BC
             // Check the signature algorithm associated with the key so that we can accordingly set the signature method
             if (this.SignedInfo.SignatureMethod == null)
             {
-                if (signingKey is ECPrivateKeyParameters)
-                {
-                    switch (digestAlgorithmUrl)
-                    {
-                        case SignedXml.XmlDsigSHA1Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreECDSASHA1Url;
-                            break;
-                        case SignedXml.XmlDsigMoreSHA224Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreECDSASHA224Url;
-                            break;
-                        case EncryptedXml.XmlEncSHA256Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreECDSASHA256Url;
-                            break;
-                        case SignedXml.XmlDsigMoreSHA384Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreECDSASHA384Url;
-                            break;
-                        case EncryptedXml.XmlEncSHA512Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreECDSASHA512Url;
-                            break;
-                        default:
-                            throw new System.Security.Cryptography.CryptographicException($"Digest algorithm \"{digestAlgorithmUrl}\" for EC key not supported!");
-                    }
-                }
-                else if (signingKey is RsaKeyParameters)
-                {
-
-                    switch (digestAlgorithmUrl)
-                    {
-                        case SignedXml.XmlDsigSHA1Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigRSASHA1Url;
-                            break;
-                        case SignedXml.XmlDsigMoreSHA224Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreRSASHA224Url;
-                            break;
-                        case EncryptedXml.XmlEncSHA256Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreRSASHA256Url;
-                            break;
-                        case SignedXml.XmlDsigMoreSHA384Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreRSASHA384Url;
-                            break;
-                        case EncryptedXml.XmlEncSHA512Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigMoreRSASHA512Url;
-                            break;
-                        default:
-                            throw new System.Security.Cryptography.CryptographicException($"Digest algorithm \"{digestAlgorithmUrl}\" for RSA key not supported!");
-                    }
-                }
-                else if (signingKey is DsaKeyParameters)
-                {
-
-                    switch (digestAlgorithmUrl)
-                    {
-                        case SignedXml.XmlDsigSHA1Url:
-                            this.SignedInfo.SignatureMethod = XmlDsigDSAUrl;
-                            break;
-                        case EncryptedXml.XmlEncSHA256Url:
-                            this.SignedInfo.SignatureMethod = XmlDsig11DSASHA256Url;
-                            break;
-                        default:
-                            throw new System.Security.Cryptography.CryptographicException($"Digest algorithm \"{digestAlgorithmUrl}\" for DSA key not supported!");
-                    }
-                }
-                else
-                {
-                    throw new XadesCryptographicException("Cryptography_Xml_CreatedKeyFailed");
-                }
+                this.SignedInfo.SignatureMethod = SignedXml.GetCorrespondingSignatureMethodUrl(this.SigningKey, digestAlgorithmUrl);
             }
             // See if there is a signature description class defined in the Config file
             ISigner description = CryptoHelpers.CreateFromName<ISigner>(this.SignedInfo.SignatureMethod);
@@ -1416,7 +1292,7 @@ namespace Microsoft.Xades.BC
                 throw new XadesCryptographicException("Cryptography_Xml_SignatureDescriptionNotCreated");
             }
             // In BouncyCastle we don't need to initialize a HashAlgorithm, because ISigner contains one.
-            /*            
+            /*
             HashAlgorithm hash = description.CreateDigest();
             if (hash == null)
             {
@@ -1433,7 +1309,7 @@ namespace Microsoft.Xades.BC
         }
 
         /// <summary>
-        /// Copy of Org.BouncyCastle.Crypto.Xml.SignedXml.BuildDigestedReferences() which will add a "ds" 
+        /// Copy of Org.BouncyCastle.Crypto.Xml.SignedXml.BuildDigestedReferences() which will add a "ds"
         /// namespace prefix to all XmlDsig nodes
         /// </summary>
         private void BuildDigestedReferences()
@@ -1444,12 +1320,12 @@ namespace Microsoft.Xades.BC
             Type SignedXml_Type = typeof(SignedXml);
             FieldInfo SignedXml_m_refProcessed = SignedXml_Type.GetField("_refProcessed", BindingFlags.NonPublic | BindingFlags.Instance);
             SignedXml_m_refProcessed.SetValue(this, new Boolean[references.Count]);
-            //            
+            //
 
             //this.m_refLevelCache = new int[references.Count];
             FieldInfo SignedXml_m_refLevelCache = SignedXml_Type.GetField("_refLevelCache", BindingFlags.NonPublic | BindingFlags.Instance);
             SignedXml_m_refLevelCache.SetValue(this, new Int32[references.Count]);
-            //            
+            //
 
             //ReferenceLevelSortOrder comparer = new ReferenceLevelSortOrder();
             Assembly Current_Assembly = typeof(SignedXml).Assembly;
@@ -1507,7 +1383,7 @@ namespace Microsoft.Xades.BC
                 //reference2.UpdateHashValue(this.m_containingDocument, refList);
                 Object _containingDocument = SignedXml_m_containingDocument.GetValue(this);
                 Reference_UpdateHashValue.Invoke(reference2, new Object[] { _containingDocument, refList });
-                // 
+                //
 
                 if (reference2.Id != null)
                 {
@@ -2078,7 +1954,7 @@ namespace Microsoft.Xades.BC
         {
             Type SignedXml_Type = typeof(SignedXml);
 
-            //Transform t = GetC14NMethod ();            
+            //Transform t = GetC14NMethod ();
             MethodInfo SignedXml_GetC14NMethod = SignedXml_Type.GetMethod("GetC14NMethod", BindingFlags.NonPublic | BindingFlags.Instance);
             Org.BouncyCastle.Crypto.Xml.Transform t = (Org.BouncyCastle.Crypto.Xml.Transform)SignedXml_GetC14NMethod.Invoke(this, null);
             //

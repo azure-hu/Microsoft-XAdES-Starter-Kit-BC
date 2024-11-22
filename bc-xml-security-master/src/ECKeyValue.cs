@@ -2,10 +2,14 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Org.BouncyCastle.Crypto.Parameters;
 using System;
+using System.IO;
 using System.Xml;
-using XmlSec.Crypto;
+using Org.BouncyCastle.Asn1;
+using Org.BouncyCastle.Asn1.X9;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Math.EC;
+using Org.BouncyCastle.Utilities.IO;
 
 namespace Org.BouncyCastle.Crypto.Xml
 {
@@ -17,16 +21,7 @@ namespace Org.BouncyCastle.Crypto.Xml
         // public constructors
         //
 
-        public ECKeyValue()
-        {
-            AsymmetricCipherKeyPair pair = ECKeyUtils.GenerateEphemeralKeyPair();
-            this._key = (ECPublicKeyParameters)pair.Public;
-        }
-
-        public ECKeyValue(ECPublicKeyParameters key)
-        {
-            this._key = key;
-        }
+        public ECKeyValue(ECPublicKeyParameters key) => _key = key;
 
         //
         // public properties
@@ -34,8 +29,8 @@ namespace Org.BouncyCastle.Crypto.Xml
 
         public ECPublicKeyParameters Key
         {
-            get { return this._key; }
-            set { this._key = value; }
+            get => _key;
+            set => _key = value;
         }
 
         //
@@ -53,41 +48,63 @@ namespace Org.BouncyCastle.Crypto.Xml
         /// </returns>
         public override XmlElement GetXml()
         {
-            XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.PreserveWhitespace = true;
-            return this.GetXml(xmlDocument);
+            XmlDocument xmlDocument = new XmlDocument
+            {
+                PreserveWhitespace = true
+            };
+            return GetXml(xmlDocument);
         }
 
-        private const String KeyValueElementName = "KeyValue";
-        private const String ECKeyValueElementName = "ECAKeyValue";
+        private const string KeyValueElementName = "KeyValue";
+        private const string ECKeyValueElementName = "ECAKeyValue";
 
         //Optional ECParameters - NamedCurve Choice
-        private const String ECParametersElementName = "ECParameters";
-        private const String NamedCurveElementName = "NamedCurve";
+        private const string ECParametersElementName = "ECParameters";
+        private const string NamedCurveElementName = "NamedCurve";
 
         //Optional Members
-        private const String IdAttributeName = "Id";
+        private const string IdAttributeName = "Id";
 
         //Mandatory Members
-        private const String PublicKeyElementName = "PublicKey";
+        private const string PublicKeyElementName = "PublicKey";
 
         internal override XmlElement GetXml(XmlDocument xmlDocument)
         {
             XmlElement keyValueElement = xmlDocument.CreateElement(KeyValueElementName, SignedXml.XmlDsigNamespaceUrl);
             XmlElement ecKeyValueElement = xmlDocument.CreateElement(ECKeyValueElementName, SignedXml.XmlDsig11NamespaceUrl);
 
+            DerObjectIdentifier curveOid = FindECCurveOid(_key);
             XmlElement namedCurveElement = xmlDocument.CreateElement(NamedCurveElementName, SignedXml.XmlDsig11NamespaceUrl);
-            namedCurveElement.AppendChild(xmlDocument.CreateTextNode(ECKeyUtils.GetCurveOidUri(this._key)));
+            namedCurveElement.AppendChild(xmlDocument.CreateTextNode(string.Format("urn:oid:{0}", curveOid.ToString())));
             ecKeyValueElement.AppendChild(namedCurveElement);
 
             XmlElement publicKeyElement = xmlDocument.CreateElement(PublicKeyElementName, SignedXml.XmlDsig11NamespaceUrl);
-            publicKeyElement.AppendChild(xmlDocument.CreateTextNode(Convert.ToBase64String(this._key.Q.GetEncoded(false))));
+            publicKeyElement.AppendChild(xmlDocument.CreateTextNode(Convert.ToBase64String(_key.Q.GetEncoded(false))));
             ecKeyValueElement.AppendChild(publicKeyElement);
 
 
             keyValueElement.AppendChild(ecKeyValueElement);
 
             return keyValueElement;
+        }
+
+        private DerObjectIdentifier FindECCurveOid(ECPublicKeyParameters publicKey)
+        {
+            DerObjectIdentifier curveOid = null;
+            ECDomainParameters pubKeyDomainParams = publicKey.Parameters;
+            foreach (string curveName in ECNamedCurveTable.Names)
+            {
+                X9ECParameters curveParams = ECNamedCurveTable.GetByName(curveName);
+                if (curveParams.Curve.Equals(pubKeyDomainParams.Curve)
+                     && curveParams.G.Equals(pubKeyDomainParams.G)
+                     && curveParams.H.Equals(pubKeyDomainParams.H)
+                     && curveParams.N.Equals(pubKeyDomainParams.N))
+                {
+                    curveOid = ECNamedCurveTable.GetOid(curveName);
+                }
+            }
+
+            return curveOid;
         }
 
         /// <summary>
@@ -117,10 +134,10 @@ namespace Org.BouncyCastle.Crypto.Xml
                 throw new System.Security.Cryptography.CryptographicException($"Root element must be {KeyValueElementName} element in namepsace {SignedXml.XmlDsigNamespaceUrl}");
             }
 
-            String xmlDsigNamespacePrefix = SignedXml.XmlDsigNamespacePrefix;
+            string xmlDsigNamespacePrefix = SignedXml.XmlDsigNamespacePrefix;
             XmlNamespaceManager xmlNamespaceManager = new XmlNamespaceManager(value.OwnerDocument.NameTable);
             xmlNamespaceManager.AddNamespace(xmlDsigNamespacePrefix, SignedXml.XmlDsigNamespaceUrl);
-            String xmlDsig11NamespacePrefix = SignedXml.XmlDsig11NamespacePrefix;
+            string xmlDsig11NamespacePrefix = SignedXml.XmlDsig11NamespacePrefix;
             xmlNamespaceManager.AddNamespace(xmlDsig11NamespacePrefix, SignedXml.XmlDsig11NamespaceUrl);
 
             XmlNode ecKeyValueElement = value.SelectSingleNode($"{xmlDsig11NamespacePrefix}:{ECKeyValueElementName}", xmlNamespaceManager);
@@ -156,15 +173,52 @@ namespace Org.BouncyCastle.Crypto.Xml
                 }
                 else
                 {
-                    Byte[] publicKeyBytes = Convert.FromBase64String(publicKeyNode.InnerText);
-                    String namedCurveOid = namedCurveNode.InnerText.Replace("urn:oid:", String.Empty);
-                    this.Key = ECKeyUtils.GetPublicKeyParams(publicKeyBytes, namedCurveOid);
+                    byte[] publicKeyBytes = Convert.FromBase64String(publicKeyNode.InnerText);
+                    string namedCurveOid = namedCurveNode.InnerText.Replace("urn:oid:", string.Empty);
+                    Key = CreatePublicKeyParams(publicKeyBytes, namedCurveOid);
                 }
             }
             catch (Exception ex)
             {
                 throw new System.Security.Cryptography.CryptographicException($"An error occurred parsing the key components", ex);
             }
+        }
+
+        private ECPublicKeyParameters CreatePublicKeyParams(byte[] publicKeyBytes, string namedCurveOid)
+        {
+            X9ECParameters ecCurve = ECNamedCurveTable.GetByOid(new DerObjectIdentifier(namedCurveOid));
+            ECDomainParameters domainParams = new ECDomainParameters(ecCurve);
+            byte[] decodedBytes;
+            using (MemoryStream ms = new MemoryStream(publicKeyBytes))
+            {
+                int first = ms.ReadByte();
+
+                // Decode the public ephemeral key
+                switch (first)
+                {
+                    case 0x00: // infinity
+                        throw new IOException("Sender's public key invalid.");
+
+                    case 0x02: // compressed
+                    case 0x03: // Byte length calculated as in ECPoint.getEncoded();
+                        decodedBytes = new byte[1 + (domainParams.Curve.FieldSize + 7) / 8];
+                        break;
+
+                    case 0x04: // uncompressed or
+                    case 0x06: // hybrid
+                    case 0x07: // Byte length calculated as in ECPoint.getEncoded();
+                        decodedBytes = new byte[1 + 2 * ((domainParams.Curve.FieldSize + 7) / 8)];
+                        break;
+
+                    default:
+                        throw new IOException("Sender's public key has invalid point encoding 0x" + publicKeyBytes[0].ToString("X2"));
+                }
+
+                decodedBytes[0] = (byte)first;
+                Streams.ReadFully(ms, decodedBytes, 1, decodedBytes.Length - 1);
+            }
+            ECPoint q = domainParams.Curve.DecodePoint(decodedBytes);
+            return new ECPublicKeyParameters(q, domainParams);
         }
     }
 }
