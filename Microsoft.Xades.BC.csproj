@@ -63,9 +63,30 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="bc-xml-security-master\samples\**" />
+    <Compile Remove="bc-xml-security-master\src\bin\**" />
+    <Compile Remove="bc-xml-security-master\src\obj\**" />
+    <Compile Remove="bc-xml-security-master\tests\**" />
+    <Compile Remove="original-docs\**" />
+    <Compile Remove="packages\**" />
+    <EmbeddedResource Remove="bc-xml-security-master\samples\**" />
+    <EmbeddedResource Remove="bc-xml-security-master\src\bin\**" />
+    <EmbeddedResource Remove="bc-xml-security-master\src\obj\**" />
+    <EmbeddedResource Remove="bc-xml-security-master\tests\**" />
+    <EmbeddedResource Remove="original-docs\**" />
+    <EmbeddedResource Remove="packages\**" />
+    <None Remove="bc-xml-security-master\samples\**" />
+    <None Remove="bc-xml-security-master\src\bin\**" />
+    <None Remove="bc-xml-security-master\src\obj\**" />
+    <None Remove="bc-xml-security-master\tests\**" />
+    <None Remove="original-docs\**" />
+    <None Remove="packages\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="1913201-XAdES01903v141.xsd" />
     <EmbeddedResource Include="xmldsig-core-schema.xsd" />
     <EmbeddedResource Include="xmldsig11-schema.xsd" />
-    <EmbeddedResource Include="XAdES01903v132-201601.xsd" />
+    <EmbeddedResource Include="1913201-XAdES01903v132.xsd" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -91,82 +112,27 @@
     <PackageReference Include="BouncyCastle.Cryptography" Version="2.4.0" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="bc-xml-security-master\samples\EncryptingDecryptingAsymmetric.cs" />
-    <Compile Remove="bc-xml-security-master\samples\EncryptingDecryptingSymmetric.cs" />
-    <Compile Remove="bc-xml-security-master\samples\EncryptingDecryptingSymmetricKeyWrap.cs" />
-    <Compile Remove="bc-xml-security-master\samples\GostUtilities.cs" />
-    <Compile Remove="bc-xml-security-master\samples\obj\Debug\net6.0\.NETCoreApp,Version=v6.0.AssemblyAttributes.cs" />
-    <Compile Remove="bc-xml-security-master\samples\obj\Debug\net6.0\XmlSecurity.Samples.AssemblyInfo.cs" />
-    <Compile Remove="bc-xml-security-master\samples\Program.cs" />
-    <Compile Remove="bc-xml-security-master\samples\SigningVerifying.cs" />
-    <Compile Remove="bc-xml-security-master\samples\SigningVerifyingGost.cs" />
-    <Compile Remove="bc-xml-security-master\samples\SigningVerifyingWithCustomSignatureMethod.cs" />
-    <Compile Remove="bc-xml-security-master\samples\SigningVerifyingX509Cert.cs" />
-    <Compile Remove="bc-xml-security-master\src\obj\Debug\net461\.NETFramework,Version=v4.6.1.AssemblyAttributes.cs" />
-    <Compile Remove="bc-xml-security-master\src\obj\Debug\net461\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
-    <Compile Remove="bc-xml-security-master\src\obj\Debug\net461\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
-    <Compile Remove="bc-xml-security-master\src\obj\Debug\net461\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
-    <Compile Remove="bc-xml-security-master\src\obj\Debug\net461\XmlSecurity.AssemblyInfo.cs" />
-    <Compile Remove="bc-xml-security-master\src\obj\Debug\netstandard2.0\.NETStandard,Version=v2.0.AssemblyAttributes.cs" />
-    <Compile Remove="bc-xml-security-master\src\obj\Debug\netstandard2.0\XmlSecurity.AssemblyInfo.cs" />
-    <Compile Remove="bc-xml-security-master\tests\AssertCrypto.cs" />
-    <Compile Remove="bc-xml-security-master\tests\AssertExtensions.cs" />
-    <Compile Remove="bc-xml-security-master\tests\CipherDataTests.cs" />
-    <Compile Remove="bc-xml-security-master\tests\CryptoHelpersTests.cs" />
-    <Compile Remove="bc-xml-security-master\tests\DataObjectTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\DataObjectTests.cs" />
-    <Compile Remove="bc-xml-security-master\tests\DataReferenceTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\DSAKeyValueTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\EncryptedXmlEqualityComparer.cs" />
-    <Compile Remove="bc-xml-security-master\tests\EncryptedXmlTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\EncryptedXmlTests.cs" />
-    <Compile Remove="bc-xml-security-master\tests\EncryptionMethodTests.cs" />
-    <Compile Remove="bc-xml-security-master\tests\EncryptionPropertyCollectionTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\EncryptionPropertyTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\KeyInfoNameTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\KeyInfoNodeTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\KeyInfoRetrievalMethodTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\KeyInfoTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\KeyInfoTests.cs" />
-    <Compile Remove="bc-xml-security-master\tests\KeyInfoX509DataTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\KeyInfo_ArbitraryElements.cs" />
-    <Compile Remove="bc-xml-security-master\tests\obj\Debug\net6.0\.NETCoreApp,Version=v6.0.AssemblyAttributes.cs" />
-    <Compile Remove="bc-xml-security-master\tests\obj\Debug\net6.0\XmlSecurity.Tests.AssemblyInfo.cs" />
-    <Compile Remove="bc-xml-security-master\tests\ReferenceTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\Reference_ArbitraryElements.cs" />
-    <Compile Remove="bc-xml-security-master\tests\RSAKeyValueTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\SignatureTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\Signature_ArbitraryElements.cs" />
-    <Compile Remove="bc-xml-security-master\tests\SignedInfoTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\SignedInfo_ArbitraryElements.cs" />
-    <Compile Remove="bc-xml-security-master\tests\SignedXmlTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\SignedXmlTests.cs" />
-    <Compile Remove="bc-xml-security-master\tests\SignedXml_Helpers.cs" />
-    <Compile Remove="bc-xml-security-master\tests\SignedXml_Limits.cs" />
-    <Compile Remove="bc-xml-security-master\tests\SignedXml_SignatureMethodAlgorithm.cs" />
-    <Compile Remove="bc-xml-security-master\tests\SymmetricAlgorithmFactory.cs" />
-    <Compile Remove="bc-xml-security-master\tests\TestHelpers.cs" />
-    <Compile Remove="bc-xml-security-master\tests\TransformChainTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\TransformTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\XmlDecryptionTransformTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\XmlDsigBase64TransformTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\XmlDsigC14NTransformTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\XmlDsigC14NWithCommentsTransformTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\XmlDsigEnvelopedSignatureTransformTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\XmlDsigExcC14NTransformTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\XmlDsigExcC14NWithCommentsTransformTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\XmlDsigXPathTransformTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\XmlDsigXsltTransformTest.cs" />
-    <Compile Remove="bc-xml-security-master\tests\XmlLicenseEncryptedRef.cs" />
-    <Compile Remove="bc-xml-security-master\tests\XmlLicenseTransformTest.cs" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Remove="1913201-XAdES01903v132.xsd" />
+    <None Remove="1913201-XAdES01903v141.xsd" />
     <None Remove="XAdES.xsd.bkp" />
-    <None Remove="XAdES01903v132-201601.xsd" />
     <None Remove="xmldsig11-schema.xsd" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="XAdES01903v132-201601.xsd" />
+    <Resource Include="1913201-XAdES01903v132.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="bc-xml-security-master\src\SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SR.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="bc-xml-security-master\src\SR.resx">
+      <CustomToolNamespace>Org.BouncyCastle.Crypto.Xml</CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup />
 </Project>

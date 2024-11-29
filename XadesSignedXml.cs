@@ -14,7 +14,6 @@
 
 using Org.BouncyCastle.Asn1;
 using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Crypto.Xml;
 using Org.BouncyCastle.Security;
 using Org.BouncyCastle.X509;
@@ -550,8 +549,6 @@ namespace Microsoft.Xades.BC
 
             Assembly assembly = Assembly.GetExecutingAssembly();
             XmlSchemaSet schemaSet = new XmlSchemaSet();
-            XmlSchema xmlSchema;
-            Stream schemaStream;
 
             NameTable xadesNameTable;
             XmlNamespaceManager xmlNamespaceManager;
@@ -563,16 +560,14 @@ namespace Microsoft.Xades.BC
             try
             {
                 String[] names = assembly.GetManifestResourceNames();
-                schemaStream = assembly.GetManifestResourceStream("Microsoft.Xades.BC.xmldsig-core-schema.xsd");
-                xmlSchema = XmlSchema.Read(schemaStream, new ValidationEventHandler(this.SchemaValidationHandler));
-                schemaSet.Add(xmlSchema);
-                schemaStream.Close();
-
-
-                schemaStream = assembly.GetManifestResourceStream("Microsoft.Xades.BC.XAdES01903v132-201601.xsd");
-                xmlSchema = XmlSchema.Read(schemaStream, new ValidationEventHandler(this.SchemaValidationHandler));
-                schemaSet.Add(xmlSchema);
-                schemaStream.Close();
+                String xsdResourceName = "Microsoft.Xades.BC.xmldsig-core-schema.xsd";
+                this.ExtractXmlSchemaResource(assembly, xsdResourceName, ref schemaSet);
+                xsdResourceName = "Microsoft.Xades.BC.xmldsig11-schema.xsd";
+                this.ExtractXmlSchemaResource(assembly, xsdResourceName, ref schemaSet);
+                xsdResourceName = "Microsoft.Xades.BC.1913201-XAdES01903v132.xsd";
+                this.ExtractXmlSchemaResource(assembly, xsdResourceName, ref schemaSet);
+                xsdResourceName = "Microsoft.Xades.BC.1913201-XAdES01903v141.xsd";
+                this.ExtractXmlSchemaResource(assembly, xsdResourceName, ref schemaSet);
 
                 if (this.validationErrorOccurred)
                 {
@@ -622,6 +617,15 @@ namespace Microsoft.Xades.BC
             retValue = true;
 
             return retValue;
+        }
+
+        private void ExtractXmlSchemaResource(Assembly assembly, String xsdResourceName, ref XmlSchemaSet schemaSet)
+        {
+
+            Stream schemaStream = assembly.GetManifestResourceStream(xsdResourceName);
+            XmlSchema xmlSchema  = XmlSchema.Read(schemaStream, new ValidationEventHandler(this.SchemaValidationHandler));
+            schemaSet.Add(xmlSchema);
+            schemaStream.Close();
         }
 
         /// <summary>
@@ -1448,7 +1452,7 @@ namespace Microsoft.Xades.BC
                 FieldInfo SignedXml_m_context = SignedXml_Type.GetField("_context", BindingFlags.NonPublic | BindingFlags.Instance);
                 MethodInfo Utils_GetPropagatedAttributes = Utils_Type.GetMethod("GetPropagatedAttributes", BindingFlags.NonPublic | BindingFlags.Static);
                 Object m_context = SignedXml_m_context.GetValue(this);
-                Object namespaces = (_context == null) ? null : Utils_GetPropagatedAttributes.Invoke(null, new Object[] { _context });
+                Object namespaces = (this._context == null) ? null : Utils_GetPropagatedAttributes.Invoke(null, new Object[] { this._context });
                 //
 
                 // Utils.AddNamespaces(document.DocumentElement, namespaces);

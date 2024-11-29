@@ -4,12 +4,12 @@
 // 2010 Microsoft France
 // Published under the CECILL-B Free Software license agreement.
 // (http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.txt)
-// 
-// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
-// WHETHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
-// WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE. 
-// THE ENTIRE RISK OF USE OR RESULTS IN CONNECTION WITH THE USE OF THIS CODE 
-// AND INFORMATION REMAINS WITH THE USER. 
+//
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,
+// WHETHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
+// WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+// THE ENTIRE RISK OF USE OR RESULTS IN CONNECTION WITH THE USE OF THIS CODE
+// AND INFORMATION REMAINS WITH THE USER.
 //
 
 using Org.BouncyCastle.Crypto.Xml;
@@ -26,6 +26,7 @@ namespace Microsoft.Xades.BC
     {
         #region Private variables
         private String tagName;
+        private String id;
         private HashDataInfoCollection hashDataInfoCollection;
         private EncapsulatedPKIData encapsulatedTimeStamp;
         private XMLTimeStamp xmlTimeStamp;
@@ -48,6 +49,23 @@ namespace Microsoft.Xades.BC
                 this.tagName = value;
             }
         }
+
+        /// <summary>
+        /// The optional ID attribute can be used to make a reference to an element
+        /// of this data type.
+        /// </summary>
+        public String Id
+        {
+            get
+            {
+                return this.id;
+            }
+            set
+            {
+                this.id = value;
+            }
+        }
+
 
         //jbonilla
         /// <summary>
@@ -179,7 +197,7 @@ namespace Microsoft.Xades.BC
         /// Load state from an XML element
         /// </summary>
         /// <param name="xmlElement">XML element containing new state</param>
-        public void LoadXml(System.Xml.XmlElement xmlElement)
+        public void LoadXml(XmlElement xmlElement)
         {
             XmlNamespaceManager xmlNamespaceManager;
             XmlNodeList xmlNodeList;
@@ -192,9 +210,18 @@ namespace Microsoft.Xades.BC
                 throw new ArgumentNullException("xmlElement");
             }
 
+            if (xmlElement.HasAttribute("Id"))
+            {
+                this.id = xmlElement.GetAttribute("Id");
+            }
+            else
+            {
+                this.id = "";
+            }
+
             xmlNamespaceManager = new XmlNamespaceManager(xmlElement.OwnerDocument.NameTable);
             xmlNamespaceManager.AddNamespace(XadesSignedXml.XadesNamespacePrefix, XadesSignedXml.XadesNamespaceUri);
-            xmlNamespaceManager.AddNamespace(SignedXml.XmlDsigNamespacePrefix, Org.BouncyCastle.Crypto.Xml.SignedXml.XmlDsigNamespaceUrl);
+            xmlNamespaceManager.AddNamespace(SignedXml.XmlDsigNamespacePrefix, SignedXml.XmlDsigNamespaceUrl);
 
             //jbonilla
             this.CanonicalizationMethod = new CanonicalizationMethod();
@@ -205,7 +232,7 @@ namespace Microsoft.Xades.BC
             }
             else
             {
-                this.CanonicalizationMethod.Algorithm = Org.BouncyCastle.Crypto.Xml.SignedXml.XmlDsigExcC14NTransformUrl;
+                this.CanonicalizationMethod.Algorithm = SignedXml.XmlDsigExcC14NTransformUrl;
             }
 
             this.hashDataInfoCollection.Clear();
@@ -268,8 +295,12 @@ namespace Microsoft.Xades.BC
 
             creationXmlDocument = new XmlDocument();
             retVal = creationXmlDocument.CreateElement(this.tagName, XadesSignedXml.XadesNamespaceUri);
+            if (!String.IsNullOrWhiteSpace(this.id))
+            {
+                retVal.SetAttribute("Id", this.Id);
+            }
 
-            //jbonilla            
+            //jbonilla
             if (this.canonicalizationMethod != null && this.canonicalizationMethod.HasChanged())
             {
                 retVal.AppendChild(creationXmlDocument.ImportNode(this.canonicalizationMethod.GetXml(), true));
@@ -280,7 +311,7 @@ namespace Microsoft.Xades.BC
             }
 
             //jbonilla - Not needed?
-            /*if (this.hashDataInfoCollection.Count > 0)
+            if (this.hashDataInfoCollection.Count > 0)
 			{
 				foreach (HashDataInfo hashDataInfo in this.hashDataInfoCollection)
 				{
@@ -293,7 +324,7 @@ namespace Microsoft.Xades.BC
 			else
 			{
 				throw new XadesCryptographicException("HashDataInfoCollection is empty.  TimeStamp needs at least one HashDataInfo element");
-			}*/
+			}
 
             if (this.encapsulatedTimeStamp != null && this.encapsulatedTimeStamp.HasChanged())
             {

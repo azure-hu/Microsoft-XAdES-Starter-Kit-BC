@@ -30,6 +30,11 @@
             </summary>
             <returns>The newly created object that has been added to collection</returns>
         </member>
+        <member name="T:Microsoft.Xades.BC.Asn1Parser">
+            <summary>
+            Summary description for Asn1Parser.
+            </summary>
+        </member>
         <member name="T:Microsoft.Xades.BC.CanonicalizationMethod">
             <summary>
             DigestMethod indicates the digest algorithm
@@ -3077,6 +3082,12 @@
             The name of the element when serializing
             </summary>
         </member>
+        <member name="P:Microsoft.Xades.BC.TimeStamp.Id">
+            <summary>
+            The optional ID attribute can be used to make a reference to an element
+            of this data type.
+            </summary>
+        </member>
         <member name="P:Microsoft.Xades.BC.TimeStamp.CanonicalizationMethod">
             <summary>
             The CanonicalizationMethod
@@ -4813,6 +4824,11 @@
         </member>
         <member name="M:Org.BouncyCastle.Crypto.Xml.XmlDsigEnvelopedSignatureTransform.#ctor(System.Boolean)">
             <internalonly/>
+        </member>
+        <member name="T:Azur3.XmlSec.Xades.HttpTsaClient">
+            <summary>
+            Summary description for HttpTsaClient.
+            </summary>
         </member>
     </members>
 </doc>
